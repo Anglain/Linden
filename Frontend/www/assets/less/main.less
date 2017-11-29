@@ -1,0 +1,32 @@
+@mainColor: rgb(75, 191, 107);
+
+@TopPanelHeight: 60px;
+@LeftMenuPanelWidth: 300px;
+
+@import "panels/topPanel";
+@import "panels/menuPanel";
+@import "column";
+
+.main-container{
+  background-color: rgba(128, 128, 128, 0.4);
+  //width: 100%;
+  height: 100%;
+  .central-part{
+    margin-top: @TopPanelHeight;
+    margin-left: @LeftMenuPanelWidth;
+  }
+}
+
+div {
+  display: block;
+}
+
+
+//далі йде гавнокод - треба подумати
+//body{
+//  height: 100%;
+//}
+//
+//html {
+//  height: 100%;
+//}
