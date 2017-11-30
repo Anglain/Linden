@@ -7,13 +7,17 @@
 @import "panels/menuPanel";
 @import "column";
 
-.main-container{
+.main-container {
   background-color: rgba(128, 128, 128, 0.4);
-  //width: 100%;
-  height: 100%;
-  .central-part{
-    margin-top: @TopPanelHeight;
-    margin-left: @LeftMenuPanelWidth;
+  margin-top: @TopPanelHeight;
+  margin-left: @LeftMenuPanelWidth; // remove when hide this panel in JS later
+  .central-part {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    //position: absolute; // it's strange, but it work for columns tobe straight to bottom of page
   }
 }
 
@@ -21,8 +25,7 @@ div {
   display: block;
 }
 
-
-//далі йде гавнокод - треба подумати
+//далі йде гавнокод - треба подумати - впринципі цього не треба, нехай поки буде закоменченим
 //body{
 //  height: 100%;
 //}
