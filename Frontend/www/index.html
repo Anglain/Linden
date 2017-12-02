@@ -16,22 +16,56 @@
 <body>
 <div class="main-container ">
     <div class="central-part">
-        <div class="one-column">
-            <div class="column-title">New column</div>
-            <div class="notes-field">Something is written here</div>
-            <div class="notes-field">Something is written here</div>
+        <div class="one-column-wrap">
+            <div class="one-column">
+                <div class="column-title-panel">
+                    <span class="column-title">New column</span>
+                    <button class="edit-column-button btn btn-sm btn-basic">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <div class="notes-field">
+                    <button class="delete-card-button btn btn-xs btn-basic">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                    <textarea class="form-control" rows="5"></textarea>
+                    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->
+                </div>
+                <div class="notes-field">
+                    <button class="delete-card-button btn btn-xs btn-basic">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+                <a class="add-card">Add card ...</a>
+            </div>
         </div>
-        <div class="one-column">
-            <div class="column-title">New column</div>
+        <div class="one-column-wrap">
+            <div class="one-column">
+                <div class="column-title-panel">
+                    <span class="column-title">New column</span>
+                    <button class="edit-column-button btn btn-sm btn-basic">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <a class="add-card">Add card ...</a>
+            </div>
         </div>
-        <div class="one-column">
-            <div class="column-title">New column</div>
+        <div class="one-column-wrap">
+            <div class="one-column">
+                <div class="column-title-panel">
+                    <span class="column-title">New column</span>
+                    <button class="edit-column-button btn btn-sm btn-basic">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                </div>
+                <a class="add-card">Add card ...</a>
+            </div>
         </div>
-        <div class="one-column">
-            <div class="column-title">New column</div>
-        </div>
-        <div class="one-column">
-            <div class="column-title">New column</div>
+        <div class="one-column-wrap last-column">
+            <div class="add-column-button btn btn-lg btn-success btn-circle">
+                <i class="glyphicon glyphicon-plus icon-white"></i>
+            </div>
         </div>
     </div>
 </div>
