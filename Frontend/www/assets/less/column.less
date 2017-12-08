@@ -1,0 +1,69 @@
+.one-column-wrap {
+  width: 250px;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+
+  .one-column {
+    background-color: bisque;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    // подумати над оверфлоу в колонці
+
+    .column-title-panel {
+      padding: 10px 5px;
+
+      .column-title {
+        font-weight: 800;
+        font-size: 15px;
+        font-family: 'Proxima Nova Soft', 'Helvetica Neue', sans-serif;
+      }
+      .edit-column-button {
+        float: right;
+        background-color: bisque;
+        color: grey;
+      }
+    }
+
+    .notes-field {
+      margin: 10px 5px 10px;
+      padding: 3px;
+      border-radius: 2px;
+      .form-control {
+        background-color: white;
+      }
+      .delete-card-button {
+        background-color: bisque;
+        float: right;
+        margin: 2px;
+        color: rgba(145, 145, 145, 0.89);
+      }
+    }
+  }
+
+  .add-card {
+    color: #737373;
+    margin: 15px 5px 10px;
+    padding: 5px 3px;
+  }
+
+}
+
+.last-column {
+  border: 1px dotted rgba(127, 127, 127, 0.37);
+  padding: 0;
+  margin: 0;
+  position: relative;
+
+  //розмістити button по центру - лажа при малому екрані !!!!
+  .add-column-button {
+    margin: 100% 90px 100% 90px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    padding-top: 15px;
+    font-size: 35px;
+    text-align: center;
+  }
+}
