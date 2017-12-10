@@ -34,9 +34,9 @@ exports.initialize = initialize;
 var ejs = require('ejs');
 
 
-exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%>></span>\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>");
+exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>");
 
-exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <span class=\"card-title\"><%= name%>></span>\r\n    <!--<span class=\"deadline\">deadline</span>-->\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%>></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <span class=\"card-title\"><%= name%></span>\r\n    <input type=\"text\" class=\"input-text\" style=\"display: none\">\r\n    <!--<span class=\"deadline\">deadline</span>-->\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
 },{"ejs":6}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -99,10 +99,41 @@ function update() {
         $node.find(".add-card").click(function () {
            var card = {
                name: "New card",
-               text: ''
+               text: ""
            };
            column.cards.push(card);
            update();
+        });
+
+        var $name = $node.find(".column-title");
+        $name.click(function () {
+            $name.hide();
+            $node.find(".input-text-column").show();
+            $node.find(".input-text-column").val(column.title);
+            $node.find(".input-text-column").focus();
+        });
+        $node.find(".input-text-column").focusout(function () {
+            $name.show();
+            $node.find(".input-text-column").hide();
+
+            if ($node.find(".input-text-column").val().trim()) {
+                column.title = $node.find(".input-text-column").val();
+                $name.text(column.title);
+                update();
+            }
+        });
+        $node.find(".input-text-column").keyup(function (e) {
+            if (e.which === 13) {
+                $name.show();
+
+                $node.find(".input-text-column").hide();
+
+                if ($node.find(".input-text-column").val().trim()) {
+                    column.title = $node.find(".input-text-column").val();
+                    $name.text(column.title);
+                    update();
+                }
+            }
         });
 
         var $placeForCards = $node.find(".place-for-cards");
@@ -117,7 +148,40 @@ function update() {
                 update();
             });
 
-            //якісь функції на перейменування?
+            $card_node.find(".form-control").focusout(function () {
+                card.text = $card_node.find(".form-control").val();
+                update();
+            });
+
+            $card_node.find(".card-title").click(function () {
+                $card_node.find(".card-title").hide();
+                $card_node.find(".input-text").show();
+                $card_node.find(".input-text").val(card.name);
+                $card_node.find(".input-text").focus();
+            });
+            $card_node.find(".input-text").focusout(function () {
+                $card_node.find(".card-title").show();
+                $card_node.find(".input-text").hide();
+
+                if ($card_node.find(".input-text").val().trim()) {
+                    card.name = $card_node.find(".input-text").val();
+                    $card_node.find(".card-title").text(card.name);
+                    update();
+                }
+            });
+            $card_node.find(".input-text").keyup(function (e) {
+                if (e.which === 13) {
+                    $card_node.find(".card-title").show();
+
+                    $card_node.find(".input-text").hide();
+
+                    if ($card_node.find(".input-text").val().trim()) {
+                        card.name = $card_node.find(".input-text").val();
+                        $card_node.find(".card-title").text(card.name);
+                        update();
+                    }
+                }
+            });
 
             $placeForCards.append($card_node);
         }

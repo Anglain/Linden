@@ -59,10 +59,41 @@ function update() {
         $node.find(".add-card").click(function () {
            var card = {
                name: "New card",
-               text: ''
+               text: ""
            };
            column.cards.push(card);
            update();
+        });
+
+        var $name = $node.find(".column-title");
+        $name.click(function () {
+            $name.hide();
+            $node.find(".input-text-column").show();
+            $node.find(".input-text-column").val(column.title);
+            $node.find(".input-text-column").focus();
+        });
+        $node.find(".input-text-column").focusout(function () {
+            $name.show();
+            $node.find(".input-text-column").hide();
+
+            if ($node.find(".input-text-column").val().trim()) {
+                column.title = $node.find(".input-text-column").val();
+                $name.text(column.title);
+                update();
+            }
+        });
+        $node.find(".input-text-column").keyup(function (e) {
+            if (e.which === 13) {
+                $name.show();
+
+                $node.find(".input-text-column").hide();
+
+                if ($node.find(".input-text-column").val().trim()) {
+                    column.title = $node.find(".input-text-column").val();
+                    $name.text(column.title);
+                    update();
+                }
+            }
         });
 
         var $placeForCards = $node.find(".place-for-cards");
@@ -77,7 +108,40 @@ function update() {
                 update();
             });
 
-            //якісь функції на перейменування?
+            $card_node.find(".form-control").focusout(function () {
+                card.text = $card_node.find(".form-control").val();
+                update();
+            });
+
+            $card_node.find(".card-title").click(function () {
+                $card_node.find(".card-title").hide();
+                $card_node.find(".input-text").show();
+                $card_node.find(".input-text").val(card.name);
+                $card_node.find(".input-text").focus();
+            });
+            $card_node.find(".input-text").focusout(function () {
+                $card_node.find(".card-title").show();
+                $card_node.find(".input-text").hide();
+
+                if ($card_node.find(".input-text").val().trim()) {
+                    card.name = $card_node.find(".input-text").val();
+                    $card_node.find(".card-title").text(card.name);
+                    update();
+                }
+            });
+            $card_node.find(".input-text").keyup(function (e) {
+                if (e.which === 13) {
+                    $card_node.find(".card-title").show();
+
+                    $card_node.find(".input-text").hide();
+
+                    if ($card_node.find(".input-text").val().trim()) {
+                        card.name = $card_node.find(".input-text").val();
+                        $card_node.find(".card-title").text(card.name);
+                        update();
+                    }
+                }
+            });
 
             $placeForCards.append($card_node);
         }
