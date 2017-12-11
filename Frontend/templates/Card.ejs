@@ -1,11 +1,17 @@
 
 <div class="notes-field">
-    <button class="delete-card-button btn btn-xs btn-basic">
+    <button class="delete-card-button card-button btn btn-xs btn-basic">
         <i class="glyphicon glyphicon-remove"></i>
     </button>
-    <span class="card-title"><%= name%></span>
-    <input type="text" class="input-text" style="display: none">
-    <!--<span class="deadline">deadline</span>-->
+    <button class="edit-card-button card-button btn btn-xs btn-basic">
+        <i class="glyphicon glyphicon-pencil"></i>
+    </button>
+    <button class="image-card-button card-button btn btn-xs btn-basic">
+        <i class="glyphicon glyphicon-camera"></i>
+    </button>
+    <!--<span class="card-title"><%= name%></span>-->
+    <!--<input type="text" class="input-text" style="display: none">-->
+    <span class="deadline">deadline</span>
     <textarea class="form-control" rows="5"><%= text%></textarea>
     <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->
 </div>
