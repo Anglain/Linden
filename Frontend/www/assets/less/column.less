@@ -9,7 +9,13 @@
     margin: 5px;
     padding: 5px;
     border-radius: 3px;
-    // подумати над оверфлоу в колонці
+
+    //                  Для скролу карток, поки все некрасиво,
+    //                     чекає на Вікусю
+    .place-for-cards{
+      max-height: 480px;
+      overflow-y: auto;
+    }
 
     .column-title-panel {
       padding: 10px 5px;
@@ -19,7 +25,7 @@
         font-size: 15px;
         font-family: 'Proxima Nova Soft', 'Helvetica Neue', sans-serif;
       }
-      .edit-column-button {
+      .delete-column-button {
         float: right;
         background-color: bisque;
         color: grey;
