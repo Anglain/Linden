@@ -5,15 +5,16 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 0;
+  width: @LeftMenuPanelWidth;
   margin-top: @TopPanelHeight;
   transition: 0.5s;
+  //overflow-x: hidden;
 
   .open-close-menu-button {
-    width: 30px;
+    width: 35px;
     position: absolute;
-    top: 40%;
-    right: -29px;
+    top: 0%;
+    right: -34px;
     background-color: rgba(128, 128, 128, 0.4);
     color: darkgreen;
     font-size: 15px;
@@ -53,46 +54,37 @@
     }
   }
 
-  .calendar-panel{
-    width: 100%;
+  .calendar-panel {
+    //width: 100%;
     margin-top: 30px;
-    border: 1px solid grey;
-    height: 150px;
-    //BAD
-    //.calendar{
-    //  background-color: #f1ffd8;
-    //  text-align: center;
-    //  width: 100px;
-    //  height: 100px;
-    //  margin-left: 15px;
-    //  margin-right: 15px;
-    //}
-    //.deadline-calendar-card{
-    //  background-color: #a2b08c;
-    //  text-align: center;
-    //  width: 30px;
-    //  height: 30px;
-    //  margin-left: 15px;
-    //  margin-right: 15px;
-    //}
+    background-color: greenyellow;
+    height: 200px;
+    .calendar-wrap {
+      padding: 10px;
+      //width: 100%;
+      //max-width: 250px;
+      //height: 100px;
+      //width: 300px;
+      //height: 300px;
+    }
   }
 
-  .menu-functions{
+  .menu-functions {
     width: 100%;
-    border: 1px solid grey;
-    .menu-button{
-      display: block;
-      margin-top: 10px;
+    margin-top: 20px;
+    padding-left: 20px;
+    a{
+      text-decoration: none;
+      color: #464646;
     }
-  //  a{
-  //    background-color: #f1ffd8;
-  //    text-decoration: none;
-  //    display: block;
-  //    color: #575757;
-  //    //padding: 5px 5px 5px 5px;
-  //    margin-top: 10px;
-  //    transition: 0.3s;
-  //
-  //}
+    .menu-button {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      max-width: 200px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+    }
   }
 }
