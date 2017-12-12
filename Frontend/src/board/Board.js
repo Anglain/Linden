@@ -58,7 +58,7 @@ function update() {
 
         $node.find(".add-card").click(function () {
            var card = {
-               name: "New card",
+               name: "no deadline", //deadline
                text: ""
            };
            column.cards.push(card);
@@ -113,7 +113,7 @@ function update() {
                 update();
             });
 
-            $card_node.find(".card-title").click(function () {
+            /*$card_node.find(".card-title").click(function () {
                 $card_node.find(".card-title").hide();
                 $card_node.find(".input-text").show();
                 $card_node.find(".input-text").val(card.name);
@@ -128,20 +128,20 @@ function update() {
                     $card_node.find(".card-title").text(card.name);
                     update();
                 }
-            });
-            $card_node.find(".input-text").keyup(function (e) {
+            });*/
+            /*$card_node.find(".input-text").keyup(function (e) {
                 if (e.which === 13) {
-                    $card_node.find(".card-title").show();
+                    $card_node.find(".name").show();
 
                     $card_node.find(".input-text").hide();
 
                     if ($card_node.find(".input-text").val().trim()) {
                         card.name = $card_node.find(".input-text").val();
-                        $card_node.find(".card-title").text(card.name);
+                        $card_node.find(".name").text(card.name);
                         update();
                     }
                 }
-            });
+            });*/
 
             $placeForCards.append($card_node);
         }
