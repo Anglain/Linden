@@ -5,15 +5,17 @@ var $menu = $("#menu");
 
 function initialize() {
 
-    var menuOpened = false;
-    $menu.find(".menu-functions").hide();
+    var menuOpened = true;
+    $menu.find(".menu-functions").show();
 
     $menu.find(".open-close-menu-button").click(function () {
         if (menuOpened) {
             $(".left-menu-panel").width(0);
+            $(".main-container").css({'padding-left':'0px'});
             $menu.find(".menu-functions").hide();
         } else {
             $(".left-menu-panel").width(300);
+            $(".main-container").css({'padding-left':'300px'});
             $menu.find(".menu-functions").show();
         }
         menuOpened = !menuOpened;
@@ -36,7 +38,11 @@ var ejs = require('ejs');
 
 exports.Column = ejs.compile("\n<div class=\"one-column-wrap\">\n    <div class=\"one-column\">\n        <div class=\"column-title-panel\">\n            <span class=\"column-title\"><%= title%></span>\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\n                <i class=\"glyphicon glyphicon-trash\"></i>\n            </button>\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\n            </button>\n        </div>\n        <div class=\"place-for-cards\">\n\n        </div>\n        <a class=\"add-card\">Add card...</a>\n    </div>\n</div>");
 
+<<<<<<< HEAD
 exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <span class=\"card-title\"><%= name%></span>\n    <input type=\"text\" class=\"input-text\" style=\"display: none\">\n    <!--<span class=\"deadline\">deadline</span>-->\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\n</div>");
+=======
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <!--<span class=\"card-title\"><%= name%></span>-->\r\n    <!--<input type=\"text\" class=\"input-text\" style=\"display: none\">-->\r\n    <span class=\"deadline\">deadline</span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
+>>>>>>> 985d9b48c991f756b714c9a08a45276980aeed59
 },{"ejs":6}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -1251,11 +1257,19 @@ exports.cache = {
 module.exports={
   "_args": [
     [
+<<<<<<< HEAD
       "ejs@^2.4.1",
       "/home/anglain/Storage/Coding/GitHub/Linden"
     ]
   ],
   "_from": "ejs@>=2.4.1 <3.0.0",
+=======
+      "ejs@2.5.7",
+      "D:\\GitHub_repositories\\Linden"
+    ]
+  ],
+  "_from": "ejs@2.5.7",
+>>>>>>> 985d9b48c991f756b714c9a08a45276980aeed59
   "_id": "ejs@2.5.7",
   "_inCache": true,
   "_installable": true,
@@ -1272,21 +1286,37 @@ module.exports={
   "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
+<<<<<<< HEAD
     "name": "ejs",
     "raw": "ejs@^2.4.1",
     "rawSpec": "^2.4.1",
     "scope": null,
     "spec": ">=2.4.1 <3.0.0",
     "type": "range"
+=======
+    "type": "version",
+    "registry": true,
+    "raw": "ejs@2.5.7",
+    "name": "ejs",
+    "escapedName": "ejs",
+    "rawSpec": "2.5.7",
+    "saveSpec": null,
+    "fetchSpec": "2.5.7"
+>>>>>>> 985d9b48c991f756b714c9a08a45276980aeed59
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
+<<<<<<< HEAD
   "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
   "_shrinkwrap": null,
   "_spec": "ejs@^2.4.1",
   "_where": "/home/anglain/Storage/Coding/GitHub/Linden",
+=======
+  "_spec": "2.5.7",
+  "_where": "D:\\GitHub_repositories\\Linden",
+>>>>>>> 985d9b48c991f756b714c9a08a45276980aeed59
   "author": {
     "email": "mde@fleegix.org",
     "name": "Matthew Eernisse",
