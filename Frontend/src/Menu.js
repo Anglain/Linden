@@ -10,11 +10,11 @@ function initialize() {
     $menu.find(".open-close-menu-button").click(function () {
         if (menuOpened) {
             $(".left-menu-panel").width(0);
-            $(".main-container").css({'margin-left':'0px'});
+            $(".main-container").css({'padding-left':'0px'});
             $menu.find(".menu-functions").hide();
         } else {
             $(".left-menu-panel").width(300);
-            $(".main-container").css({'margin-left':'300px'});
+            $(".main-container").css({'padding-left':'300px'});
             $menu.find(".menu-functions").show();
         }
         menuOpened = !menuOpened;

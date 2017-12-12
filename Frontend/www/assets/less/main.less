@@ -13,12 +13,15 @@
  // float: right;
   width: 100%;
   height: 100%;
-  margin-left: @LeftMenuPanelWidth;
-  transition: margin-left .5s;
-  transition-property: margin-left;
+  //margin-left: @LeftMenuPanelWidth;
+  padding-left: @LeftMenuPanelWidth;
+  transition: padding-left .5s;
+  transition-property: padding-left;
   transition-duration: 0.5s;
   transition-timing-function: initial;
   transition-delay: initial;
+
+  overflow-x: auto;
   .central-part {
     width: 100%;
     height: 100%;
@@ -27,7 +30,7 @@
    // padding: 20px;
     white-space: nowrap;
     overflow-y: hidden;
-    overflow-x: scroll;
+    //overflow-x: auto;
   }
 }
 
