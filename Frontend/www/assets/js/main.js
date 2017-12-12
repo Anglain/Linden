@@ -5,15 +5,17 @@ var $menu = $("#menu");
 
 function initialize() {
 
-    var menuOpened = false;
-    $menu.find(".menu-functions").hide();
+    var menuOpened = true;
+    $menu.find(".menu-functions").show();
 
     $menu.find(".open-close-menu-button").click(function () {
         if (menuOpened) {
             $(".left-menu-panel").width(0);
+            $(".main-container").css({'margin-left':'0px'});
             $menu.find(".menu-functions").hide();
         } else {
             $(".left-menu-panel").width(300);
+            $(".main-container").css({'margin-left':'300px'});
             $menu.find(".menu-functions").show();
         }
         menuOpened = !menuOpened;

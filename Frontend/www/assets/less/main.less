@@ -10,12 +10,19 @@
 .main-container {
   background-color: rgba(88, 88, 88, 0.4);
   padding-top: @TopPanelHeight;
-  //padding-left: 45px;
+ // float: right;
+  width: 100%;
   height: 100%;
+  margin-left: @LeftMenuPanelWidth;
+  transition: margin-left .5s;
+  transition-property: margin-left;
+  transition-duration: 0.5s;
+  transition-timing-function: initial;
+  transition-delay: initial;
   .central-part {
     width: 100%;
     height: 100%;
-    padding-left: 30px;
+    padding-left: 32px;
     padding-right: 20px;
    // padding: 20px;
     white-space: nowrap;
@@ -31,6 +38,8 @@ div {
 //далі йде гавнокод - треба подумати - але воно так працює - забрати цей коментар на реліз
 body {
   height: 100%;
+  overflow-x: hidden;
+  background-color:  rgba(88, 88, 88, 0.4);
 }
 
 html {
