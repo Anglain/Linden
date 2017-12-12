@@ -1,17 +1,98 @@
 .left-menu-panel {
-  background-color: rgba(255, 165, 0, 0.8);
+  background-color: rgba(255, 165, 0, 0.9);
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   height: 100%;
-  width: @LeftMenuPanelWidth;
-  //width: 0;
+  width: 0;
   margin-top: @TopPanelHeight;
+  transition: 0.5s;
 
-  .open-close-menu-button{
+  .open-close-menu-button {
+    width: 30px;
     position: absolute;
-    top: 30%;
-    right: -25px;
+    top: 40%;
+    right: -29px;
+    background-color: rgba(128, 128, 128, 0.4);
+    color: darkgreen;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .user-info-panel {
+    width: 100%;
+    padding: 2px;
+
+    .user-photo {
+      width: 100%;
+      max-width: 120px;
+    }
+    .user-text {
+      float: right;
+      padding-right: 30px;
+
+      .user-name {
+        background-color: #f1ffd8;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #464646;
+        margin-top: 30px;
+        border-radius: 3px;
+      }
+      .user-mail {
+        background-color: #f1ffd8;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #525252;
+        margin-top: 15px;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .calendar-panel{
+    width: 100%;
+    margin-top: 30px;
+    border: 1px solid grey;
+    height: 150px;
+    //BAD
+    //.calendar{
+    //  background-color: #f1ffd8;
+    //  text-align: center;
+    //  width: 100px;
+    //  height: 100px;
+    //  margin-left: 15px;
+    //  margin-right: 15px;
+    //}
+    //.deadline-calendar-card{
+    //  background-color: #a2b08c;
+    //  text-align: center;
+    //  width: 30px;
+    //  height: 30px;
+    //  margin-left: 15px;
+    //  margin-right: 15px;
+    //}
+  }
+
+  .menu-functions{
+    width: 100%;
+    border: 1px solid grey;
+    .menu-button{
+      display: block;
+      margin-top: 10px;
+    }
+  //  a{
+  //    background-color: #f1ffd8;
+  //    text-decoration: none;
+  //    display: block;
+  //    color: #575757;
+  //    //padding: 5px 5px 5px 5px;
+  //    margin-top: 10px;
+  //    transition: 0.3s;
+  //
+  //}
   }
 }
