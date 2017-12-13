@@ -129,7 +129,7 @@ exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class
 exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <div class=\"user-name\">Tychyna</div>\r\n            <div class=\"user-mail\">tych@gmail.com</div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
-},{"ejs":6}],3:[function(require,module,exports){
+},{"ejs":7}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
 //var API = require("../API");
@@ -298,14 +298,75 @@ exports.initialize = initialize;
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
+    var Preview = require('./modal/preview');
 
 
     Board.initialize();
     Menu.initialize();
 });
-},{"./Menu":1,"./board/Board":3}],5:[function(require,module,exports){
+},{"./Menu":1,"./board/Board":3,"./modal/preview":5}],5:[function(require,module,exports){
+$(document).on('click', '#close-preview', function () {
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+            $('.image-preview').popover('show');
+        },
+        function () {
+            $('.image-preview').popover('hide');
+        }
+    );
+});
+
+$(function () {
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type: "button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;',
+    });
+    closebtn.attr("class", "close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger: 'manual',
+        html: true,
+        title: "<strong>Preview</strong>" + $(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement: 'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function () {
+        $('.image-preview').attr("data-content", "").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function () {
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width: 250,
+            height: 150
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content", $(img)[0].outerHTML).popover("show");
+        }
+        reader.readAsDataURL(file);
+    });
+});
 
 },{}],6:[function(require,module,exports){
+
+},{}],7:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1173,7 +1234,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":8,"./utils":7,"fs":5,"path":9}],7:[function(require,module,exports){
+},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1339,7 +1400,7 @@ exports.cache = {
   }
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports={
   "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
@@ -1420,7 +1481,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1648,7 +1709,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":10}],10:[function(require,module,exports){
+},{"_process":11}],11:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
