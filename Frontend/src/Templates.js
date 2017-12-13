@@ -9,3 +9,5 @@ exports.Card = ejs.compile(fs.readFileSync('./Frontend/templates/Card.ejs', "utf
 exports.Login = ejs.compile(fs.readFileSync('./Frontend/templates/Login.ejs', "utf8"));
 
 exports.Menu = ejs.compile(fs.readFileSync('./Frontend/templates/Menu.ejs', "utf8"));
+
+exports.Modal = ejs.compile(fs.readFileSync('./Frontend/templates/Modal.ejs', "utf8"));
