@@ -236,7 +236,7 @@ function update() {
             var $card_node = $(html_code_card);
 
             $card_node.find(".delete-card-button").click(function () {
-                column.cards.splice(column.cards.indexOf($card_node),1);
+                column.cards.splice(column.cards.indexOf(card),1);
                 update();
             });
 
