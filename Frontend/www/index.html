@@ -21,13 +21,54 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h3 class="modal-title">Edit card</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <div class="set-deadline-panel">
+                    <button class="btn set-deadline-text">Set deadline</button>
+                    <span class="deadline">1/1/2001</span>
+                </div>
+                <div class="set-deadline-calendar-panel">
+                    <div class="col-sm-6">
+                        <div class="calendar-set-deadline"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="">E-mail notifications</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="attach-image-panel">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <span class="btn set-deadline-text attach-image-button">Attach image</span>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <!-- image-preview-filename input [CUT FROM HERE]-->
+                        <div class="input-group image-preview">
+                            <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                            <!-- don't give a name === doesn't send on POST/GET -->
+                            <span class="input-group-btn">
+                    <!-- image-preview-clear button -->
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span> Clear
+                    </button>
+                                <!-- image-preview-input -->
+                    <div class="btn btn-default image-preview-input">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <span class="image-preview-input-title">Browse</span>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>
+                        <!-- rename it -->
+                    </div>
+                </span>
+                        </div><!-- /input-group image-preview [TO HERE]-->
+                    </div>
+                </div>
+                <div class="text-from-card">
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Save changes</button>
@@ -97,8 +138,6 @@
 </div>
 <div class="main-container ">
     <div class="central-part" id="central">
-        <!--data-toggle="modal" data-target="#myModal"-->
-
         <!--<div class="one-column-wrap last-column">-->
         <!--<div class="add-column-button btn btn-lg btn-success btn-circle">-->
         <!--<i class="glyphicon glyphicon-plus icon-white"></i>-->
