@@ -38,8 +38,8 @@ var ejs = require('ejs');
 
 exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
 
-exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <!--<span class=\"card-title\"><%= name%></span>-->\r\n    <!--<input type=\"text\" class=\"input-text\" style=\"display: none\">-->\r\n    <span class=\"deadline\">deadline</span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n\r\n</div>");
-},{"ejs":6}],3:[function(require,module,exports){
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
+},{"ejs":7}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
 //var API = require("../API");
@@ -100,7 +100,7 @@ function update() {
 
         $node.find(".add-card").click(function () {
            var card = {
-               name: "New card",
+               name: "no deadline", //deadline
                text: ""
            };
            column.cards.push(card);
@@ -150,14 +150,12 @@ function update() {
                 update();
             });
 
-
-
             $card_node.find(".form-control").focusout(function () {
                 card.text = $card_node.find(".form-control").val();
                 update();
             });
 
-            $card_node.find(".card-title").click(function () {
+            /*$card_node.find(".card-title").click(function () {
                 $card_node.find(".card-title").hide();
                 $card_node.find(".input-text").show();
                 $card_node.find(".input-text").val(card.name);
@@ -172,20 +170,20 @@ function update() {
                     $card_node.find(".card-title").text(card.name);
                     update();
                 }
-            });
-            $card_node.find(".input-text").keyup(function (e) {
+            });*/
+            /*$card_node.find(".input-text").keyup(function (e) {
                 if (e.which === 13) {
-                    $card_node.find(".card-title").show();
+                    $card_node.find(".name").show();
 
                     $card_node.find(".input-text").hide();
 
                     if ($card_node.find(".input-text").val().trim()) {
                         card.name = $card_node.find(".input-text").val();
-                        $card_node.find(".card-title").text(card.name);
+                        $card_node.find(".name").text(card.name);
                         update();
                     }
                 }
-            });
+            });*/
 
             $placeForCards.append($card_node);
         }
@@ -210,14 +208,75 @@ exports.initialize = initialize;
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
+    var Preview = require('./modal/preview');
 
 
     Board.initialize();
     Menu.initialize();
 });
-},{"./Menu":1,"./board/Board":3}],5:[function(require,module,exports){
+},{"./Menu":1,"./board/Board":3,"./modal/preview":5}],5:[function(require,module,exports){
+$(document).on('click', '#close-preview', function () {
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+            $('.image-preview').popover('show');
+        },
+        function () {
+            $('.image-preview').popover('hide');
+        }
+    );
+});
+
+$(function () {
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type: "button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;',
+    });
+    closebtn.attr("class", "close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger: 'manual',
+        html: true,
+        title: "<strong>Preview</strong>" + $(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement: 'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function () {
+        $('.image-preview').attr("data-content", "").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function () {
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width: 250,
+            height: 150
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content", $(img)[0].outerHTML).popover("show");
+        }
+        reader.readAsDataURL(file);
+    });
+});
 
 },{}],6:[function(require,module,exports){
+
+},{}],7:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1085,7 +1144,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":8,"./utils":7,"fs":5,"path":9}],7:[function(require,module,exports){
+},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1251,7 +1310,7 @@ exports.cache = {
   }
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -1335,7 +1394,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1563,7 +1622,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":10}],10:[function(require,module,exports){
+},{"_process":11}],11:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
