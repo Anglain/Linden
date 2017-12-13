@@ -58,7 +58,7 @@ function update() {
 
         $node.find(".add-card").click(function () {
            var card = {
-               name: "no deadline", //deadline
+               name: "date", //deadline
                text: ""
            };
            column.cards.push(card);
