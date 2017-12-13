@@ -1,5 +1,5 @@
 .left-menu-panel {
-  background-color: rgba(255, 165, 0, 0.9);
+  background-color: rgba(116, 116, 116, 0.9);
   position: fixed;
   z-index: 1;
   top: 0;
@@ -15,76 +15,112 @@
     position: absolute;
     top: 0;
     right: -34px;
-    background-color: rgba(128, 128, 128, 0.4);
+    background-color: rgba(152, 152, 152, 0.4);
+    border-color: rgba(88, 88, 88, 0.4);
     color: darkgreen;
     font-size: 15px;
     font-weight: 700;
   }
 
-  .user-info-panel {
-    width: 100%;
-    padding: 2px;
-
-    .user-photo {
-      width: 100%;
-      max-width: 120px;
+  .login-wrap {
+    .photo-div {
+      text-align: center;
+      margin-top: 20px;
+      .login-photo {
+        width: 100%;
+        max-width: 100px;
+        background-color: rgba(218, 219, 209, 0.77);
+        border-radius: 50% 50% 50% 50%;
+      }
     }
-    .user-text {
+
+    .form-horizontal{
+      margin-top: 50px;
+      padding-left: 7px;
+      padding-right: 10px;
+      position: absolute;
+      top: 120px;
+      right: 10px;
+      .col-sm-8{
+        padding-left: 0px;
+      }
+    }
+
+
+    .sign-buttons{
+      margin-top: 25px;
+      padding-left: 10px;
+      padding-right: 10px;
       float: right;
-      padding-right: 30px;
-
-      .user-name {
-        background-color: #f1ffd8;
-        padding: 5px;
-        font-size: 14px;
-        font-weight: 400;
-        color: #464646;
-        margin-top: 30px;
-        border-radius: 3px;
-      }
-      .user-mail {
-        background-color: #f1ffd8;
-        padding: 5px;
-        font-size: 14px;
-        font-weight: 400;
-        color: #525252;
-        margin-top: 15px;
-        border-radius: 3px;
-      }
+      position: absolute;
+      top: 300px;
+      right: 10px;
     }
+
+
   }
 
-  .calendar-panel {
-    //width: 100%;
-    margin-top: 30px;
-    background-color: greenyellow;
-    height: 200px;
-    .calendar-wrap {
-      padding: 10px;
-      //width: 100%;
-      //max-width: 250px;
-      //height: 100px;
-      //width: 300px;
-      //height: 300px;
-    }
-  }
-
-  .menu-functions {
-    width: 100%;
-    margin-top: 20px;
-    padding-left: 20px;
-    a{
-      text-decoration: none;
-      color: #464646;
-    }
-    .menu-button {
-      display: block;
-      margin-top: 15px;
+  .no-login-wrap {
+    .user-info-panel {
       width: 100%;
-      max-width: 200px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 18px;
+      padding: 2px;
+
+      .user-photo {
+        width: 100%;
+        max-width: 120px;
+      }
+      .user-text {
+        float: right;
+        padding-right: 30px;
+
+        .user-name {
+          background-color: #f1ffd8;
+          padding: 5px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #464646;
+          margin-top: 30px;
+          border-radius: 3px;
+        }
+        .user-mail {
+          background-color: #f1ffd8;
+          padding: 5px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #525252;
+          margin-top: 15px;
+          border-radius: 3px;
+        }
+      }
+    }
+
+    .calendar-panel {
+      margin-top: 30px;
+      background-color: greenyellow;
+      height: 200px;
+      .calendar-wrap {
+        padding: 10px;
+      }
+    }
+
+    .menu-functions {
+      width: 100%;
+      margin-top: 20px;
+      padding-left: 20px;
+      a {
+        text-decoration: none;
+        color: #343434;
+      }
+      .menu-button {
+        display: block;
+        margin-top: 15px;
+        width: 100%;
+        max-width: 200px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 18px;
+      }
     }
   }
+
 }

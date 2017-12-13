@@ -1,4 +1,4 @@
-@mainColor: rgb(75, 191, 107);
+@mainColor: rgb(11, 163, 45);
 
 @TopPanelHeight: 60px;
 @LeftMenuPanelWidth: 300px;
@@ -10,27 +10,27 @@
 .main-container {
   background-color: rgba(88, 88, 88, 0.4);
   padding-top: @TopPanelHeight;
- // float: right;
   width: 100%;
   height: 100%;
-  //margin-left: @LeftMenuPanelWidth;
   padding-left: @LeftMenuPanelWidth;
   transition: padding-left .5s;
   transition-property: padding-left;
   transition-duration: 0.5s;
   transition-timing-function: initial;
   transition-delay: initial;
-
   overflow-x: auto;
   .central-part {
     width: 100%;
     height: 100%;
     padding-left: 32px;
     padding-right: 20px;
-   // padding: 20px;
     white-space: nowrap;
     overflow-y: hidden;
     //overflow-x: auto;
+  }
+
+  .modal{
+    z-index: -1;
   }
 }
 
