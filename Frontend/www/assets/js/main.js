@@ -36,9 +36,9 @@ exports.initialize = initialize;
 var ejs = require('ejs');
 
 
-exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n            <div class=\"scrollbar scrollbar-sunny-morning\"></div>\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>");
+exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
 
-exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <!--<span class=\"card-title\"><%= name%></span>-->\r\n    <!--<input type=\"text\" class=\"input-text\" style=\"display: none\">-->\r\n    <span class=\"deadline\">deadline</span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <!--<span class=\"card-title\"><%= name%></span>-->\r\n    <!--<input type=\"text\" class=\"input-text\" style=\"display: none\">-->\r\n    <span class=\"deadline\">deadline</span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n\r\n</div>");
 },{"ejs":6}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -149,6 +149,8 @@ function update() {
                 column.cards.splice(column.cards.indexOf($card_node),1);
                 update();
             });
+
+
 
             $card_node.find(".form-control").focusout(function () {
                 card.text = $card_node.find(".form-control").val();
