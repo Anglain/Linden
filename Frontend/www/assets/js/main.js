@@ -53,37 +53,6 @@ function initialize() {
     });
 
     update();
-
-    // $menu.find("#login").click(function () {
-    //     var check = allOk();
-    //
-    //     if (check) {
-    //         logged = true;
-    //
-    //          sessionUser = {
-    //             email: $("#inputMail").val(),
-    //             username: "User",
-    //             password: $("#inputPassword").val(),
-    //             board: []
-    //         };
-    //
-    //         $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
-    //         $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-    //         $menu.find("#no-login-wrap").css("display", "block");
-    //         $menu.find("#login-wrap").css("display", "none");
-    //
-    //         update();
-    //     }
-    // });
-    //
-    // $menu.find(".exit-button").click(function () {
-    //     logged = false;
-    //
-    //     $menu.find("#no-login-wrap").css("display", "none");
-    //     $menu.find("#login-wrap").css("display", "block");
-    //
-    //     update();
-    // })
 }
 
 function update() {
