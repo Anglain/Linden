@@ -73,8 +73,6 @@ function update() {
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
             $menu.find("#no-login-wrap").css("display", "block");
             $menu.find("#login-wrap").css("display", "none");
-
-            //update();
         }
     });
 
@@ -84,7 +82,7 @@ function update() {
         $menu.find("#no-login-wrap").css("display", "none");
         $menu.find("#login-wrap").css("display", "block");
 
-        //update();
+        Board.removeAll();
     })
 
     var menuOpened = true;
