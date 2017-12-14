@@ -7,12 +7,13 @@ var boardContent = [];
 //Сюди колонки
 var $TheBoard = $("#central");
 
+
 function removeAll() {
     boardContent = [];
     update();
 }
 
-function addColumn(title){
+function addColumn(title) {
 
     var column = {
         title: title,
@@ -22,6 +23,12 @@ function addColumn(title){
     boardContent.push(column);
     update();
 }
+
+var today = new Date();
+var dd = today.getDate();//default deadline day after current
+var mm = (today.getMonth() + 1);
+var yyyy = today.getFullYear();
+
 
 function remove(column) {
     boardContent.splice(boardContent.indexOf(column), 1);
@@ -57,13 +64,16 @@ function update() {
         });
 
         $node.find(".add-card").click(function () {
-           var card = {
-               name: "date", //deadline
-               text: "",
-               picture: ""
-           };
-           column.cards.push(card);
-           update();
+            var card = {
+                day: 15,
+                month: 12,
+                year: 2017,
+                name: "date",
+                text: "",
+                picture: ""
+            };
+            column.cards.push(card);
+            update();
         });
 
         var $name = $node.find(".column-title");
@@ -105,7 +115,7 @@ function update() {
             var $card_node = $(html_code_card);
 
             $card_node.find(".delete-card-button").click(function () {
-                column.cards.splice(column.cards.indexOf(card),1);
+                column.cards.splice(column.cards.indexOf(card), 1);
                 update();
             });
 
@@ -119,16 +129,18 @@ function update() {
                 $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
+                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
                 $modal.find(".set-deadline-text").click(function () {
-                    //
-                    // change deadline
-                    //
+                    var date = new Date($('#datepicker').val());
+                    card.day = date.getDate();
+                    card.month = date.getMonth() + 1;
+                    card.year = date.getFullYear();
+                    card.name = card.day +"." + card.month + "." + card.year;
                     update();
                 });
 
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.name = $modal.find(".deadline").text();
                     card.picture = $modal.find(".image-preview-filename").val();
                     update();
                 });
@@ -138,6 +150,7 @@ function update() {
 
             $placeForCards.append($card_node);
         }
+
         column.cards.forEach(showOneCard);
 
         $TheBoard.append($node);
