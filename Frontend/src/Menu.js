@@ -115,7 +115,7 @@ function update() {
     });
 
     $menu.find(".add-column-button").click(function () {
-        Board.addColumn("New column js");
+        Board.addColumn("New column");
     });
 
     $("#inputMail").focusout(function () {

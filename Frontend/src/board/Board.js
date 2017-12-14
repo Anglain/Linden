@@ -1,4 +1,5 @@
 var Templates = require('../Templates');
+var DragnDrop = require('../DragnDrop');
 
 //var API = require("../API");
 var boardContent = [];
@@ -19,9 +20,9 @@ function addColumn(title) {
         title: title,
         cards: []
     };
-
     boardContent.push(column);
     update();
+    DragnDrop.update();
 }
 
 var today = new Date();//use in case we decide to change deadline color
@@ -143,7 +144,7 @@ function update() {
             });
 
             $card_node.find(".edit-card-button").click(function () {
-                var $placeForDialog = $("#myModal");
+                var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
@@ -170,6 +171,7 @@ function update() {
         }
 
         column.cards.forEach(showOneCard);
+
 
         $TheBoard.append($node);
     }
