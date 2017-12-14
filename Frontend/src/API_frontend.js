@@ -31,10 +31,10 @@ function backendPost(url, data, callback) {
     })
 }
 
-exports.getBoard = function (callback) {
-    backendGet('/API_backend/getBoard', callback);
-}
+exports.loginUser = function(userData, callback) {
+    backendPost('/API_backend/loginUser', userData, callback);
+};
 
-exports.registerUser = function(userData ,callback) {
+exports.registerUser = function(userData, callback) {
     backendPost('/API_backend/registerUser', userData, callback);
-}
+};

@@ -1,8 +1,11 @@
 Board = require('./board/Board');
-var Templates = require('./Templates');
+
+//var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
+
+var sessionUser = {};
 
 function allOk() {
     if (logged)
@@ -36,76 +39,63 @@ function checkMail() {
 }
 
 function initialize() {
-    var html_code;
-    var $node;
     if (logged) {
-        html_code = Templates.Menu();
+        $("#no-login-wrap").css("display", "block");
+        $("#login-wrap").css("display", "none");
     } else {
-        html_code = Templates.Login();
+        $("#login-wrap").css("display", "block");
+        $("#no-login-wrap").css("display", "none");
     }
-
-    $node = $(html_code);
-    $menu.append($node);
 
     $("#inputMail").focusout(function () {
         checkMail();
     });
 
-    $menu.find(".change-state-btn").click(function () {
-        var check = allOk();
-        if (check) {
-            logged = !logged;
-            if (logged) {
-                var user = {
-                    login: "Tychyna", //name from the server
-                    mail: $("#inputMail").val()
-                };
-                html_code = Templates.Menu(user);
-            } else {
-                html_code = Templates.Login();
-            }
-            $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
-            update();
-        }
-    });
-
+    update();
 }
 
 function update() {
-    $menu.find(".change-state-btn").click(function () {
+    $menu.find("#login").click(function () {
         var check = allOk();
+
         if (check) {
-            logged = !logged;
-            if (logged) {
-                var user = {
-                    login: "Tychyna", //name from the server
-                    mail: $("#inputMail").val()
-                };
-                html_code = Templates.Menu(user);
-            } else {
-                html_code = Templates.Login();
-            }
-            $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
-            update();
+            logged = true;
+
+            sessionUser = {
+                email: $("#inputMail").val(),
+                username: "User",
+                password: $("#inputPassword").val(),
+                board: []
+            };
+
+            $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+            $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+            $menu.find("#no-login-wrap").css("display", "block");
+            $menu.find("#login-wrap").css("display", "none");
         }
     });
 
+    $menu.find(".exit-button").click(function () {
+        logged = false;
+
+        $menu.find("#no-login-wrap").css("display", "none");
+        $menu.find("#login-wrap").css("display", "block");
+
+        Board.removeAll();
+    })
+
     var menuOpened = true;
-    $menu.find(".menu-functions").show();
+    $menu.find(".menu-functions").css("display", "block");
 
     $menu.find(".open-close-menu-button").click(function () {
         if (menuOpened) {
             $(".left-menu-panel").width(0);
             $(".main-container").css({'padding-left': '0px'});
-            $menu.find(".menu-functions").hide();
+            $menu.find(".menu-functions").css("display", "none");
         } else {
             $(".left-menu-panel").width(300);
             $(".main-container").css({'padding-left': '300px'});
-            $menu.find(".menu-functions").show();
+            $menu.find(".menu-functions").css("display", "block");
         }
         menuOpened = !menuOpened;
     });
@@ -115,7 +105,7 @@ function update() {
     });
 
     $menu.find(".add-column-button").click(function () {
-        Board.addColumn("New column js");
+        Board.addColumn("New column");
     });
 
     $("#inputMail").focusout(function () {
