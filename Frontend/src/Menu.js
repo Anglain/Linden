@@ -1,5 +1,6 @@
 Board = require('./board/Board');
 var Templates = require('./Templates');
+var api_frontend = require('./API_frontend');
 
 var $menu = $("#menu");
 var logged = false;
@@ -57,9 +58,20 @@ function initialize() {
             logged = !logged;
             if (logged) {
                 var user = {
-                    login: "Tychyna", //name from the server
-                    mail: $("#inputMail").val()
+                    email: $("#inputMail").val(),
+                    username: "User",
+                    password: $("#inputPassword").val(),
+                    board: []
                 };
+                api_frontend.loginUser(user, function(err, data) {
+                    if (err) {
+                        alert("Couldn't login user! " + err.message);
+                    } else {
+                        user.board = data.board;
+                        console.log(user);
+                    }
+                });
+
                 html_code = Templates.Menu(user);
             } else {
                 html_code = Templates.Login();
@@ -80,14 +92,25 @@ function update() {
             logged = !logged;
             if (logged) {
                 var user = {
-                    login: "Tychyna", //name from the server
-                    mail: $("#inputMail").val()
+                    email: $("#inputMail").val(),
+                    username: "User",
+                    password: $("#inputPassword").val(),
+                    board: []
                 };
-                html_code = Templates.Menu(user);
+                api_frontend.loginUser(user, function(err, data) {
+                    if (err) {
+                        alert("Couldn't login user! " + err.message);
+                    } else {
+                        user.board = data.board;
+                        console.log(user);
+                    }
+                });
+
+                var html_code = Templates.Menu(user);
             } else {
                 html_code = Templates.Login();
             }
-            $node = $(html_code);
+            var $node = $(html_code);
             $menu.html("");
             $menu.append($node);
             update();
