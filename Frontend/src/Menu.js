@@ -1,8 +1,99 @@
 Board = require('./board/Board');
+var Templates = require('./Templates');
 
 var $menu = $("#menu");
+var logged = false;
+
+
+function allOk() {
+    if (logged)
+        return true;
+    else {
+        return checkMail();
+    }
+}
+
+function checkMail() {
+    var mail = $(".mail-group");
+    var input = $("#inputMail").val();
+    var helpText = $(".mail-help-block");
+
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    if (validateEmail(input)) {
+        helpText.hide();
+        mail.addClass("has-success");
+        mail.removeClass("has-error");
+        return true;
+    } else {
+        helpText.show();
+        mail.addClass("has-error");
+        mail.removeClass("has-success");
+        return false;
+    }
+}
+
 
 function initialize() {
+    var html_code;
+    var $node;
+    if (logged) {
+        html_code = Templates.Menu();
+    } else {
+        html_code = Templates.Login();
+    }
+    $node = $(html_code);
+    $menu.append($node);
+
+    $("#inputMail").focusout(function () {
+        checkMail();
+    });
+
+    $menu.find(".change-state-btn").click(function () {
+        var check = allOk();
+        if (check) {
+            logged = !logged;
+            if (logged) {
+                var user = {
+                    login: "Tychyna", //name from the server
+                    mail: $("#inputMail").val()
+                };
+                html_code = Templates.Menu(user);
+            } else {
+                html_code = Templates.Login();
+            }
+            $node = $(html_code);
+            $menu.html("");
+            $menu.append($node);
+            update();
+        }
+    });
+
+}
+
+function update() {
+    $menu.find(".change-state-btn").click(function () {
+        var check = allOk();
+        if (check) {
+            logged = !logged;
+            if (logged) {
+                var user = {
+                    login: "Tychyna", //name from the server
+                    mail: $("#inputMail").val()
+                };
+                html_code = Templates.Menu(user);
+            } else {
+                html_code = Templates.Login();
+            }
+            $node = $(html_code);
+            $menu.html("");
+            $menu.append($node);
+            update();
+        }
+    });
 
     var menuOpened = true;
     $menu.find(".menu-functions").show();
@@ -27,6 +118,11 @@ function initialize() {
     $menu.find(".add-column-button").click(function () {
         Board.addColumn("New column js");
     });
+
+    $("#inputMail").focusout(function () {
+        checkMail();
+    });
 }
+
 
 exports.initialize = initialize;
