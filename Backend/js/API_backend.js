@@ -1,61 +1,27 @@
 /**
- * @param req - json which comes to the server
- * @param res
+ * @param req - client request
+ * @param res - server response
  */
 var User = require('../mongodb');
 
-exports.getBoard = function(req, res) {
+exports.loginUser = function(req, res, next) {
+    var userData = req.body;
 
-    // =============== Getting json , which is userInfo in this case ================
-    var userInfo = req.body;
+    if (User.find()) {
 
-    alert("Get board works!");
+        User.create(userData, function(err, user) {
+            if (err) {
+                return next(error);
+            } else {
+                req.session.userId = user._id;
+            }
+        });
+    } else if (userData.logemail) {
 
-    res.send({
-        success: true
-    });
+    }
+
 };
 
 exports.registerUser = function(req, res) {
 
-    if (req.body.email &&
-        req.body.username &&
-        req.body.password) {
-
-        var userData = {
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password
-        }
-
-        if (User.findOne({email: userData.email}, function (err, user) {
-            if (err) {
-                console.error('ERROR PARSING USER EMAIL: ' ,err.message);
-                return false;
-            } else {
-                console.log();
-                return ;
-            }
-            })
-        || User.findOne({username: userData.username}, function (err, user) {
-                if (err) {
-                    console.error('ERROR PARSING USERNAME: ' ,err.message);
-                    return false;
-                } else {
-                    return true;
-                }
-            })) {
-
-        }
-
-        // ================== Using schema.create to insert data into the db ==================
-
-        User.create(userData, function (err, user) {
-            if (err) {
-                return next(err)
-            } else {
-                return res.redirect('/profile');
-            }
-        });
-    }
 };

@@ -12,25 +12,26 @@ var MongoStore = require('connect-mongo')(session);
 
 var pageLoad = require('./pageLoad');
 var api_backend = require('./API_backend');
+var mongodb = require('../mongodb');
 
+// ========== Creating an express app ============
 var app = express();
 var sessionSecret = "the cake is a lie";
 
-function configurePages() {
-    // ============ Get board ============
-    app.get('/API_backend/getBoard', api_backend.getBoard);
-
-    // ============ Main page ============
-    app.get('/', pageLoad.mainPage);
-
-    // ========= In case of emergency return this ============
-    app.use(express.static(path.join(__dirname, '../Frontend/www')));
-}
-
 function startServer(port) {
+    // ========== Setup mongoose connection ============
+    mongoose.connect('mongodb://localhost/testForAuth');
+    var db = mongoose.connection;
 
-    // ========== Creating an express app ============
-    app = express();
+    // =============== Handle mongo error ===============
+    db.on('error', function(err) {
+        console.log("USER DATABASE CONNECTION ERROR: ", err.message);
+    });
+
+    db.once('open', function(callback) {
+        console.log('USER DATABASE CONNECTED.');
+    });
+
 
     // ========== Creating express session
     app.use(session({
@@ -38,7 +39,7 @@ function startServer(port) {
         resave: true,
         saveUninitialized: false,
         store: new MongoStore({
-            mongooseConnection: db
+            mongooseConnection: mongodb.db
         })
     }));
 
@@ -54,7 +55,11 @@ function startServer(port) {
     app.use(bodyParser.json());
 
     // =============== Configure pages ===============
-    configurePages();
+    // ============ Main page ============
+    app.get('/', pageLoad.mainPage);
+
+    // ========= In case of emergency return this ============
+    app.use(express.static(path.join(__dirname, '../Frontend/www')));
 
     // ============= Catch 404 and forward to error handler ==========
     app.use(function (req, res, next) {
