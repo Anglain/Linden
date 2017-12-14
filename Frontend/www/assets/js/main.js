@@ -5,7 +5,6 @@ var Templates = require('./Templates');
 var $menu = $("#menu");
 var logged = false;
 
-
 function allOk() {
     if (logged)
         return true;
@@ -37,7 +36,6 @@ function checkMail() {
     }
 }
 
-
 function initialize() {
     var html_code;
     var $node;
@@ -46,6 +44,7 @@ function initialize() {
     } else {
         html_code = Templates.Login();
     }
+
     $node = $(html_code);
     $menu.append($node);
 
@@ -125,8 +124,8 @@ function update() {
     });
 }
 
-
 exports.initialize = initialize;
+exports.logged = logged;
 },{"./Templates":2,"./board/Board":3}],2:[function(require,module,exports){
 
 var ejs = require('ejs');
