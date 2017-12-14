@@ -41,7 +41,7 @@ $(function() {
         var img = $('<img/>', {
             id: 'dynamic',
             width:250,
-            height:200
+            height:400
         });
         var file = this.files[0];
         var reader = new FileReader();
