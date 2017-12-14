@@ -6,5 +6,6 @@ $(function () {
 
     Board.initialize();
     Menu.initialize();
+    DragnDrop.initialize();
 
 });

@@ -22,7 +22,6 @@ function addColumn(title) {
     };
     boardContent.push(column);
     update();
-    DragnDrop.update();
 }
 
 var today = new Date();//use in case we decide to change deadline color
@@ -179,6 +178,8 @@ function update() {
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
+
+    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;

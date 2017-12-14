@@ -2,20 +2,63 @@
 var dragSrcEl = null;
 
 
-
 function handleDragStart(e) {
-    e.style.opacity = '0.4';  // this / e.target is the source node.
+    this.style.opacity = '0.6';  // this / e.target is the source node.
+
+     dragSrcEl = this;
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.innerHTML);
 }
 
-function update() {
+function handleDragOver(e) {
+    if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+    }
+
+    e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+    return false;
+}
+
+function handleDrop(e) {
+    // this/e.target is current target element.
+    this.style.opacity = '1.0';
+    if (e.stopPropagation) {
+        e.stopPropagation(); // Stops some browsers from redirecting.
+    }
+
+    // Don't do anything if dropping the same column we're dragging.
+    if (dragSrcEl != this) {
+        // Set the source column's HTML to the HTML of the columnwe dropped on.
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+    }
+
+    return false;
+}
+
+function handleDragEnd(e) {
+    // this/e.target is the source node.
+    var cols = document.querySelectorAll('#central .one-column-wrap');
+    [].forEach.call(cols, function (col) {
+        col.classList.remove('over');
+        col.style.opacity = '1.0';
+    });
+}
+function initialize() {
     var cols = document.querySelectorAll('#central .one-column-wrap');
     [].forEach.call(cols, function(col) {
         col.addEventListener('dragstart', handleDragStart, false);
-        col.classList.add("has-success");
+        //col.addEventListener('dragenter', handleDragEnter, false);
+        col.addEventListener('dragover', handleDragOver, false);
+        //col.addEventListener('dragleave', handleDragLeave, false);
+        col.addEventListener('drop', handleDrop, false);
+        col.addEventListener('dragend', handleDragEnd, false);
     });
 }
 
-exports.update = update;
+exports.initialize = initialize;
 },{}],2:[function(require,module,exports){
 Board = require('./board/Board');
 var Templates = require('./Templates');
@@ -153,7 +196,7 @@ exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\" draggable=\"tru
 
 exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n</div>");
 
-exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
+exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login%></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail%></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
 
@@ -183,7 +226,6 @@ function addColumn(title) {
     };
     boardContent.push(column);
     update();
-    DragnDrop.update();
 }
 
 var today = new Date();//use in case we decide to change deadline color
@@ -340,6 +382,8 @@ function update() {
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
+
+    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;
@@ -356,6 +400,7 @@ $(function () {
 
     Board.initialize();
     Menu.initialize();
+    DragnDrop.initialize();
 
 });
 },{"./DragnDrop":1,"./Menu":2,"./board/Board":4,"./modal/preview":6}],6:[function(require,module,exports){
