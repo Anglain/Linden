@@ -133,13 +133,13 @@ var ejs = require('ejs');
 
 exports.Column = ejs.compile("\n<div class=\"one-column-wrap\">\n    <div class=\"one-column\">\n        <div class=\"column-title-panel\">\n            <span class=\"column-title\"><%= title%></span>\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\n                <i class=\"glyphicon glyphicon-trash\"></i>\n            </button>\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\n            </button>\n        </div>\n        <div class=\"place-for-cards\">\n        </div>\n        <a class=\"add-card\">Add card...</a>\n    </div>\n</div>\n\n");
 
-exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\n        <i class=\"glyphicon glyphicon-pencil\"></i>\n    </button>\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-camera\"></i>\n    </button>\n    <span class=\"deadline\"><%= name%></span>\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\n</div>");
+exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\n        <i class=\"glyphicon glyphicon-pencil\"></i>\n    </button>\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-camera\"></i>\n    </button>\n    <span class=\"deadline\"><%= name%></span>\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n</div>");
 
 exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"photo-div\">\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\n    </div>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group mail-group\">\n            <label class=\"col-sm-4 control-label\">e-mail</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\n            </div>\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\n        </div>\n        <div class=\"form-group password-group\">\n            <label class=\"col-sm-4 control-label\">Password</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\n            </div>\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\n        </div>\n    </form>\n    <div class=\"btn-group sign-buttons\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign in\n        </button>\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign up\n        </button>\n    </div>\n</div>");
 
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login%></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail%></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\n    </div>\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal-dialog\">\n<div class=\"modal-content\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Edit card</h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>\n    <div class=\"modal-body\">\n        <div class=\"set-deadline-panel\">\n            <button class=\"btn set-deadline-text\">Set deadline</button>\n            <span class=\"deadline\"><%= name%></span>\n        </div>\n        <div class=\"set-deadline-calendar-panel\">\n            <div class=\"col-sm-6\">\n                <div class=\"calendar-set-deadline\"></div>\n            </div>\n            <div class=\"col-sm-6\">\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                </div>\n            </div>\n        </div>\n        <div class=\"attach-image-panel\">\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <span class=\"btn set-deadline-text attach-image-button\">Attach image</span>\n            </div>\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <!-- image-preview-filename input [CUT FROM HERE]-->\n                <div class=\"input-group image-preview\">\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\n                    <!-- don't give a name === doesn't send on POST/GET -->\n                    <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                        <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                </div><!-- /input-group image-preview [TO HERE]-->\n            </div>\n        </div>\n        <div class=\"text-from-card\">\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\n        </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n    </div>\n</div>\n</div>");
+exports.Modal = ejs.compile("<div class=\"modal-dialog\">\n<div class=\"modal-content\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Edit card</h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>\n    <div class=\"modal-body\">\n        <div class=\"set-deadline-panel\">\n            <button class=\"btn set-deadline-text\">Set deadline</button>\n            <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\n        </div>\n        <div class=\"set-deadline-calendar-panel\">\n            <div class=\"col-sm-6\">\n                <div class=\"calendar-set-deadline\"></div>\n            </div>\n            <div class=\"col-sm-6\">\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                </div>\n            </div>\n        </div>\n        <div class=\"attach-image-panel\">\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <span class=\"btn attach-image-button\">Attach image</span>\n            </div>\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <!-- image-preview-filename input [CUT FROM HERE]-->\n                <div class=\"input-group image-preview\">\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\n                    <!-- don't give a name === doesn't send on POST/GET -->\n                    <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                        <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                </div><!-- /input-group image-preview [TO HERE]-->\n            </div>\n        </div>\n        <div class=\"text-from-card\">\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\n        </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n    </div>\n</div>\n</div>");
 },{"ejs":7}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -150,12 +150,13 @@ var boardContent = [];
 //Сюди колонки
 var $TheBoard = $("#central");
 
+
 function removeAll() {
     boardContent = [];
     update();
 }
 
-function addColumn(title){
+function addColumn(title) {
 
     var column = {
         title: title,
@@ -165,6 +166,12 @@ function addColumn(title){
     boardContent.push(column);
     update();
 }
+
+var today = new Date();
+var dd = today.getDate();//default deadline day after current
+var mm = (today.getMonth() + 1);
+var yyyy = today.getFullYear();
+
 
 function remove(column) {
     boardContent.splice(boardContent.indexOf(column), 1);
@@ -200,13 +207,16 @@ function update() {
         });
 
         $node.find(".add-card").click(function () {
-           var card = {
-               name: "date", //deadline
-               text: "",
-               picture: ""
-           };
-           column.cards.push(card);
-           update();
+            var card = {
+                day: 15,
+                month: 12,
+                year: 2017,
+                name: "date",
+                text: "",
+                picture: ""
+            };
+            column.cards.push(card);
+            update();
         });
 
         var $name = $node.find(".column-title");
@@ -248,7 +258,7 @@ function update() {
             var $card_node = $(html_code_card);
 
             $card_node.find(".delete-card-button").click(function () {
-                column.cards.splice(column.cards.indexOf(card),1);
+                column.cards.splice(column.cards.indexOf(card), 1);
                 update();
             });
 
@@ -262,16 +272,18 @@ function update() {
                 $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
+                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
                 $modal.find(".set-deadline-text").click(function () {
-                    //
-                    // change deadline
-                    //
+                    var date = new Date($('#datepicker').val());
+                    card.day = date.getDate();
+                    card.month = date.getMonth() + 1;
+                    card.year = date.getFullYear();
+                    card.name = card.day +"." + card.month + "." + card.year;
                     update();
                 });
 
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.name = $modal.find(".deadline").text();
                     card.picture = $modal.find(".image-preview-filename").val();
                     update();
                 });
@@ -281,6 +293,7 @@ function update() {
 
             $placeForCards.append($card_node);
         }
+
         column.cards.forEach(showOneCard);
 
         $TheBoard.append($node);
