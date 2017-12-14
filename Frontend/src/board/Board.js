@@ -19,6 +19,8 @@ function addColumn(title) {
         cards: []
     };
 
+    console.log("ONE column added.");
+
     boardContent.push(column);
     update();
 }
@@ -182,3 +184,4 @@ exports.removeAll = removeAll;
 exports.addColumn = addColumn;
 
 exports.initialize = initialize;
+exports.boardContent = boardContent;

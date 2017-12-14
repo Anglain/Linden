@@ -6,6 +6,8 @@ Board = require('./board/Board');
 var $menu = $("#menu");
 var logged = false;
 
+var sessionUser = {};
+
 function allOk() {
     if (logged)
         return true;
@@ -39,80 +41,95 @@ function checkMail() {
 
 function initialize() {
     if (logged) {
-        $("#no-login-wrap").show();
-        $("#login-wrap").hide();
+        $("#no-login-wrap").css("display", "block");
+        $("#login-wrap").css("display", "none");
     } else {
-        $("#login-wrap").show();
-        $("#no-login-wrap").hide();
+        $("#login-wrap").css("display", "block");
+        $("#no-login-wrap").css("display", "none");
     }
 
     $("#inputMail").focusout(function () {
         checkMail();
     });
 
-    $menu.find(".change-state-btn").click(function () {
-        var check = allOk();
-        if (check) {
-            logged = !logged;
-            if (logged) {
-                var user = {
-                    email: $("#inputMail").val(),
-                    username: "User",
-                    password: $("#inputPassword").val(),
-                    board: []
-                };
+    update();
 
-                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
-                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
-                $menu.find("#no-login-wrap").show();
-                $menu.find("#login-wrap").hide();
-            } else {
-                $menu.find("#no-login-wrap").hide();
-                $menu.find("#login-wrap").show();
-            }
-            update();
-        }
-    });
-
+    // $menu.find("#login").click(function () {
+    //     var check = allOk();
+    //
+    //     if (check) {
+    //         logged = true;
+    //
+    //          sessionUser = {
+    //             email: $("#inputMail").val(),
+    //             username: "User",
+    //             password: $("#inputPassword").val(),
+    //             board: []
+    //         };
+    //
+    //         $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+    //         $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+    //         $menu.find("#no-login-wrap").css("display", "block");
+    //         $menu.find("#login-wrap").css("display", "none");
+    //
+    //         update();
+    //     }
+    // });
+    //
+    // $menu.find(".exit-button").click(function () {
+    //     logged = false;
+    //
+    //     $menu.find("#no-login-wrap").css("display", "none");
+    //     $menu.find("#login-wrap").css("display", "block");
+    //
+    //     update();
+    // })
 }
 
 function update() {
-    $menu.find(".change-state-btn").click(function () {
+    $menu.find("#login").click(function () {
         var check = allOk();
-        if (check) {
-            logged = !logged;
-            if (logged) {
-                var user = {
-                    email: $("#inputMail").val(),
-                    username: "User",
-                    password: $("#inputPassword").val(),
-                    board: []
-                };
 
-                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
-                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
-                $menu.find("#no-login-wrap").show();
-                $menu.find("#login-wrap").hide();
-            } else {
-                $menu.find("#no-login-wrap").hide();
-                $menu.find(".login-wrap").show();
-            }
-            update();
+        if (check) {
+            logged = true;
+
+            sessionUser = {
+                email: $("#inputMail").val(),
+                username: "User",
+                password: $("#inputPassword").val(),
+                board: []
+            };
+
+            $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+            $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+            $menu.find("#no-login-wrap").css("display", "block");
+            $menu.find("#login-wrap").css("display", "none");
+
+            //update();
         }
     });
 
+    $menu.find(".exit-button").click(function () {
+        logged = false;
+
+        $menu.find("#no-login-wrap").css("display", "none");
+        $menu.find("#login-wrap").css("display", "block");
+
+        //update();
+    })
+
     var menuOpened = true;
-    $menu.find(".menu-functions").show();
+    $menu.find(".menu-functions").css("display", "block");
 
     $menu.find(".open-close-menu-button").click(function () {
         if (menuOpened) {
             $(".left-menu-panel").width(0);
             $(".main-container").css({'padding-left': '0px'});
-            $menu.find(".menu-functions").hide();
+            $menu.find(".menu-functions").css("display", "none");
         } else {
             $(".left-menu-panel").width(300);
             $(".main-container").css({'padding-left': '300px'});
-            $menu.find(".menu-functions").show();
+            $menu.find(".menu-functions").css("display", "block");
         }
         menuOpened = !menuOpened;
     });
@@ -167,6 +184,8 @@ function addColumn(title) {
         title: title,
         cards: []
     };
+
+    console.log("ONE column added.");
 
     boardContent.push(column);
     update();
@@ -331,7 +350,7 @@ exports.removeAll = removeAll;
 exports.addColumn = addColumn;
 
 exports.initialize = initialize;
-
+exports.boardContent = boardContent;
 },{"../Templates":2}],4:[function(require,module,exports){
 $(function () {
     var Menu = require('./Menu');
