@@ -45,6 +45,20 @@ UserSchema.statics.authenticate = function (email, password, callback) {
         });
 };
 
+UserSchema.statics.register = function (email, password, callback) {
+
+    User.findOne({ email: email }).exec(function (err, user) {
+
+        if (err) {
+            return callback(err);
+        } else if (!user) {
+            return callback(null, {success : true});
+        } else {
+            return callback(null, {success : false, message : 'User with this email is already registered.'});
+        }
+    });
+};
+
 //hashing a password before saving it to the database
 UserSchema.pre('save', function (next) {
     var user = this;
