@@ -59,7 +59,8 @@ function update() {
         $node.find(".add-card").click(function () {
            var card = {
                name: "date", //deadline
-               text: ""
+               text: "",
+               picture: ""
            };
            column.cards.push(card);
            update();
@@ -113,35 +114,27 @@ function update() {
                 update();
             });
 
-            /*$card_node.find(".card-title").click(function () {
-                $card_node.find(".card-title").hide();
-                $card_node.find(".input-text").show();
-                $card_node.find(".input-text").val(card.name);
-                $card_node.find(".input-text").focus();
-            });
-            $card_node.find(".input-text").focusout(function () {
-                $card_node.find(".card-title").show();
-                $card_node.find(".input-text").hide();
+            $card_node.find(".edit-card-button").click(function () {
+                var $placeForDialog = $("#myModal");
+                $placeForDialog.html("");
+                var $modal = $(Templates.Modal(card));
 
-                if ($card_node.find(".input-text").val().trim()) {
-                    card.name = $card_node.find(".input-text").val();
-                    $card_node.find(".card-title").text(card.name);
+                $modal.find(".set-deadline-text").click(function () {
+                    //
+                    // change deadline
+                    //
                     update();
-                }
-            });*/
-            /*$card_node.find(".input-text").keyup(function (e) {
-                if (e.which === 13) {
-                    $card_node.find(".name").show();
+                });
 
-                    $card_node.find(".input-text").hide();
+                $modal.find(".save").click(function () {
+                    card.text = $modal.find(".card-text").val();
+                    card.name = $modal.find(".deadline").text();
+                    card.picture = $modal.find(".image-preview-filename").val();
+                    update();
+                });
 
-                    if ($card_node.find(".input-text").val().trim()) {
-                        card.name = $card_node.find(".input-text").val();
-                        $card_node.find(".name").text(card.name);
-                        update();
-                    }
-                }
-            });*/
+                $placeForDialog.append($modal);
+            });
 
             $placeForCards.append($card_node);
         }
