@@ -2,7 +2,6 @@ var Templates = require('../Templates');
 
 //var API = require("../API");
 var boardContent = [];
-//var boardContent = require('../BoardContent');
 
 //Сюди колонки
 var $TheBoard = $("#central");
