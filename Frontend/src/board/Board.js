@@ -1,4 +1,5 @@
 var Templates = require('../Templates');
+var DragnDrop = require('../DragnDrop');
 
 //var API = require("../API");
 var boardContent = [];
@@ -144,7 +145,7 @@ function update() {
             });
 
             $card_node.find(".edit-card-button").click(function () {
-                var $placeForDialog = $("#myModal");
+                var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
@@ -172,12 +173,15 @@ function update() {
 
         column.cards.forEach(showOneCard);
 
+
         $TheBoard.append($node);
     }
 
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
+
+    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;

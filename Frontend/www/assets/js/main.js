@@ -1,4 +1,65 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var dragSrcEl = null;
+
+
+function handleDragStart(e) {
+    this.style.opacity = '0.6';  // this / e.target is the source node.
+
+     dragSrcEl = this;
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDragOver(e) {
+    if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+    }
+
+    e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+    return false;
+}
+
+function handleDrop(e) {
+    // this/e.target is current target element.
+    this.style.opacity = '1.0';
+    if (e.stopPropagation) {
+        e.stopPropagation(); // Stops some browsers from redirecting.
+    }
+
+    // Don't do anything if dropping the same column we're dragging.
+    if (dragSrcEl != this) {
+        // Set the source column's HTML to the HTML of the columnwe dropped on.
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+    }
+
+    return false;
+}
+
+function handleDragEnd(e) {
+    // this/e.target is the source node.
+    var cols = document.querySelectorAll('#central .one-column-wrap');
+    [].forEach.call(cols, function (col) {
+        col.classList.remove('over');
+        col.style.opacity = '1.0';
+    });
+}
+function initialize() {
+    var cols = document.querySelectorAll('#central .one-column-wrap');
+    [].forEach.call(cols, function(col) {
+        col.addEventListener('dragstart', handleDragStart, false);
+        //col.addEventListener('dragenter', handleDragEnter, false);
+        col.addEventListener('dragover', handleDragOver, false);
+        //col.addEventListener('dragleave', handleDragLeave, false);
+        col.addEventListener('drop', handleDrop, false);
+        col.addEventListener('dragend', handleDragEnd, false);
+    });
+}
+
+exports.initialize = initialize;
+},{}],2:[function(require,module,exports){
 Board = require('./board/Board');
 
 //var Templates = require('./Templates');
@@ -116,22 +177,23 @@ function update() {
 
 exports.initialize = initialize;
 exports.logged = logged;
-},{"./board/Board":3}],2:[function(require,module,exports){
+},{"./board/Board":4}],3:[function(require,module,exports){
 
 var ejs = require('ejs');
 
 
-exports.Column = ejs.compile("\n<div class=\"one-column-wrap\">\n    <div class=\"one-column\">\n        <div class=\"column-title-panel\">\n            <span class=\"column-title\"><%= title%></span>\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\n                <i class=\"glyphicon glyphicon-trash\"></i>\n            </button>\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\n            </button>\n        </div>\n        <div class=\"place-for-cards\">\n        </div>\n        <a class=\"add-card\">Add card...</a>\n    </div>\n</div>\n\n");
+exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\" draggable=\"true\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
 
-exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\n        <i class=\"glyphicon glyphicon-pencil\"></i>\n    </button>\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-camera\"></i>\n    </button>\n    <span class=\"deadline\"><%= name%></span>\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n</div>");
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n</div>");
 
-exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"photo-div\">\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\n    </div>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group mail-group\">\n            <label class=\"col-sm-4 control-label\">e-mail</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\n            </div>\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\n        </div>\n        <div class=\"form-group password-group\">\n            <label class=\"col-sm-4 control-label\">Password</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\n            </div>\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\n        </div>\n    </form>\n    <div class=\"btn-group sign-buttons\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign in\n        </button>\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign up\n        </button>\n    </div>\n</div>");
+exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
-exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login%></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail%></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\n    </div>\n</div>");
+exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login%></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail%></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal-dialog\">\n<div class=\"modal-content\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Edit card</h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>\n    <div class=\"modal-body\">\n        <div class=\"set-deadline-panel\">\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\n            </div>\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <button class=\"btn set-deadline-text\">Set deadline</button>\n            </div>\n        </div>\n        <div class=\"set-deadline-calendar-panel\">\n            <div class=\"col-sm-6\">\n                <div class=\"calendar-set-deadline\"></div>\n            </div>\n            <div class=\"col-sm-6\">\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                </div>\n            </div>\n        </div>\n        <div class=\"attach-image-panel\">\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <span class=\"btn attach-image-button\">Attach image</span>\n            </div>\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <!-- image-preview-filename input [CUT FROM HERE]-->\n                <div class=\"input-group image-preview\">\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\n                    <!-- don't give a name === doesn't send on POST/GET -->\n                    <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                        <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                </div><!-- /input-group image-preview [TO HERE]-->\n            </div>\n        </div>\n        <div class=\"text-from-card\">\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\n        </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n    </div>\n</div>\n</div>");
-},{"ejs":7}],3:[function(require,module,exports){
+exports.Modal = ejs.compile("<div class=\"modal fade\" id=\"myModal\" role=\"dialog\">\r\n    <div class=\"modal-dialog\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h3 class=\"modal-title\">Edit card</h3>\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <div class=\"set-deadline-panel\">\r\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                        <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\r\n                    </div>\r\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                        <button class=\"btn set-deadline-text\">Set deadline</button>\r\n                    </div>\r\n                </div>\r\n                <div class=\"set-deadline-calendar-panel\">\r\n                    <div class=\"col-sm-6\">\r\n                        <div class=\"calendar-set-deadline\"></div>\r\n                    </div>\r\n                    <div class=\"col-sm-6\">\r\n                        <div class=\"checkbox\">\r\n                            <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"attach-image-panel\">\r\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                        <span class=\"btn attach-image-button\">Attach image</span>\r\n                    </div>\r\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                        <!-- image-preview-filename input [CUT FROM HERE]-->\r\n                        <div class=\"input-group image-preview\">\r\n                            <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\">\r\n                            <!-- don't give a name === doesn't send on POST/GET -->\r\n                            <span class=\"input-group-btn\">\r\n                    <!-- image-preview-clear button -->\r\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\r\n                    </button>\r\n                                <!-- image-preview-input -->\r\n                    <div class=\"btn btn-default image-preview-input\">\r\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\r\n                        <span class=\"image-preview-input-title\">Browse</span>\r\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\r\n                        <!-- rename it -->\r\n                    </div>\r\n                </span>\r\n                        </div><!-- /input-group image-preview [TO HERE]-->\r\n                    </div>\r\n                </div>\r\n                <div class=\"text-from-card\">\r\n                    <textarea class=\"form-control card-text\" rows=\"5\"><%= text %></textarea>\r\n                </div>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\r\n                <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
+},{"ejs":8}],4:[function(require,module,exports){
 var Templates = require('../Templates');
+var DragnDrop = require('../DragnDrop');
 
 //var API = require("../API");
 var boardContent = [];
@@ -277,7 +339,7 @@ function update() {
             });
 
             $card_node.find(".edit-card-button").click(function () {
-                var $placeForDialog = $("#myModal");
+                var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
@@ -305,12 +367,15 @@ function update() {
 
         column.cards.forEach(showOneCard);
 
+
         $TheBoard.append($node);
     }
 
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
+
+    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;
@@ -318,18 +383,20 @@ exports.addColumn = addColumn;
 
 exports.initialize = initialize;
 exports.boardContent = boardContent;
-},{"../Templates":2}],4:[function(require,module,exports){
+},{"../DragnDrop":1,"../Templates":3}],5:[function(require,module,exports){
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
     var Preview = require('./modal/preview');
-
+    var DragnDrop = require('./DragnDrop');
 
     Board.initialize();
     Menu.initialize();
+    DragnDrop.initialize();
+
 });
-},{"./Menu":1,"./board/Board":3,"./modal/preview":5}],5:[function(require,module,exports){
-$(document).on('click', '#close-preview', function () {
+},{"./DragnDrop":1,"./Menu":2,"./board/Board":4,"./modal/preview":6}],6:[function(require,module,exports){
+$(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
     $('.image-preview').hover(
@@ -342,37 +409,37 @@ $(document).on('click', '#close-preview', function () {
     );
 });
 
-$(function () {
+$(function() {
     // Create the close button
     var closebtn = $('<button/>', {
-        type: "button",
+        type:"button",
         text: 'x',
         id: 'close-preview',
-        style: 'font-size: initial;'
+        style: 'font-size: initial;',
     });
-    closebtn.attr("class", "close pull-right");
+    closebtn.attr("class","close pull-right");
     // Set the popover default content
     $('.image-preview').popover({
-        trigger: 'manual',
-        html: true,
-        title: "<strong>Preview</strong>" + $(closebtn)[0].outerHTML,
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
         content: "There's no image",
-        placement: 'bottom'
+        placement:'bottom'
     });
     // Clear event
-    $('.image-preview-clear').click(function () {
-        $('.image-preview').attr("data-content", "").popover('hide');
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
         $('.image-preview-filename').val("");
         $('.image-preview-clear').hide();
         $('.image-preview-input input:file').val("");
         $(".image-preview-input-title").text("Browse");
     });
     // Create the preview image
-    $(".image-preview-input input:file").change(function () {
+    $(".image-preview-input input:file").change(function (){
         var img = $('<img/>', {
             id: 'dynamic',
-            width: 250,
-            height: 150
+            width:250,
+            height:200
         });
         var file = this.files[0];
         var reader = new FileReader();
@@ -382,15 +449,14 @@ $(function () {
             $(".image-preview-clear").show();
             $(".image-preview-filename").val(file.name);
             img.attr('src', e.target.result);
-            $(".image-preview").attr("data-content", $(img)[0].outerHTML).popover("show");
-        };
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+        }
         reader.readAsDataURL(file);
     });
 });
-
-},{}],6:[function(require,module,exports){
-
 },{}],7:[function(require,module,exports){
+
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1258,7 +1324,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1424,54 +1490,40 @@ exports.cache = {
   }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "ejs@^2.4.1",
-      "/home/anglain/Storage/Coding/GitHub/Linden"
-    ]
-  ],
-  "_from": "ejs@>=2.4.1 <3.0.0",
+  "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
-  "_inCache": true,
-  "_installable": true,
+  "_inBundle": false,
+  "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
   "_location": "/ejs",
-  "_nodeVersion": "6.9.1",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/ejs-2.5.7.tgz_1501385411193_0.3807816591579467"
-  },
-  "_npmUser": {
-    "email": "mde@fleegix.org",
-    "name": "mde"
-  },
-  "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
-    "name": "ejs",
+    "type": "range",
+    "registry": true,
     "raw": "ejs@^2.4.1",
+    "name": "ejs",
+    "escapedName": "ejs",
     "rawSpec": "^2.4.1",
-    "scope": null,
-    "spec": ">=2.4.1 <3.0.0",
-    "type": "range"
+    "saveSpec": null,
+    "fetchSpec": "^2.4.1"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
   "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-  "_shrinkwrap": null,
   "_spec": "ejs@^2.4.1",
-  "_where": "/home/anglain/Storage/Coding/GitHub/Linden",
+  "_where": "O:\\KMA\\НІТ\\Linden",
   "author": {
-    "email": "mde@fleegix.org",
     "name": "Matthew Eernisse",
+    "email": "mde@fleegix.org",
     "url": "http://fleegix.org"
   },
   "bugs": {
     "url": "https://github.com/mde/ejs/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Timothy Gu",
@@ -1480,6 +1532,7 @@ module.exports={
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "Embedded JavaScript templates",
   "devDependencies": {
     "browserify": "^13.0.1",
@@ -1492,31 +1545,18 @@ module.exports={
     "mocha": "^3.0.2",
     "uglify-js": "^2.6.2"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-    "tarball": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz"
-  },
   "engines": {
     "node": ">=0.10.0"
   },
   "homepage": "https://github.com/mde/ejs",
   "keywords": [
-    "ejs",
+    "template",
     "engine",
-    "template"
+    "ejs"
   ],
   "license": "Apache-2.0",
   "main": "./lib/ejs.js",
-  "maintainers": [
-    {
-      "name": "mde",
-      "email": "mde@fleegix.org"
-    }
-  ],
   "name": "ejs",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git://github.com/mde/ejs.git"
@@ -1531,7 +1571,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1759,7 +1799,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":11}],11:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1945,4 +1985,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[4]);
+},{}]},{},[5]);
