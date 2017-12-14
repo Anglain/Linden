@@ -2,7 +2,6 @@ var Templates = require('../Templates');
 
 //var API = require("../API");
 var boardContent = [];
-//var boardContent = require('../BoardContent');
 
 //Сюди колонки
 var $TheBoard = $("#central");
@@ -19,6 +18,8 @@ function addColumn(title) {
         title: title,
         cards: []
     };
+
+    console.log("ONE column added.");
 
     boardContent.push(column);
     update();
@@ -183,3 +184,4 @@ exports.removeAll = removeAll;
 exports.addColumn = addColumn;
 
 exports.initialize = initialize;
+exports.boardContent = boardContent;
