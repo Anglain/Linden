@@ -35,11 +35,6 @@ exports.getBoard = function (callback) {
     backendGet('/API_backend/getBoard', callback);
 }
 
-//
-// exports.getPizzaList = function(callback) {
-//     backendGet("/api/get-pizza-list/", callback);
-// };
-//
-// exports.createOrder = function(order_info, callback) {
-//     backendPost("/api/create-order/", order_info, callback);
-// };
+exports.registerUser = function(userData ,callback) {
+    backendPost('/API_backend/registerUser', userData, callback);
+}
