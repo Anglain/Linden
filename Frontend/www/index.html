@@ -61,70 +61,7 @@
     </div>
 </div>
 <div id="placeForModal">
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Edit card</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="set-deadline-panel">
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="date" class="form-control" id="datepicker" value="2017-12-15">
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <button class="btn set-deadline-text">Set deadline</button>
-                        </div>
-                    </div>
-                    <div class="set-deadline-calendar-panel">
-                        <div class="col-sm-6">
-                            <div class="calendar-set-deadline"></div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">E-mail notifications</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attach-image-panel">
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <span class="btn attach-image-button">Attach image</span>
-                        </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <!-- image-preview-filename input [CUT FROM HERE]-->
-                            <div class="input-group image-preview">
-                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                                <!-- don't give a name === doesn't send on POST/GET -->
-                                <span class="input-group-btn">
-                    <!-- image-preview-clear button -->
-                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                        <span class="glyphicon glyphicon-remove"></span> Clear
-                    </button>
-                                    <!-- image-preview-input -->
-                    <div class="btn btn-default image-preview-input">
-                        <span class="glyphicon glyphicon-folder-open"></span>
-                        <span class="image-preview-input-title">Browse</span>
-                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>
-                        <!-- rename it -->
-                    </div>
-                </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
-                        </div>
-                    </div>
-                    <div class="text-from-card">
-                        <textarea class="form-control card-text" rows="5"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary save">Save changes</button>
-                    <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 <!--<div class="modal fade" id="myModal" role="dialog">-->
 <!--&lt;!&ndash; Modal &ndash;&gt;-->
@@ -143,12 +80,10 @@
                 <div class="user-mail"></div>
             </div>
         </div>
-        <div class="calendar-panel">
-
-        </div>
         <div class="menu-functions">
             <a href="#" class="add-column-button menu-button">Add new column</a>
             <a href="#" class="clear-board-button menu-button">Clear board</a>
+            <div class="calendar-panel"></div>
             <a href="#" class="settings-button menu-button" data-toggle="modal" data-target="#setModal">Settings</a>
             <a href="#" class="exit-button menu-button change-state-btn">Log out</a>
         </div>
