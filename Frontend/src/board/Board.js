@@ -24,8 +24,8 @@ function addColumn(title) {
     update();
 }
 
-var today = new Date();
-var dd = today.getDate();//default deadline day after current
+var today = new Date();//use in case we decide to change deadline color
+var dd = today.getDate();
 var mm = (today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
