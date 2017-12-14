@@ -215,10 +215,10 @@ exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class
 
 exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
-exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login%></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail%></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
+exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login %></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail %></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <div class=\"calendar-panel\"></div>\r\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal fade\" id=\"myModal\" role=\"dialog\">\r\n    <div class=\"modal-dialog\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h3 class=\"modal-title\">Edit card</h3>\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <div class=\"set-deadline-panel\">\r\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                        <input type=\"date\" class=\"form-control\" id=\"datepicker\">\r\n                    </div>\r\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                        <button class=\"btn set-deadline-text\">Set deadline</button>\r\n                    </div>\r\n                </div>\r\n                <div class=\"set-deadline-calendar-panel\">\r\n                    <div class=\"col-sm-6\">\r\n                        <div class=\"calendar-set-deadline\"></div>\r\n                    </div>\r\n                    <div class=\"col-sm-6\">\r\n                        <div class=\"checkbox\">\r\n                            <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"attach-image-panel\">\r\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                        <span class=\"btn attach-image-button\">Attach image</span>\r\n                    </div>\r\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                        <!-- image-preview-filename input [CUT FROM HERE]-->\r\n                        <div class=\"input-group image-preview\">\r\n                            <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\">\r\n                            <!-- don't give a name === doesn't send on POST/GET -->\r\n                            <span class=\"input-group-btn\">\r\n                    <!-- image-preview-clear button -->\r\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\r\n                    </button>\r\n                                <!-- image-preview-input -->\r\n                    <div class=\"btn btn-default image-preview-input\">\r\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\r\n                        <span class=\"image-preview-input-title\">Browse</span>\r\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\r\n                        <!-- rename it -->\r\n                    </div>\r\n                </span>\r\n                        </div><!-- /input-group image-preview [TO HERE]-->\r\n                    </div>\r\n                </div>\r\n                <div class=\"text-from-card\">\r\n                    <textarea class=\"form-control card-text\" rows=\"5\"><%= text %></textarea>\r\n                </div>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\r\n                <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
-},{"ejs":8}],4:[function(require,module,exports){
+exports.Modal = ejs.compile("<div class=\"modal fade\" id=\"myModal\" role=\"dialog\">\r\n    <div class=\"modal-dialog\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h3 class=\"modal-title\">Edit card</h3>\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <div class=\"set-deadline-panel\">\r\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                        <input type=\"date\" class=\"form-control\" id=\"datepicker\">\r\n                    </div>\r\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                        <button class=\"btn set-deadline-text\">Set deadline</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"attach-image-panel\">\r\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                <span class=\"btn attach-image-button\">Attach image</span>\r\n            </div>\r\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                <!-- image-preview-filename input [CUT FROM HERE]-->\r\n                <div class=\"input-group image-preview\">\r\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"\">\r\n                    <!-- don't give a name === doesn't send on POST/GET -->\r\n                    <span class=\"input-group-btn\">\r\n                    <!-- image-preview-clear button -->\r\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\r\n                    </button>\r\n                                <!-- image-preview-input -->\r\n                    <div class=\"btn btn-default image-preview-input\">\r\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\r\n                        <span class=\"image-preview-input-title\">Browse</span>\r\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\r\n                        <!-- rename it -->\r\n                    </div>\r\n                </span>\r\n                        </div><!-- /input-group image-preview [TO HERE]-->\r\n                    </div>\r\n                </div>\r\n                <div class=\"text-from-card\">\r\n                    <textarea class=\"form-control card-text\" rows=\"5\"><%= text %></textarea>\r\n                </div>\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\r\n                <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
+},{"ejs":9}],4:[function(require,module,exports){
 var Templates = require('../Templates');
 var DragnDrop = require('../DragnDrop');
 
@@ -416,6 +416,7 @@ $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
     var Preview = require('./modal/preview');
+    var Settings = require('./modal/settings');
     var DragnDrop = require('./DragnDrop');
 
     Board.initialize();
@@ -423,7 +424,7 @@ $(function () {
     DragnDrop.initialize();
 
 });
-},{"./DragnDrop":1,"./Menu":2,"./board/Board":4,"./modal/preview":6}],6:[function(require,module,exports){
+},{"./DragnDrop":1,"./Menu":2,"./board/Board":4,"./modal/preview":6,"./modal/settings":7}],6:[function(require,module,exports){
 $(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -483,8 +484,67 @@ $(function() {
     });
 });
 },{}],7:[function(require,module,exports){
+$(document).on('click', '#close-preview', function(){
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+            $('.image-preview').popover('show');
+        },
+        function () {
+            $('.image-preview').popover('hide');
+        }
+    );
+});
 
+$(function() {
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type:"button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;',
+    });
+    closebtn.attr("class","close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement:'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function (){
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width:250,
+            height:150
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+        }
+        reader.readAsDataURL(file);
+    });
+});
 },{}],8:[function(require,module,exports){
+
+},{}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1352,7 +1412,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
+},{"../package.json":11,"./utils":10,"fs":8,"path":12}],10:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1518,7 +1578,7 @@ exports.cache = {
   }
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports={
   "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
@@ -1599,7 +1659,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1827,7 +1887,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":12}],12:[function(require,module,exports){
+},{"_process":13}],13:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

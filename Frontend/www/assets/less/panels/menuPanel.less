@@ -8,6 +8,8 @@
   width: @LeftMenuPanelWidth;
   margin-top: @TopPanelHeight;
   transition: 0.5s;
+  border-right: 1px solid #737373;
+  box-shadow: 5px 10px 15px #797979;
   //overflow-x: hidden;
 
   .open-close-menu-button {
@@ -65,6 +67,7 @@
   }
 
   #no-login-wrap {
+  margin-top: 20px;
     .user-info-panel {
       width: 100%;
       padding: 2px;
@@ -76,6 +79,7 @@
       .user-text {
         float: right;
         padding-right: 30px;
+        min-width: 150px;
 
         .user-name {
           background-color: #f1ffd8;
@@ -100,17 +104,16 @@
 
     .calendar-panel {
       margin-top: 30px;
-      background-color: greenyellow;
-      height: 200px;
-      .calendar-wrap {
-        padding: 10px;
-      }
+      border-bottom: 1px solid #606060;
+      margin-bottom: 30px;
+      margin-left: -20px;
     }
 
     .menu-functions {
       width: 100%;
-      margin-top: 20px;
+      margin-top: 70px;
       padding-left: 20px;
+      border-top: 1px solid #606060;
       a {
         text-decoration: none;
         color: #343434;
