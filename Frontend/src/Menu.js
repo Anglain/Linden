@@ -65,7 +65,8 @@ function initialize() {
                 };
                 api_frontend.loginUser(user, function(err, data) {
                     if (err) {
-                        alert("Couldn't login user! " + err.message);
+                        alert("[MENU.JS] Couldn't login user! " + err.message);
+                        console.log(user);
                     } else {
                         user.board = data.board;
                         console.log(user);
@@ -99,7 +100,8 @@ function update() {
                 };
                 api_frontend.loginUser(user, function(err, data) {
                     if (err) {
-                        alert("Couldn't login user! " + err.message);
+                        alert("[MENU.JS] Couldn't login user! " + err.message);
+                        console.log(user);
                     } else {
                         user.board = data.board;
                         console.log(user);

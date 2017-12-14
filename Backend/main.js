@@ -45,7 +45,6 @@ function startServer(port) {
         console.log('USER DATABASE CONNECTED.');
     });
 
-
     // ========== Creating express session
     app.use(session({
         secret: sessionSecret,

@@ -33,11 +33,11 @@ function backendPost(url, data, callback) {
 }
 
 exports.loginUser = function(userData, callback) {
-    backendPost('/js/API_backend/loginUser', userData, callback);
+    backendPost('/API_backend/loginUser', userData, callback);
 };
 
 exports.registerUser = function(userData, callback) {
-    backendPost('/js/API_backend/registerUser', userData, callback);
+    backendPost('/API_backend/registerUser', userData, callback);
 };
 
 },{}],2:[function(require,module,exports){
@@ -108,7 +108,8 @@ function initialize() {
                 };
                 api_frontend.loginUser(user, function(err, data) {
                     if (err) {
-                        alert("Couldn't login user! " + err.message);
+                        alert("[MENU.JS] Couldn't login user! " + err.message);
+                        console.log(user);
                     } else {
                         user.board = data.board;
                         console.log(user);
@@ -142,7 +143,8 @@ function update() {
                 };
                 api_frontend.loginUser(user, function(err, data) {
                     if (err) {
-                        alert("Couldn't login user! " + err.message);
+                        alert("[MENU.JS] Couldn't login user! " + err.message);
+                        console.log(user);
                     } else {
                         user.board = data.board;
                         console.log(user);

@@ -32,9 +32,9 @@ function backendPost(url, data, callback) {
 }
 
 exports.loginUser = function(userData, callback) {
-    backendPost('/js/API_backend/loginUser', userData, callback);
+    backendPost('/API_backend/loginUser', userData, callback);
 };
 
 exports.registerUser = function(userData, callback) {
-    backendPost('/js/API_backend/registerUser', userData, callback);
+    backendPost('/API_backend/registerUser', userData, callback);
 };
