@@ -11,13 +11,14 @@ var UserSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        unique: true,
-        required: true,
-        trim: true
+        required: true
     },
     password: {
         type: String,
         required: true
+    },
+    board: {
+        type: Array
     }
 });
 
@@ -42,7 +43,7 @@ UserSchema.statics.authenticate = function (email, password, callback) {
                 }
             })
         });
-}
+};
 
 //hashing a password before saving it to the database
 UserSchema.pre('save', function (next) {
