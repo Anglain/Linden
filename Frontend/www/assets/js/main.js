@@ -73,7 +73,7 @@ function allOk() {
     if (logged)
         return true;
     else {
-        return checkMail();
+        return checkMail() && checkPassword();
     }
 }
 
@@ -100,6 +100,24 @@ function checkMail() {
     }
 }
 
+function checkPassword() {
+    var mail = $(".password-group");
+    var input = $("#inputPassword").val();
+    var helpText = $(".password-help-block");
+
+    if (input.trim()) {
+        helpText.hide();
+        mail.addClass("has-success");
+        mail.removeClass("has-error");
+        return true;
+    } else {
+        helpText.show();
+        mail.addClass("has-error");
+        mail.removeClass("has-success");
+        return false;
+    }
+}
+
 function initialize() {
     if (logged) {
         $("#no-login-wrap").css("display", "block");
@@ -107,10 +125,15 @@ function initialize() {
     } else {
         $("#login-wrap").css("display", "block");
         $("#no-login-wrap").css("display", "none");
+        Board.removeAll();
     }
 
     $("#inputMail").focusout(function () {
         checkMail();
+    });
+
+    $("#inputPassword").focusout(function () {
+        checkPassword();
     });
 
     update();
@@ -144,7 +167,7 @@ function update() {
         $menu.find("#login-wrap").css("display", "block");
 
         Board.removeAll();
-    })
+    });
 
     var menuOpened = true;
     $menu.find(".menu-functions").css("display", "block");
@@ -172,6 +195,10 @@ function update() {
 
     $("#inputMail").focusout(function () {
         checkMail();
+    });
+
+    $("#inputPassword").focusout(function () {
+        checkPassword();
     });
 }
 
