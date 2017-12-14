@@ -1,6 +1,6 @@
 Board = require('./board/Board');
-var Templates = require('./Templates');
-var api_frontend = require('./API_frontend');
+
+//var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
@@ -37,16 +37,13 @@ function checkMail() {
 }
 
 function initialize() {
-    var html_code;
-    var $node;
     if (logged) {
-        html_code = Templates.Menu();
+        $("#no-login-wrap").show();
+        $("#login-wrap").hide();
     } else {
-        html_code = Templates.Login();
+        $("#login-wrap").show();
+        $("#no-login-wrap").hide();
     }
-
-    $node = $(html_code);
-    $menu.append($node);
 
     $("#inputMail").focusout(function () {
         checkMail();
@@ -63,23 +60,15 @@ function initialize() {
                     password: $("#inputPassword").val(),
                     board: []
                 };
-                api_frontend.loginUser(user, function(err, data) {
-                    if (err) {
-                        alert("[MENU.JS] Couldn't login user! " + err.message);
-                        console.log(user);
-                    } else {
-                        user.board = data.board;
-                        console.log(user);
-                    }
-                });
 
-                html_code = Templates.Menu(user);
+                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
+                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
+                $menu.find("#no-login-wrap").show();
+                $menu.find("#login-wrap").hide();
             } else {
-                html_code = Templates.Login();
+                $menu.find("#no-login-wrap").hide();
+                $menu.find("#login-wrap").show();
             }
-            $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
             update();
         }
     });
@@ -98,23 +87,15 @@ function update() {
                     password: $("#inputPassword").val(),
                     board: []
                 };
-                api_frontend.loginUser(user, function(err, data) {
-                    if (err) {
-                        alert("[MENU.JS] Couldn't login user! " + err.message);
-                        console.log(user);
-                    } else {
-                        user.board = data.board;
-                        console.log(user);
-                    }
-                });
 
-                var html_code = Templates.Menu(user);
+                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
+                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
+                $menu.find("#no-login-wrap").show();
+                $menu.find("#login-wrap").hide();
             } else {
-                html_code = Templates.Login();
+                $menu.find("#no-login-wrap").hide();
+                $menu.find(".login-wrap").show();
             }
-            var $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
             update();
         }
     });
@@ -140,7 +121,7 @@ function update() {
     });
 
     $menu.find(".add-column-button").click(function () {
-        Board.addColumn("New column js");
+        Board.addColumn("New column");
     });
 
     $("#inputMail").focusout(function () {

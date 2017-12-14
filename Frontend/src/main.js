@@ -1,5 +1,3 @@
-
-
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');

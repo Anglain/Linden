@@ -1,49 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-
-var API_URL = "http://localhost:4000";
-
-function backendGet(url, callback) {
-    $.ajax({
-        url: API_URL + url,
-        type: 'GET',
-        success: function(data){
-            if(callback)
-                callback(null, data);
-        },
-        error: function() {
-            if (callback)
-                callback(new Error("Ajax Failed"));
-        }
-    })
-}
-
-function backendPost(url, data, callback) {
-    $.ajax({
-        url: API_URL + url,
-        type: 'POST',
-        contentType : 'application/json',
-        data: JSON.stringify(data),
-        success: function(data){
-            callback(null, data);
-        },
-        error: function() {
-            callback(new Error("Ajax Failed"));
-        }
-    })
-}
-
-exports.loginUser = function(userData, callback) {
-    backendPost('/API_backend/loginUser', userData, callback);
-};
-
-exports.registerUser = function(userData, callback) {
-    backendPost('/API_backend/registerUser', userData, callback);
-};
-
-},{}],2:[function(require,module,exports){
 Board = require('./board/Board');
-var Templates = require('./Templates');
-var api_frontend = require('./API_frontend');
+
+//var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
@@ -80,16 +38,13 @@ function checkMail() {
 }
 
 function initialize() {
-    var html_code;
-    var $node;
     if (logged) {
-        html_code = Templates.Menu();
+        $("#no-login-wrap").show();
+        $("#login-wrap").hide();
     } else {
-        html_code = Templates.Login();
+        $("#login-wrap").show();
+        $("#no-login-wrap").hide();
     }
-
-    $node = $(html_code);
-    $menu.append($node);
 
     $("#inputMail").focusout(function () {
         checkMail();
@@ -106,23 +61,15 @@ function initialize() {
                     password: $("#inputPassword").val(),
                     board: []
                 };
-                api_frontend.loginUser(user, function(err, data) {
-                    if (err) {
-                        alert("[MENU.JS] Couldn't login user! " + err.message);
-                        console.log(user);
-                    } else {
-                        user.board = data.board;
-                        console.log(user);
-                    }
-                });
 
-                html_code = Templates.Menu(user);
+                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
+                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
+                $menu.find("#no-login-wrap").show();
+                $menu.find("#login-wrap").hide();
             } else {
-                html_code = Templates.Login();
+                $menu.find("#no-login-wrap").hide();
+                $menu.find("#login-wrap").show();
             }
-            $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
             update();
         }
     });
@@ -141,23 +88,15 @@ function update() {
                     password: $("#inputPassword").val(),
                     board: []
                 };
-                api_frontend.loginUser(user, function(err, data) {
-                    if (err) {
-                        alert("[MENU.JS] Couldn't login user! " + err.message);
-                        console.log(user);
-                    } else {
-                        user.board = data.board;
-                        console.log(user);
-                    }
-                });
 
-                var html_code = Templates.Menu(user);
+                $menu.find("#no-login-wrap").find(".user-name").text(user.login);
+                $menu.find("#no-login-wrap").find(".user-mail").text(user.mail);
+                $menu.find("#no-login-wrap").show();
+                $menu.find("#login-wrap").hide();
             } else {
-                html_code = Templates.Login();
+                $menu.find("#no-login-wrap").hide();
+                $menu.find(".login-wrap").show();
             }
-            var $node = $(html_code);
-            $menu.html("");
-            $menu.append($node);
             update();
         }
     });
@@ -183,7 +122,7 @@ function update() {
     });
 
     $menu.find(".add-column-button").click(function () {
-        Board.addColumn("New column js");
+        Board.addColumn("New column");
     });
 
     $("#inputMail").focusout(function () {
@@ -193,7 +132,7 @@ function update() {
 
 exports.initialize = initialize;
 exports.logged = logged;
-},{"./API_frontend":1,"./Templates":3,"./board/Board":4}],3:[function(require,module,exports){
+},{"./board/Board":3}],2:[function(require,module,exports){
 
 var ejs = require('ejs');
 
@@ -204,15 +143,14 @@ exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"d
 
 exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"photo-div\">\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\n    </div>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group mail-group\">\n            <label class=\"col-sm-4 control-label\">e-mail</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\n            </div>\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\n        </div>\n        <div class=\"form-group password-group\">\n            <label class=\"col-sm-4 control-label\">Password</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\n            </div>\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\n        </div>\n    </form>\n    <div class=\"btn-group sign-buttons\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign in\n        </button>\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\n            Sign up\n        </button>\n    </div>\n</div>");
 
-exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login%></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail%></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\n    </div>\n</div>");
+exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login%></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail%></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\n    </div>\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal-dialog\">\n<div class=\"modal-content\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Edit card</h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>\n    <div class=\"modal-body\">\n        <div class=\"set-deadline-panel\">\n            <button class=\"btn set-deadline-text\">Set deadline</button>\n            <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\n        </div>\n        <div class=\"set-deadline-calendar-panel\">\n            <div class=\"col-sm-6\">\n                <div class=\"calendar-set-deadline\"></div>\n            </div>\n            <div class=\"col-sm-6\">\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                </div>\n            </div>\n        </div>\n        <div class=\"attach-image-panel\">\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <span class=\"btn attach-image-button\">Attach image</span>\n            </div>\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <!-- image-preview-filename input [CUT FROM HERE]-->\n                <div class=\"input-group image-preview\">\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\n                    <!-- don't give a name === doesn't send on POST/GET -->\n                    <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                        <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                </div><!-- /input-group image-preview [TO HERE]-->\n            </div>\n        </div>\n        <div class=\"text-from-card\">\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\n        </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n    </div>\n</div>\n</div>");
-},{"ejs":8}],4:[function(require,module,exports){
+exports.Modal = ejs.compile("<div class=\"modal-dialog\">\n<div class=\"modal-content\">\n    <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Edit card</h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n        </button>\n    </div>\n    <div class=\"modal-body\">\n        <div class=\"set-deadline-panel\">\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\n            </div>\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <button class=\"btn set-deadline-text\">Set deadline</button>\n            </div>\n        </div>\n        <div class=\"set-deadline-calendar-panel\">\n            <div class=\"col-sm-6\">\n                <div class=\"calendar-set-deadline\"></div>\n            </div>\n            <div class=\"col-sm-6\">\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                </div>\n            </div>\n        </div>\n        <div class=\"attach-image-panel\">\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                <span class=\"btn attach-image-button\">Attach image</span>\n            </div>\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                <!-- image-preview-filename input [CUT FROM HERE]-->\n                <div class=\"input-group image-preview\">\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\n                    <!-- don't give a name === doesn't send on POST/GET -->\n                    <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                        <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                </div><!-- /input-group image-preview [TO HERE]-->\n            </div>\n        </div>\n        <div class=\"text-from-card\">\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\n        </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n    </div>\n</div>\n</div>");
+},{"ejs":7}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
 //var API = require("../API");
 var boardContent = [];
-//var boardContent = require('../BoardContent');
 
 //Сюди колонки
 var $TheBoard = $("#central");
@@ -234,8 +172,8 @@ function addColumn(title) {
     update();
 }
 
-var today = new Date();
-var dd = today.getDate();//default deadline day after current
+var today = new Date();//use in case we decide to change deadline color
+var dd = today.getDate();
 var mm = (today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
@@ -264,7 +202,25 @@ function update() {
         var $node = $(html_code);
 
         $node.find(".sort-cards-button").click(function () {
-            //sort(column);
+            column.cards.sort(function (card1, card2) {
+                if (card1.name === "date")
+                    return 1;
+                if (card2.name === "date")
+                    return -1;
+                if (card1.year > card2.year)
+                    return 1;
+                if (card1.year < card2.year)
+                    return -1;
+                if (card1.month > card2.month)
+                    return 1;
+                if (card1.month < card2.month)
+                    return -1;
+                if (card1.day > card2.day)
+                    return 1;
+                if (card1.day < card2.day)
+                    return -1;
+                return 0;
+            });
             update();
         });
 
@@ -376,9 +332,7 @@ exports.addColumn = addColumn;
 
 exports.initialize = initialize;
 
-},{"../Templates":3}],5:[function(require,module,exports){
-
-
+},{"../Templates":2}],4:[function(require,module,exports){
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
@@ -388,7 +342,7 @@ $(function () {
     Board.initialize();
     Menu.initialize();
 });
-},{"./Menu":2,"./board/Board":4,"./modal/preview":6}],6:[function(require,module,exports){
+},{"./Menu":1,"./board/Board":3,"./modal/preview":5}],5:[function(require,module,exports){
 $(document).on('click', '#close-preview', function () {
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -448,9 +402,9 @@ $(function () {
     });
 });
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1318,7 +1272,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
+},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1484,7 +1438,7 @@ exports.cache = {
   }
 };
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -1591,7 +1545,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1819,7 +1773,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":12}],12:[function(require,module,exports){
+},{"_process":11}],11:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2005,4 +1959,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[5]);
+},{}]},{},[4]);

@@ -2,7 +2,6 @@ var Templates = require('../Templates');
 
 //var API = require("../API");
 var boardContent = [];
-//var boardContent = require('../BoardContent');
 
 //Сюди колонки
 var $TheBoard = $("#central");
@@ -24,8 +23,8 @@ function addColumn(title) {
     update();
 }
 
-var today = new Date();
-var dd = today.getDate();//default deadline day after current
+var today = new Date();//use in case we decide to change deadline color
+var dd = today.getDate();
 var mm = (today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
@@ -54,7 +53,25 @@ function update() {
         var $node = $(html_code);
 
         $node.find(".sort-cards-button").click(function () {
-            //sort(column);
+            column.cards.sort(function (card1, card2) {
+                if (card1.name === "date")
+                    return 1;
+                if (card2.name === "date")
+                    return -1;
+                if (card1.year > card2.year)
+                    return 1;
+                if (card1.year < card2.year)
+                    return -1;
+                if (card1.month > card2.month)
+                    return 1;
+                if (card1.month < card2.month)
+                    return -1;
+                if (card1.day > card2.day)
+                    return 1;
+                if (card1.day < card2.day)
+                    return -1;
+                return 0;
+            });
             update();
         });
 
