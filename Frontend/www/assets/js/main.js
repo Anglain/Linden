@@ -167,8 +167,8 @@ function addColumn(title) {
     update();
 }
 
-var today = new Date();
-var dd = today.getDate();//default deadline day after current
+var today = new Date();//use in case we decide to change deadline color
+var dd = today.getDate();
 var mm = (today.getMonth() + 1);
 var yyyy = today.getFullYear();
 
@@ -197,7 +197,25 @@ function update() {
         var $node = $(html_code);
 
         $node.find(".sort-cards-button").click(function () {
-            //sort(column);
+            column.cards.sort(function (card1, card2) {
+                if (card1.name === "date")
+                    return 1;
+                if (card2.name === "date")
+                    return -1;
+                if (card1.year > card2.year)
+                    return 1;
+                if (card1.year < card2.year)
+                    return -1;
+                if (card1.month > card2.month)
+                    return 1;
+                if (card1.month < card2.month)
+                    return -1;
+                if (card1.day > card2.day)
+                    return 1;
+                if (card1.day < card2.day)
+                    return -1;
+                return 0;
+            });
             update();
         });
 
@@ -1417,34 +1435,29 @@ exports.cache = {
 
 },{}],9:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "ejs@2.5.7",
-      "D:\\GitHub_repositories\\Linden"
-    ]
-  ],
-  "_from": "ejs@2.5.7",
+  "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
   "_inBundle": false,
   "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
   "_location": "/ejs",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "ejs@2.5.7",
+    "raw": "ejs@^2.4.1",
     "name": "ejs",
     "escapedName": "ejs",
-    "rawSpec": "2.5.7",
+    "rawSpec": "^2.4.1",
     "saveSpec": null,
-    "fetchSpec": "2.5.7"
+    "fetchSpec": "^2.4.1"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_spec": "2.5.7",
-  "_where": "D:\\GitHub_repositories\\Linden",
+  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+  "_spec": "ejs@^2.4.1",
+  "_where": "O:\\KMA\\НІТ\\Linden",
   "author": {
     "name": "Matthew Eernisse",
     "email": "mde@fleegix.org",
@@ -1453,6 +1466,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/mde/ejs/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Timothy Gu",
@@ -1461,6 +1475,7 @@ module.exports={
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "Embedded JavaScript templates",
   "devDependencies": {
     "browserify": "^13.0.1",
