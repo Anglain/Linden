@@ -150,6 +150,7 @@ function update() {
                 var $modal = $(Templates.Modal(card));
 
                 $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find(".input-file-preview").val(card.picture);
                 $modal.find(".set-deadline-text").click(function () {
                     var date = new Date($('#datepicker').val());
                     card.day = date.getDate();
