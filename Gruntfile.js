@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     };
 
 
-    //Ініціалузвати Grunt
+    //Ініціалізувати Grunt
     config.watch = watchDebug;
     grunt.initConfig(config);
 
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
-    //Список завданнь по замовчування
+    //Список завданнь за замовчуванням
     grunt.registerTask('default',
         [
             'browserify:board'
