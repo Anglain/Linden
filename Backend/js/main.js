@@ -6,11 +6,17 @@ var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-function configureEndpoints(app) {
-    var pageLoad = require('./pageLoad');
-    var api_backend = require('./API_backend');
+var pageLoad = require('./pageLoad');
+var api_backend = require('./API_backend');
 
+var app = express();
+var sessionSecret = "the cake is a lie";
+
+function configurePages() {
     // ============ Get board ============
     app.get('/API_backend/getBoard', api_backend.getBoard);
 
@@ -24,7 +30,17 @@ function configureEndpoints(app) {
 function startServer(port) {
 
     // ========== Creating an express app ============
-    var app = express();
+    app = express();
+
+    // ========== Creating express session
+    app.use(session({
+        secret: sessionSecret,
+        resave: true,
+        saveUninitialized: false,
+        store: new MongoStore({
+            mongooseConnection: db
+        })
+    }));
 
     // ============ Configure ejs templates folder ===============
     app.set('views', path.join(__dirname, '../views'));
@@ -38,7 +54,21 @@ function startServer(port) {
     app.use(bodyParser.json());
 
     // =============== Configure pages ===============
-    configureEndpoints(app);
+    configurePages();
+
+    // ============= Catch 404 and forward to error handler ==========
+    app.use(function (req, res, next) {
+        var err = new Error('File Not Found');
+        err.status = 404;
+        next(err);
+    });
+
+    /* ====================== Error handler ====================
+     * Define as the last app.use callback */
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.send(err.message);
+    });
 
     // =============== Launch express app ===============
     app.listen(port, function () {

@@ -39,7 +39,7 @@ exports.registerUser = function(req, res) {
             })
         || User.findOne({username: userData.username}, function (err, user) {
                 if (err) {
-                    console.error('ERROR PARSING USER EMAIL: ' ,err.message);
+                    console.error('ERROR PARSING USERNAME: ' ,err.message);
                     return false;
                 } else {
                     return true;
