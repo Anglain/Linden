@@ -134,13 +134,13 @@ var ejs = require('ejs');
 
 exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
 
-exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n    <!--треба збільшувати висоту залежно від тексту !!!!!!!!!!!!!!!!!! -->\r\n</div>");
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n</div>");
 
 exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login%></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail%></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\r\n    </div>\r\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal-dialog\">\r\n<div class=\"modal-content\">\r\n    <div class=\"modal-header\">\r\n        <h3 class=\"modal-title\">Edit card</h3>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n        <div class=\"set-deadline-panel\">\r\n            <button class=\"btn set-deadline-text\">Set deadline</button>\r\n            <span class=\"deadline\"><%= name%></span>\r\n        </div>\r\n        <div class=\"set-deadline-calendar-panel\">\r\n            <div class=\"col-sm-6\">\r\n                <div class=\"calendar-set-deadline\"></div>\r\n            </div>\r\n            <div class=\"col-sm-6\">\r\n                <div class=\"checkbox\">\r\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"attach-image-panel\">\r\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                <span class=\"btn set-deadline-text attach-image-button\">Attach image</span>\r\n            </div>\r\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                <!-- image-preview-filename input [CUT FROM HERE]-->\r\n                <div class=\"input-group image-preview\">\r\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\r\n                    <!-- don't give a name === doesn't send on POST/GET -->\r\n                    <span class=\"input-group-btn\">\r\n                    <!-- image-preview-clear button -->\r\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\r\n                    </button>\r\n                        <!-- image-preview-input -->\r\n                    <div class=\"btn btn-default image-preview-input\">\r\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\r\n                        <span class=\"image-preview-input-title\">Browse</span>\r\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\r\n                        <!-- rename it -->\r\n                    </div>\r\n                </span>\r\n                </div><!-- /input-group image-preview [TO HERE]-->\r\n            </div>\r\n        </div>\r\n        <div class=\"text-from-card\">\r\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\r\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\r\n    </div>\r\n</div>\r\n</div>");
+exports.Modal = ejs.compile("<div class=\"modal-dialog\">\r\n<div class=\"modal-content\">\r\n    <div class=\"modal-header\">\r\n        <h3 class=\"modal-title\">Edit card</h3>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n        <div class=\"set-deadline-panel\">\r\n            <button class=\"btn set-deadline-text\">Set deadline</button>\r\n            <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\r\n        </div>\r\n        <div class=\"set-deadline-calendar-panel\">\r\n            <div class=\"col-sm-6\">\r\n                <div class=\"calendar-set-deadline\"></div>\r\n            </div>\r\n            <div class=\"col-sm-6\">\r\n                <div class=\"checkbox\">\r\n                    <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"attach-image-panel\">\r\n            <div class=\"col-md-3 col-sm-3 col-xs-12\">\r\n                <span class=\"btn attach-image-button\">Attach image</span>\r\n            </div>\r\n            <div class=\"col-md-9 col-sm-9 col-xs-12\">\r\n                <!-- image-preview-filename input [CUT FROM HERE]-->\r\n                <div class=\"input-group image-preview\">\r\n                    <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\" value=\"<%= picture%>\">\r\n                    <!-- don't give a name === doesn't send on POST/GET -->\r\n                    <span class=\"input-group-btn\">\r\n                    <!-- image-preview-clear button -->\r\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\r\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\r\n                    </button>\r\n                        <!-- image-preview-input -->\r\n                    <div class=\"btn btn-default image-preview-input\">\r\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\r\n                        <span class=\"image-preview-input-title\">Browse</span>\r\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\r\n                        <!-- rename it -->\r\n                    </div>\r\n                </span>\r\n                </div><!-- /input-group image-preview [TO HERE]-->\r\n            </div>\r\n        </div>\r\n        <div class=\"text-from-card\">\r\n            <textarea class=\"form-control card-text\" rows=\"5\"><%= text%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\r\n        <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\r\n    </div>\r\n</div>\r\n</div>");
 },{"ejs":7}],3:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -151,12 +151,13 @@ var boardContent = [];
 //Сюди колонки
 var $TheBoard = $("#central");
 
+
 function removeAll() {
     boardContent = [];
     update();
 }
 
-function addColumn(title){
+function addColumn(title) {
 
     var column = {
         title: title,
@@ -166,6 +167,12 @@ function addColumn(title){
     boardContent.push(column);
     update();
 }
+
+var today = new Date();
+var dd = today.getDate();//default deadline day after current
+var mm = (today.getMonth() + 1);
+var yyyy = today.getFullYear();
+
 
 function remove(column) {
     boardContent.splice(boardContent.indexOf(column), 1);
@@ -201,13 +208,16 @@ function update() {
         });
 
         $node.find(".add-card").click(function () {
-           var card = {
-               name: "date", //deadline
-               text: "",
-               picture: "1490010957185696408.gif"
-           };
-           column.cards.push(card);
-           update();
+            var card = {
+                day: 15,
+                month: 12,
+                year: 2017,
+                name: "date",
+                text: "",
+                picture: ""
+            };
+            column.cards.push(card);
+            update();
         });
 
         var $name = $node.find(".column-title");
@@ -249,7 +259,7 @@ function update() {
             var $card_node = $(html_code_card);
 
             $card_node.find(".delete-card-button").click(function () {
-                column.cards.splice(column.cards.indexOf(card),1);
+                column.cards.splice(column.cards.indexOf(card), 1);
                 update();
             });
 
@@ -259,35 +269,32 @@ function update() {
             });
 
             $card_node.find(".edit-card-button").click(function () {
-                var $placeFoDialog = $("#myModal");
-                $placeFoDialog.html("");
+                var $placeForDialog = $("#myModal");
+                $placeForDialog.html("");
                 var $modal = $(Templates.Modal(card));
 
+                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
                 $modal.find(".set-deadline-text").click(function () {
-                    //
-                    // change deadline
-                    //
+                    var date = new Date($('#datepicker').val());
+                    card.day = date.getDate();
+                    card.month = date.getMonth() + 1;
+                    card.year = date.getFullYear();
+                    card.name = card.day +"." + card.month + "." + card.year;
                     update();
                 });
 
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.name = $modal.find(".deadline").text();
                     card.picture = $modal.find(".image-preview-filename").val();
                     update();
                 });
-/*
-                $modal.find(".close").click(function () {
-                    $modal.find(".form-control").val("");
-                    $modal.find(".deadline").text("data");
-                    $modal.find(".image-preview-filename").val("");
-                    update();
-                });*/
-                $placeFoDialog.append($modal);
+
+                $placeForDialog.append($modal);
             });
 
             $placeForCards.append($card_node);
         }
+
         column.cards.forEach(showOneCard);
 
         $TheBoard.append($node);
