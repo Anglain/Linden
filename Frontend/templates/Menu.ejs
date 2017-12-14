@@ -11,7 +11,14 @@
             <div class="user-mail"><%= mail%></div>
         </div>
     </div>
+    <div id="calendar"></div>
+    <script>
+        $("#calendar").kendoCalendar({
+            culture: "de-DE"
+        });
+    </script>
     <div class="calendar-panel">
+
     </div>
     <div class="menu-functions">
         <a href="#" class="add-column-button menu-button">Add new column</a>
