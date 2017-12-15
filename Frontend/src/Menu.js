@@ -228,7 +228,7 @@ function update() {
                     'success'
                 )
             }
-        });
+        })
 
     });
 
@@ -250,7 +250,7 @@ function update() {
         }
 
         $('#placeForSetModal').find(".saveUser").click(function () {
-            if ($password.val().trim() && validateEmail($mail.val())){
+            if ($password.val().trim() && validateEmail($mail.val()) && $username.val().length <= 14){
                 sessionUser.username = $username.val();
                 sessionUser.email = $mail.val();
                 sessionUser.password = $password.val();

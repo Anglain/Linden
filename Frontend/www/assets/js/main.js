@@ -336,7 +336,7 @@ function update() {
                     'success'
                 )
             }
-        });
+        })
 
     });
 
@@ -358,7 +358,7 @@ function update() {
         }
 
         $('#placeForSetModal').find(".saveUser").click(function () {
-            if ($password.val().trim() && validateEmail($mail.val())){
+            if ($password.val().trim() && validateEmail($mail.val()) && $username.val().length <= 14){
                 sessionUser.username = $username.val();
                 sessionUser.email = $mail.val();
                 sessionUser.password = $password.val();
@@ -396,7 +396,11 @@ exports.sessionUser = sessionUser;
 var ejs = require('ejs');
 
 
+<<<<<<< HEAD
 exports.Column = ejs.compile("\n<div class=\"one-column-wrap\" draggable=\"true\">\n    <div class=\"one-column\">\n        <div class=\"column-title-panel\">\n            <span class=\"column-title\"><%= title%></span>\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\n                <i class=\"glyphicon glyphicon-trash\"></i>\n            </button>\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\n            </button>\n        </div>\n        <div class=\"place-for-cards\">\n        </div>\n        <a class=\"add-card\">Add card...</a>\n    </div>\n</div>\n\n");
+=======
+exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\"  draggable=\"true\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards scrollbar\" id=\"style-15\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
+>>>>>>> 2e646b4cbf0bf7cde0fccdcaa4f8c5b960ab7446
 
 exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\n        <i class=\"glyphicon glyphicon-pencil\"></i>\n    </button>\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-camera\"></i>\n    </button>\n    <span class=\"deadline\"><%= name%></span>\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n</div>");
 
@@ -500,7 +504,7 @@ function update() {
                 year: 2017,
                 name: "date",
                 text: "",
-                picture: ""
+                picture: ''
             };
             column.cards.push(card);
             update();
@@ -555,15 +559,17 @@ function update() {
             });
 
             $card_node.find(".image-card-button").click(function () {
-                swal({
-                    title: 'Pinned image',
-                    text: '',
-                    imageUrl: 'https://unsplash.it/400/200',
-                    imageWidth: 450,
-                    imageHeight: 300,
-                    imageAlt: 'Custom image',
-                    animation: false
-                });
+                if (card.picture) {
+                    swal({
+                        title: 'Pinned image',
+                        text: '',
+                        imageUrl: card.picture,
+                        imageWidth: 450,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                        animation: false
+                    });
+                }
             });
 
 
@@ -571,49 +577,28 @@ function update() {
                 var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
-                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find("#datepicker").val(card.year + "-" + card.month + "-" + card.day);
                 $modal.find(".card-text").val(card.text);
-                $modal.find(".image-preview-filename").val(card.picture);
+                $modal.find("#picturepicker").val(card.picture);
                 $modal.find(".set-deadline-text").click(function () {
                     var date = new Date($('#datepicker').val());
                     card.day = date.getDate();
                     card.month = date.getMonth() + 1;
                     card.year = date.getFullYear();
-                    card.name = card.day +"." + card.month + "." + card.year;
+                    card.name = card.day + "." + card.month + "." + card.year;
+                    update();
+                });
+                $modal.find(".attach-image-button").click(function () {
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.picture = $modal.find(".image-preview-filename").val();
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $placeForDialog.append($modal);
             });
-
-            // $card_node.find(".edit-card-button").click(function () {
-            //     var $placeForDialog = $("#placeForModal");
-            //     $placeForDialog.html("");
-            //     var $modal = $(Templates.Modal(card));
-            //
-            //     $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
-            //     $modal.find(".set-deadline-text").click(function () {
-            //         var date = new Date($('#datepicker').val());
-            //         card.day = date.getDate();
-            //         card.month = date.getMonth() + 1;
-            //         card.year = date.getFullYear();
-            //         card.name = card.day +"." + card.month + "." + card.year;
-            //         update();
-            //     });
-            //
-            //     $modal.find(".save").click(function () {
-            //         card.text = $modal.find(".card-text").val();
-            //         card.picture = $modal.find(".image-preview-filename").val();
-            //         update();
-            //     });
-            //
-            //     $placeForDialog.append($modal);
-            // });
-
 
             $placeForCards.append($card_node);
         }
@@ -1810,6 +1795,7 @@ exports.cache = {
 
 },{}],12:[function(require,module,exports){
 module.exports={
+<<<<<<< HEAD
   "_args": [
     [
       "ejs@^2.4.1",
@@ -1817,6 +1803,9 @@ module.exports={
     ]
   ],
   "_from": "ejs@>=2.4.1 <3.0.0",
+=======
+  "_from": "ejs@^2.4.1",
+>>>>>>> 2e646b4cbf0bf7cde0fccdcaa4f8c5b960ab7446
   "_id": "ejs@2.5.7",
   "_inCache": true,
   "_installable": true,
@@ -1833,21 +1822,37 @@ module.exports={
   "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
+<<<<<<< HEAD
     "name": "ejs",
     "raw": "ejs@^2.4.1",
     "rawSpec": "^2.4.1",
     "scope": null,
     "spec": ">=2.4.1 <3.0.0",
     "type": "range"
+=======
+    "type": "range",
+    "registry": true,
+    "raw": "ejs@^2.4.1",
+    "name": "ejs",
+    "escapedName": "ejs",
+    "rawSpec": "^2.4.1",
+    "saveSpec": null,
+    "fetchSpec": "^2.4.1"
+>>>>>>> 2e646b4cbf0bf7cde0fccdcaa4f8c5b960ab7446
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
   "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+<<<<<<< HEAD
   "_shrinkwrap": null,
   "_spec": "ejs@^2.4.1",
   "_where": "/home/anglain/Storage/Coding/GitHub/Linden",
+=======
+  "_spec": "ejs@^2.4.1",
+  "_where": "O:\\KMA\\НІТ\\Linden",
+>>>>>>> 2e646b4cbf0bf7cde0fccdcaa4f8c5b960ab7446
   "author": {
     "email": "mde@fleegix.org",
     "name": "Matthew Eernisse",
@@ -1856,6 +1861,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/mde/ejs/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Timothy Gu",
@@ -1864,6 +1870,7 @@ module.exports={
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "Embedded JavaScript templates",
   "devDependencies": {
     "browserify": "^13.0.1",
