@@ -43,19 +43,19 @@ function checkMail() {
 }
 
 function checkPassword() {
-    var mail = $(".password-group");
+    var pass = $(".password-group");
     var input = $("#inputPassword").val();
     var helpText = $(".password-help-block");
 
     if (input.trim()) {
         helpText.hide();
-        mail.addClass("has-success");
-        mail.removeClass("has-error");
+        pass.addClass("has-success");
+        pass.removeClass("has-error");
         return true;
     } else {
         helpText.show();
-        mail.addClass("has-error");
-        mail.removeClass("has-success");
+        pass.addClass("has-error");
+        pass.removeClass("has-success");
         return false;
     }
 }
@@ -153,6 +153,36 @@ function update() {
         Board.addColumn("New column");
     });
 
+    $menu.find(".settings-button").click(function () {
+        var $username = $('#userNameChange');
+        var $mail = $('#userMailChange');
+        var $password = $('#userPasswordChange');
+        $username.val(sessionUser.username);
+        $mail.val(sessionUser.email);
+        $password.val(sessionUser.password);
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        $('#placeForSetModal').find(".saveUser").click(function () {
+            if ($password.val().trim() && validateEmail($mail.val())){
+                sessionUser.username = $username.val();
+                sessionUser.email = $mail.val();
+                sessionUser.password = $password.val();
+                $('#setModal').removeClass("has-error");
+                $('#setModal').addClass("has-success");
+                $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+                $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+            }else{
+                $('#setModal').addClass("has-error");
+                $('#setModal').removeClass("has-success");
+            }
+        });
+
+    });
+
     $("#inputMail").focusout(function () {
         checkMail();
     });
@@ -163,4 +193,4 @@ function update() {
 }
 
 exports.initialize = initialize;
-exports.logged = logged;
+exports.sessionUser = sessionUser;
