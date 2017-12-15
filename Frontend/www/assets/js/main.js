@@ -274,6 +274,8 @@ exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\
 var Templates = require('../Templates');
 var DragnDrop = require('../DragnDrop');
 
+const swal = require('sweetalert2');
+
 //var API = require("../API");
 var boardContent = [];
 
@@ -417,6 +419,18 @@ function update() {
                 update();
             });
 
+            $card_node.find(".image-card-button").click(function () {
+                swal({
+                    title: 'Pinned image',
+                    text: '',
+                    imageUrl: 'https://unsplash.it/400/200',
+                    imageWidth: 450,
+                    imageHeight: 300,
+                    imageAlt: 'Custom image',
+                    animation: false
+                });
+            });
+
 
             $card_node.find(".edit-card-button").click(function () {
                 var $modal = $("#myModal");
@@ -487,7 +501,7 @@ exports.addColumn = addColumn;
 
 exports.initialize = initialize;
 exports.boardContent = boardContent;
-},{"../DragnDrop":1,"../Templates":3}],5:[function(require,module,exports){
+},{"../DragnDrop":1,"../Templates":3,"sweetalert2":14}],5:[function(require,module,exports){
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
@@ -555,6 +569,7 @@ $(function() {
             $(".image-preview-clear").show();
             $(".image-preview-filename").val(file.name);
             img.attr('src', e.target.result);
+            $('.user-photo').attr('src', e.target.result);
             $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
         }
         reader.readAsDataURL(file);
