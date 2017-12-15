@@ -21,6 +21,27 @@
   transition-timing-function: initial;
   transition-delay: initial;
   overflow-x: auto;
+
+  #central::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    //background-color: #F5F5F5;
+  }
+
+  #central::-webkit-scrollbar
+  {
+    width: 12px;
+    //background-color: #F5F5F5;
+  }
+
+  #central::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+  }
+
   .central-part {
     width: 100%;
     height: 100%;
@@ -35,6 +56,8 @@
     z-index: -1;
   }
 }
+
+
 
 div {
   display: block;
