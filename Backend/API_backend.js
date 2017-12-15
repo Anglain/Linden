@@ -5,34 +5,42 @@
 
 //var express = require('express');
 //var router = express.Router();
-var User = require('./mongodb');
+var User = require('../models/mongoUser');
 
 exports.loginUser = function(req, res) {
 
-    console.log(req);
+    console.log(req.body);
+
     var userData = req.body;
 
     User.authenticate(userData.email, userData.password, function(err, data) {
         if (err) {
-            alert("Authentication failed. " + err.message);
+            res.status(500).send();
+            console.log("Authentication failed. " + err.message);
         } else {
-            res.send({
+            res.status(200).send({
                 success: true,
-                username: data.username,
                 email: data.email,
+                username: data.username,
+                password: data.password,
                 board: data.board
             })
         }
     });
+
+    res.status(500).send({success: false});
 };
 
 exports.registerUser = function(req, res) {
+
+    console.log(req.body);
+
     var userData = req.body;
     var foundUser;
 
     User.findOne({ email: userData.email }, function (err, user) {
         if (err) {
-            console.alert("User not found!" + err.message);
+            console.log("User not found!" + err.message);
         } else {
             foundUser = user;
         }
@@ -42,17 +50,19 @@ exports.registerUser = function(req, res) {
 
         User.create(userData, function(err, user) {
             if (err) {
-                return next(err);
+                console.log(err.message);
+                res.status(500).send();
             } else {
                 req.session.userId = user._id;
             }
         });
 
-        res.send({
+        res.status(200).send({
             success: true
         });
 
     } else {
-        alert("User with this email is already registered!");
+        console.log("User with this email is already registered!");
+        res.status(500).send({ success: false });
     }
 };
