@@ -69,9 +69,15 @@ function checkPassword() {
 }
 
 function initialize() {
-    logged = localStorage.getItem('loggedIn');
+
+    logged = JSON.parse(localStorage.getItem('loggedIn'));
 
     if (logged) {
+        if (JSON.parse(localStorage.getItem('sessionUser'))) {
+            sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
+            $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+            $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+        }
         $("#no-login-wrap").css("display", "block");
         $("#login-wrap").css("display", "none");
     } else {
@@ -92,8 +98,8 @@ function initialize() {
 }
 
 function update() {
-    if (localStorage.getItem('sessionUser')) {
-        sessionUser = localStorage.getItem('sessionUser');
+    if (JSON.parse(localStorage.getItem('sessionUser'))) {
+        sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
     }
 
     $menu.find("#login").click(function () {
@@ -135,6 +141,7 @@ function update() {
 
     $menu.find(".exit-button").click(function () {
         logged = false;
+        localStorage.setItem('loggedIn', logged);
 
         $menu.find("#no-login-wrap").css("display", "none");
         $menu.find("#login-wrap").css("display", "block");
@@ -148,6 +155,8 @@ function update() {
         //         console.log("Error creating sessionUser: " + err.message);
         //     }
         // });
+        localStorage.setItem('sessionUser', '');
+
         console.log(sessionUser);
         Board.removeAll();
     });
@@ -218,8 +227,7 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-
-
+                localStorage.setItem('sessionUser', JSON.stringify(sessionUser));
                 update();
 
             } else {
