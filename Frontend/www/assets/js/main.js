@@ -117,7 +117,7 @@ function allOk() {
     if (logged)
         return true;
     else {
-        return checkMail();
+        return checkMail() && checkPassword();
     }
 }
 
@@ -144,6 +144,24 @@ function checkMail() {
     }
 }
 
+function checkPassword() {
+    var pass = $(".password-group");
+    var input = $("#inputPassword").val();
+    var helpText = $(".password-help-block");
+
+    if (input.trim()) {
+        helpText.hide();
+        pass.addClass("has-success");
+        pass.removeClass("has-error");
+        return true;
+    } else {
+        helpText.show();
+        pass.addClass("has-error");
+        pass.removeClass("has-success");
+        return false;
+    }
+}
+
 function initialize() {
     if (logged) {
         $("#no-login-wrap").css("display", "block");
@@ -151,10 +169,15 @@ function initialize() {
     } else {
         $("#login-wrap").css("display", "block");
         $("#no-login-wrap").css("display", "none");
+        Board.removeAll();
     }
 
     $("#inputMail").focusout(function () {
         checkMail();
+    });
+
+    $("#inputPassword").focusout(function () {
+        checkPassword();
     });
 
     update();
@@ -218,7 +241,7 @@ function update() {
         $menu.find("#login-wrap").css("display", "block");
 
         Board.removeAll();
-    })
+    });
 
     var menuOpened = true;
     $menu.find(".menu-functions").css("display", "block");
@@ -244,13 +267,48 @@ function update() {
         Board.addColumn("New column");
     });
 
+    $menu.find(".settings-button").click(function () {
+        var $username = $('#userNameChange');
+        var $mail = $('#userMailChange');
+        var $password = $('#userPasswordChange');
+        $username.val(sessionUser.username);
+        $mail.val(sessionUser.email);
+        $password.val(sessionUser.password);
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        $('#setModal').find(".saveUser").click(function () {
+            if ($password.val().trim() && validateEmail($mail.val())){
+                sessionUser.username = $username.val();
+                sessionUser.email = $mail.val();
+                sessionUser.password = $password.val();
+                $('#setModal').removeClass("has-error");
+                $('#setModal').addClass("has-success");
+                $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+                $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+                update();
+            }else{
+                $('#setModal').addClass("has-error");
+                $('#setModal').removeClass("has-success");
+            }
+        });
+
+    });
+
     $("#inputMail").focusout(function () {
         checkMail();
+    });
+
+    $("#inputPassword").focusout(function () {
+        checkPassword();
     });
 }
 
 exports.initialize = initialize;
-exports.logged = logged;
+exports.sessionUser = sessionUser;
 },{"./API_frontend":1,"./board/Board":5}],4:[function(require,module,exports){
 
 var ejs = require('ejs');
@@ -262,10 +320,10 @@ exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"d
 
 exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"photo-div\">\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\n    </div>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group mail-group\">\n            <label class=\"col-sm-4 control-label\">e-mail</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\n            </div>\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\n        </div>\n        <div class=\"form-group password-group\">\n            <label class=\"col-sm-4 control-label\">Password</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\n            </div>\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\n        </div>\n    </form>\n    <div class=\"btn-group sign-buttons\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\n            Sign in\n        </button>\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\n            Sign up\n        </button>\n    </div>\n</div>");
 
-exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login%></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail%></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <a href=\"#\" class=\"settings-button menu-button\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn\">Log out</a>\n    </div>\n</div>");
+exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login %></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail %></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <div class=\"calendar-panel\"></div>\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn \">Log out</a>\n    </div>\n</div>");
 
-exports.Modal = ejs.compile("<div class=\"modal fade\" id=\"myModal\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Edit card</h3>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"set-deadline-panel\">\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                        <input type=\"date\" class=\"form-control\" id=\"datepicker\" value=\"2017-12-15\">\n                    </div>\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                        <button class=\"btn set-deadline-text\">Set deadline</button>\n                    </div>\n                </div>\n                <div class=\"set-deadline-calendar-panel\">\n                    <div class=\"col-sm-6\">\n                        <div class=\"calendar-set-deadline\"></div>\n                    </div>\n                    <div class=\"col-sm-6\">\n                        <div class=\"checkbox\">\n                            <label><input type=\"checkbox\" value=\"\">E-mail notifications</label>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"attach-image-panel\">\n                    <div class=\"col-md-3 col-sm-3 col-xs-12\">\n                        <span class=\"btn attach-image-button\">Attach image</span>\n                    </div>\n                    <div class=\"col-md-9 col-sm-9 col-xs-12\">\n                        <!-- image-preview-filename input [CUT FROM HERE]-->\n                        <div class=\"input-group image-preview\">\n                            <input type=\"text\" class=\"form-control image-preview-filename\" disabled=\"disabled\">\n                            <!-- don't give a name === doesn't send on POST/GET -->\n                            <span class=\"input-group-btn\">\n                    <!-- image-preview-clear button -->\n                    <button type=\"button\" class=\"btn btn-default image-preview-clear\" style=\"display:none;\">\n                        <span class=\"glyphicon glyphicon-remove\"></span> Clear\n                    </button>\n                                <!-- image-preview-input -->\n                    <div class=\"btn btn-default image-preview-input\">\n                        <span class=\"glyphicon glyphicon-folder-open\"></span>\n                        <span class=\"image-preview-input-title\">Browse</span>\n                        <input type=\"file\" accept=\"image/png, image/jpeg, image/gif\" name=\"input-file-preview\"/>\n                        <!-- rename it -->\n                    </div>\n                </span>\n                        </div><!-- /input-group image-preview [TO HERE]-->\n                    </div>\n                </div>\n                <div class=\"text-from-card\">\n                    <textarea class=\"form-control card-text\" rows=\"5\"><%= text %></textarea>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-primary save\">Save changes</button>\n                <button type=\"button\" class=\"btn btn-secondary close\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>");
-},{"ejs":9}],5:[function(require,module,exports){
+// exports.Modal = ejs.compile(fs.readFileSync('./Frontend/templates/Modal.ejs', "utf8"));
+},{"ejs":10}],5:[function(require,module,exports){
 var Templates = require('../Templates');
 var DragnDrop = require('../DragnDrop');
 
@@ -412,12 +470,14 @@ function update() {
                 update();
             });
 
+
             $card_node.find(".edit-card-button").click(function () {
+                var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
-                var $modal = $(Templates.Modal(card));
-
                 $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find(".card-text").val(card.text);
+                $modal.find(".image-preview-filename").val(card.picture);
                 $modal.find(".set-deadline-text").click(function () {
                     var date = new Date($('#datepicker').val());
                     card.day = date.getDate();
@@ -426,15 +486,38 @@ function update() {
                     card.name = card.day +"." + card.month + "." + card.year;
                     update();
                 });
-
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
                     card.picture = $modal.find(".image-preview-filename").val();
                     update();
                 });
-
                 $placeForDialog.append($modal);
             });
+
+            // $card_node.find(".edit-card-button").click(function () {
+            //     var $placeForDialog = $("#placeForModal");
+            //     $placeForDialog.html("");
+            //     var $modal = $(Templates.Modal(card));
+            //
+            //     $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+            //     $modal.find(".set-deadline-text").click(function () {
+            //         var date = new Date($('#datepicker').val());
+            //         card.day = date.getDate();
+            //         card.month = date.getMonth() + 1;
+            //         card.year = date.getFullYear();
+            //         card.name = card.day +"." + card.month + "." + card.year;
+            //         update();
+            //     });
+            //
+            //     $modal.find(".save").click(function () {
+            //         card.text = $modal.find(".card-text").val();
+            //         card.picture = $modal.find(".image-preview-filename").val();
+            //         update();
+            //     });
+            //
+            //     $placeForDialog.append($modal);
+            // });
+
 
             $placeForCards.append($card_node);
         }
@@ -462,6 +545,7 @@ $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
     var Preview = require('./modal/preview');
+    var Settings = require('./modal/settings');
     var DragnDrop = require('./DragnDrop');
 
     Board.initialize();
@@ -469,7 +553,7 @@ $(function () {
     DragnDrop.initialize();
 
 });
-},{"./DragnDrop":2,"./Menu":3,"./board/Board":5,"./modal/preview":7}],7:[function(require,module,exports){
+},{"./DragnDrop":2,"./Menu":3,"./board/Board":5,"./modal/preview":7,"./modal/settings":8}],7:[function(require,module,exports){
 $(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -513,7 +597,7 @@ $(function() {
         var img = $('<img/>', {
             id: 'dynamic',
             width:250,
-            height:200
+            height:150
         });
         var file = this.files[0];
         var reader = new FileReader();
@@ -529,8 +613,70 @@ $(function() {
     });
 });
 },{}],8:[function(require,module,exports){
+Menu = require('../Menu');
 
-},{}],9:[function(require,module,exports){
+$(document).on('click', '#close-preview', function(){
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+            $('.image-preview').popover('show');
+        },
+        function () {
+            $('.image-preview').popover('hide');
+        }
+    );
+});
+
+$(function() {
+
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type:"button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;'
+    });
+    closebtn.attr("class","close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement:'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function (){
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width:250,
+            height:150
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+        };
+        reader.readAsDataURL(file);
+    });
+});
+},{"../Menu":3}],9:[function(require,module,exports){
+
+},{}],10:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1398,7 +1544,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":11,"./utils":10,"fs":8,"path":12}],10:[function(require,module,exports){
+},{"../package.json":12,"./utils":11,"fs":9,"path":13}],11:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1564,7 +1710,7 @@ exports.cache = {
   }
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -1671,7 +1817,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1899,7 +2045,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":13}],13:[function(require,module,exports){
+},{"_process":14}],14:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

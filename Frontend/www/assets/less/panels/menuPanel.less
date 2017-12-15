@@ -8,6 +8,8 @@
   width: @LeftMenuPanelWidth;
   margin-top: @TopPanelHeight;
   transition: 0.5s;
+  border-right: 1px solid #737373;
+  box-shadow: 5px 10px 15px #797979;
   //overflow-x: hidden;
 
   .open-close-menu-button {
@@ -34,24 +36,23 @@
       }
     }
 
-    .form-horizontal{
+    .form-horizontal {
       margin-top: 50px;
       padding-left: 7px;
       padding-right: 10px;
       position: absolute;
       top: 120px;
       right: 10px;
-      .col-sm-8{
+      .col-sm-8 {
         padding-left: 0;
       }
-      .mail-help-block, .password-help-block{
+      .mail-help-block, .password-help-block {
         margin-left: 100px;
         color: brown;
       }
     }
 
-
-    .sign-buttons{
+    .sign-buttons {
       margin-top: 25px;
       padding-left: 10px;
       padding-right: 10px;
@@ -61,10 +62,10 @@
       right: 10px;
     }
 
-
   }
 
   #no-login-wrap {
+    margin-top: 20px;
     .user-info-panel {
       width: 100%;
       padding: 2px;
@@ -76,6 +77,7 @@
       .user-text {
         float: right;
         padding-right: 30px;
+        min-width: 150px;
 
         .user-name {
           background-color: #f1ffd8;
@@ -100,21 +102,22 @@
 
     .calendar-panel {
       margin-top: 30px;
-      background-color: greenyellow;
-      height: 200px;
-      .calendar-wrap {
-        padding: 10px;
-      }
+      border-bottom: 1px solid #606060;
+      margin-bottom: 30px;
+      margin-left: -20px;
     }
 
     .menu-functions {
       width: 100%;
-      margin-top: 20px;
+      margin-top: 70px;
       padding-left: 20px;
+      border-top: 1px solid #606060;
+
       a {
         text-decoration: none;
-        color: #343434;
+        color: #212121;
       }
+
       .menu-button {
         display: block;
         margin-top: 15px;
@@ -123,6 +126,9 @@
         text-decoration: none;
         font-weight: 700;
         font-size: 18px;
+      }
+      .exit-button {
+        color: rgba(239, 203, 0, 0.99);
       }
     }
   }

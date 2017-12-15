@@ -1,3 +1,5 @@
+Menu = require('../Menu');
+
 $(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -12,12 +14,13 @@ $(document).on('click', '#close-preview', function(){
 });
 
 $(function() {
+
     // Create the close button
     var closebtn = $('<button/>', {
         type:"button",
         text: 'x',
         id: 'close-preview',
-        style: 'font-size: initial;',
+        style: 'font-size: initial;'
     });
     closebtn.attr("class","close pull-right");
     // Set the popover default content
@@ -52,7 +55,7 @@ $(function() {
             $(".image-preview-filename").val(file.name);
             img.attr('src', e.target.result);
             $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
-        }
+        };
         reader.readAsDataURL(file);
     });
 });
