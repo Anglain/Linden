@@ -44,6 +44,7 @@ $(function() {
             height:150
         });
         var file = this.files[0];
+        console.log(file);
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
