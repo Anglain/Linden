@@ -2,14 +2,24 @@
 // CommonJS
 const swal = require('sweetalert2');
 
-Board = require('./board/Board');
+var Board = require('./board/Board');
+var api_frontend = require('./API_frontend');
+
+var Storage = require('./Storage');
+
+//var User = require('../models/mongoUser');
 
 //var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
 
-var sessionUser = {};
+var sessionUser = {
+    email: "",
+    username: "",
+    password: "",
+    board: []
+};
 
 function allOk() {
     if (logged)
@@ -61,6 +71,9 @@ function checkPassword() {
 }
 
 function initialize() {
+
+    Storage.write('sessionUser', sessionUser);
+
     if (logged) {
         $("#no-login-wrap").css("display", "block");
         $("#login-wrap").css("display", "none");
@@ -82,18 +95,25 @@ function initialize() {
 }
 
 function update() {
+    sessionUser = Storage.read('sessionUser');
+
     $menu.find("#login").click(function () {
         var check = allOk();
 
         if (check) {
             logged = true;
 
-            sessionUser = {
-                email: $("#inputMail").val(),
-                username: "User",
-                password: $("#inputPassword").val(),
-                board: []
-            };
+            sessionUser.email = $("#inputMail").val();
+            sessionUser.username = "User";
+            sessionUser.password = $("#inputPassword").val();
+            sessionUser.board = Board.boardContent;
+            // sessionUser.save(function(err) {
+            //     if (err) {
+            //         console.log("Error creating sessionUser: " + err.message);
+            //     }
+            // });
+            Storage.write('sessionUser', sessionUser);
+            console.log(sessionUser);
 
             $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
@@ -102,12 +122,34 @@ function update() {
         }
     });
 
+    $menu.find("#register").click(function() {
+        sessionUser.email = $("#inputMail").val();
+        sessionUser.username = "User";
+        sessionUser.password = $("#inputPassword").val();
+        sessionUser.board = Board.boardContent;
+        // sessionUser.save(function(err) {
+        //     if (err) {
+        //         console.log("Error creating sessionUser: " + err.message);
+        //     }
+        // });
+    });
+
     $menu.find(".exit-button").click(function () {
         logged = false;
 
         $menu.find("#no-login-wrap").css("display", "none");
         $menu.find("#login-wrap").css("display", "block");
 
+        sessionUser.board = Board.boardContent;
+        console.log("sessionUser.board" + sessionUser.board);
+        console.log("Board.boardContent" + Board.boardContent);
+
+        // sessionUser.save(function(err) {
+        //     if (err) {
+        //         console.log("Error creating sessionUser: " + err.message);
+        //     }
+        // });
+        console.log(sessionUser);
         Board.removeAll();
     });
 
@@ -128,6 +170,7 @@ function update() {
     });
 
     $menu.find(".clear-board-button").click(function () {
+
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -157,6 +200,7 @@ function update() {
         var $username = $('#userNameChange');
         var $mail = $('#userMailChange');
         var $password = $('#userPasswordChange');
+
         $username.val(sessionUser.username);
         $mail.val(sessionUser.email);
         $password.val(sessionUser.password);
@@ -175,7 +219,11 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-            }else{
+
+
+                update();
+
+            } else {
                 $('#setModal').addClass("has-error");
                 $('#setModal').removeClass("has-success");
             }
@@ -190,6 +238,10 @@ function update() {
     $("#inputPassword").focusout(function () {
         checkPassword();
     });
+
+    sessionUser.board = Board.boardContent;
+    Storage.write('sessionUser', sessionUser);
+    console.log(sessionUser);
 }
 
 exports.initialize = initialize;

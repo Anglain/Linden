@@ -1,5 +1,6 @@
 /**
  * @author Shudra Ihor, Software Engineering-2
+ * main.js backup
  */
 
 var express = require('express');
@@ -7,36 +8,29 @@ var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-
-var mongodb = require('mongodb');
-
-var sessionSecret = "the cake is a lie";
 
 function configureEndpoints(app) {
     var pages = require('./pageLoad');
     var api_backend = require('./API_backend');
 
-    app.post('/auth', api_backend.loginUser);
-    app.post('/reg', api_backend.registerUser);
+    app.post('/loginUser', api_backend.loginUser);
+    app.post('/registerUser', api_backend.registerUser);
 
-    //Сторінки
-    //Головна сторінка
+    // ======= Main page load ==========
     app.get('/', pages.mainPage);
 
-    //Якщо не підійшов жоден url, тоді повертаємо файли з папки www
+    // ====== Use this in case of emergency ========
     app.use(express.static(path.join(__dirname, '../Frontend/www')));
 }
 
 function startServer(port) {
-    //Створюється застосунок
+    // ============ Creating express app =============
     var app = express();
 
-    mongoose.connect('mongodb://localhost/testForAuth');
+    mongoose.connect('mongodb://localhost/usersDatabase');
     var db = mongoose.connection;
 
-    // =============== Handle mongo error ===============
+    // ========= Handle mongo error ===========
     db.on('error', function(err) {
         console.log("USER DATABASE CONNECTION ERROR: ", err.message);
     });
@@ -45,31 +39,21 @@ function startServer(port) {
         console.log('USER DATABASE CONNECTED.');
     });
 
-    // ========== Creating express session
-    app.use(session({
-        secret: sessionSecret,
-        resave: true,
-        saveUninitialized: false,
-        store: new MongoStore({
-            mongooseConnection: db
-        })
-    }));
+    // ========== Creating express session ===========
 
-    //Налаштування директорії з шаблонами
+    // ====== Configuring templates folder ========
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
 
-    //Налаштування виводу в консоль списку запитів до сервера
+    // ========== Using morgan to log changes ============
     app.use(morgan('dev'));
 
-    //Розбір POST запитів
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
 
-    //Налаштовуємо сторінки
     configureEndpoints(app);
 
-    //Запуск додатка за вказаним портом
+    // =========== Launch app ===========
     app.listen(port, function () {
         console.log('Linden launched on http://localhost:'+port+'/');
     });
