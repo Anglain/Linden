@@ -44,6 +44,7 @@ $(function() {
             height:150
         });
         var file = this.files[0];
+        console.log(file);
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
@@ -51,6 +52,7 @@ $(function() {
             $(".image-preview-clear").show();
             $(".image-preview-filename").val(file.name);
             img.attr('src', e.target.result);
+            $('.user-photo').attr('src', e.target.result);
             $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
         }
         reader.readAsDataURL(file);

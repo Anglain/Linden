@@ -1,6 +1,8 @@
 var Templates = require('../Templates');
 var DragnDrop = require('../DragnDrop');
 
+const swal = require('sweetalert2');
+
 //var API = require("../API");
 var boardContent = [];
 
@@ -142,6 +144,18 @@ function update() {
             $card_node.find(".form-control").focusout(function () {
                 card.text = $card_node.find(".form-control").val();
                 update();
+            });
+
+            $card_node.find(".image-card-button").click(function () {
+                swal({
+                    title: 'Pinned image',
+                    text: '',
+                    imageUrl: 'https://unsplash.it/400/200',
+                    imageWidth: 450,
+                    imageHeight: 300,
+                    imageAlt: 'Custom image',
+                    animation: false
+                });
             });
 
 

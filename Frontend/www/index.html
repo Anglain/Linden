@@ -13,6 +13,7 @@
     <!-- LESS JavaScript компілятор -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
 
+
 </head>
 <body>
 <div id="placeForSetModal">
@@ -24,11 +25,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Settings</h4>
                 </div>
-                <div class="col-sm-4">
-                    <img class="user-photo" src="../www/assets/images/tuch.png"> <!--Set photo-->
-                </div>
-
-                <div class="col-sm-8">
+                 <div class="col-sm-12">
                     <div class="modal-body">
                         <div class="input-group image-preview">
                             <input type="text" class="form-control image-preview-filename" disabled="disabled">
@@ -79,42 +76,15 @@
                             <button class="btn set-deadline-text">Set deadline</button>
                         </div>
                     </div>
-                    <!--<div class="set-deadline-calendar-panel">-->
-                    <!--<div class="col-sm-6">-->
-                    <!--<div class="calendar-set-deadline"></div>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-6">-->
-                    <!--<div class="checkbox">-->
-                    <!--<label><input type="checkbox" value="">E-mail notifications</label>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
                     <div class="attach-image-panel">
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                            <span class="btn attach-image-button">Attach image</span>
-                        </div>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <!-- image-preview-filename input [CUT FROM HERE]-->
-                            <div class="input-group image-preview">
-                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                                <!-- don't give a name === doesn't send on POST/GET -->
-                                <span class="input-group-btn">
-                                    <!-- image-preview-clear button -->
-                                     <button type="button" class="btn btn-default image-preview-clear"
-                                             style="display:none;">
-                                        <span class="glyphicon glyphicon-remove"></span> Clear
-                                     </button>
-                                    <!-- image-preview-input -->
-                                     <div class="btn btn-default image-preview-input">
-                                         <span class="glyphicon glyphicon-folder-open"></span>
-                                        <span class="image-preview-input-title">Browse</span>
-                                        <input type="file" accept="image/png, image/jpeg, image/gif"
-                                               name="input-file-preview"/>
-                                         <!-- rename it -->
-                                    </div>
-                            </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
-
+                            <div class = "input-group">
+                                <span class = "input-group-addon">URL</span>
+                                <input type = "text" class = "form-control input-url" placeholder = "">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <button class="btn attach-image-button">Attach image</button>
                         </div>
                     </div>
                     <div class="text-from-card">
