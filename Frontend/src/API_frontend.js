@@ -1,15 +1,17 @@
 
-var API_URL = "http://localhost:4000";
+var API_URL = "http://localhost:4040";
 
 function backendGet(url, callback) {
     $.ajax({
         url: API_URL + url,
         type: 'GET',
         success: function(data){
+            console.log("Success, Ajax GET completed. " + data);
             if(callback)
                 callback(null, data);
         },
         error: function() {
+            console.log("Error." + data);
             if (callback)
                 callback(new Error("Ajax Failed"));
         }
@@ -23,18 +25,20 @@ function backendPost(url, data, callback) {
         contentType : 'application/json',
         data: JSON.stringify(data),
         success: function(data){
+            console.log("Success, Ajax POST completed. " + data);
             callback(null, data);
         },
         error: function() {
+            console.log("Error." + data);
             callback(new Error("Ajax Failed"));
         }
     })
 }
 
 exports.loginUser = function(userData, callback) {
-    backendPost('/API_backend/loginUser', userData, callback);
+    backendPost("/loginUser", userData, callback);
 };
 
 exports.registerUser = function(userData, callback) {
-    backendPost('/API_backend/registerUser', userData, callback);
+    backendPost("/registerUser", userData, callback);
 };
