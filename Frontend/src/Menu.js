@@ -5,6 +5,7 @@ const swal = require('sweetalert2');
 var Board = require('./board/Board');
 var api_frontend = require('./API_frontend');
 
+var Storage = require('./Storage');
 
 //var User = require('../models/mongoUser');
 
@@ -71,12 +72,7 @@ function checkPassword() {
 
 function initialize() {
 
-    sessionUser = {
-        email: "",
-        username: "",
-        password: "",
-        board: []
-    };
+    Storage.write('sessionUser', sessionUser);
 
     if (logged) {
         $("#no-login-wrap").css("display", "block");
@@ -99,13 +95,14 @@ function initialize() {
 }
 
 function update() {
+    sessionUser = Storage.read('sessionUser');
+
     $menu.find("#login").click(function () {
         var check = allOk();
 
         if (check) {
             logged = true;
 
-            console.log(sessionUser);
             sessionUser.email = $("#inputMail").val();
             sessionUser.username = "User";
             sessionUser.password = $("#inputPassword").val();
@@ -115,25 +112,8 @@ function update() {
             //         console.log("Error creating sessionUser: " + err.message);
             //     }
             // });
-
-            api_frontend.loginUser(sessionUser, function(err, user) {
-                if (err) {
-                    console.log("[MENU] Failed to login. An error occured: " + err.message);
-                } else {
-                    console.log(user);
-                    sessionUser.email = user.email;
-                    if (user.username) {
-                        sessionUser.username = user.username;
-                    }
-                    sessionUser.password = user.password;
-                    // sessionUser.save(function(err) {
-                    //     if (err) {
-                    //         console.log("Error creating sessionUser: " + err.message);
-                    //     }
-                    // });
-                    console.log("Successfully logged in.");
-                }
-            });
+            Storage.write('sessionUser', sessionUser);
+            console.log(sessionUser);
 
             $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
@@ -152,25 +132,6 @@ function update() {
         //         console.log("Error creating sessionUser: " + err.message);
         //     }
         // });
-
-        api_frontend.registerUser(sessionUser, function(err, user) {
-            if (err) {
-                console.log("[MENU] Error while registering user. " + err.message);
-            } else {
-                console.log(user);
-                sessionUser.email = user.email;
-                if (user.username) {
-                    sessionUser.username = user.username;
-                }
-                sessionUser.password = user.password;
-                // sessionUser.save(function(err) {
-                //     if (err) {
-                //         console.log("Error creating sessionUser: " + err.message);
-                //     }
-                // });
-                console.log("Successfully registered.");
-            }
-        });
     });
 
     $menu.find(".exit-button").click(function () {
@@ -183,13 +144,12 @@ function update() {
         console.log("sessionUser.board" + sessionUser.board);
         console.log("Board.boardContent" + Board.boardContent);
 
-        console.log(sessionUser);
         // sessionUser.save(function(err) {
         //     if (err) {
         //         console.log("Error creating sessionUser: " + err.message);
         //     }
         // });
-
+        console.log(sessionUser);
         Board.removeAll();
     });
 
@@ -240,6 +200,7 @@ function update() {
         var $username = $('#userNameChange');
         var $mail = $('#userMailChange');
         var $password = $('#userPasswordChange');
+
         $username.val(sessionUser.username);
         $mail.val(sessionUser.email);
         $password.val(sessionUser.password);
@@ -258,7 +219,8 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-                sessionUser.save();
+
+
                 update();
 
             } else {
@@ -278,6 +240,7 @@ function update() {
     });
 
     sessionUser.board = Board.boardContent;
+    Storage.write('sessionUser', sessionUser);
     console.log(sessionUser);
 }
 
