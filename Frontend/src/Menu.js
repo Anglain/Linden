@@ -107,7 +107,7 @@ function update() {
 
         if (check) {
             logged = true;
-
+            
             localStorage.setItem('loggedIn', JSON.stringify(logged));
             sessionUser.email = $("#inputMail").val();
             sessionUser.username = "User";

@@ -154,7 +154,10 @@ function update() {
 
         if (check) {
             logged = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
             localStorage.setItem('loggedIn', JSON.stringify(logged));
             sessionUser.email = $("#inputMail").val();
             sessionUser.username = "User";
@@ -485,6 +488,7 @@ function update() {
 
 
             $card_node.find(".edit-card-button").click(function () {
+
                 var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
@@ -500,6 +504,7 @@ function update() {
 
                     update();
                 });
+
                 $modal.find(".attach-image-button").click(function () {
                     card.picture = $modal.find("#picturepicker").val();
                     update();
