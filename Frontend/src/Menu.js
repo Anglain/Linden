@@ -6,7 +6,7 @@ var User = require('mongodb');
 var $menu = $("#menu");
 var logged = false;
 
-var sessionUser = UserSchema.create();
+var sessionUser = new User();
 
 function allOk() {
     if (logged)
@@ -86,12 +86,15 @@ function update() {
             logged = true;
 
             console.log(sessionUser);
-            sessionUser = {
-                email: $("#inputMail").val(),
-                username: "User",
-                password: $("#inputPassword").val(),
-                board: Board.boardContent
-            };
+            sessionUser.email = $("#inputMail").val();
+            sessionUser.username = "User";
+            sessionUser.password = $("#inputPassword").val();
+            sessionUser.board = Board.boardContent;
+            sessionUser.save(function(err) {
+                if (err) {
+                    console.log("Error creating sessionUser: " + err.message);
+                }
+            });
 
             api_frontend.loginUser(sessionUser, function(err, user) {
                 if (err) {
@@ -103,7 +106,11 @@ function update() {
                         sessionUser.username = user.username;
                     }
                     sessionUser.password = user.password;
-                    sessionUser.save();
+                    sessionUser.save(function(err) {
+                        if (err) {
+                            console.log("Error creating sessionUser: " + err.message);
+                        }
+                    });
                     console.log("Successfully logged in.");
                 }
             });
@@ -116,12 +123,15 @@ function update() {
     });
 
     $menu.find("#register").click(function() {
-        sessionUser = {
-            email: $("#inputMail").val(),
-            username: "User",
-            password: $("#inputPassword").val(),
-            board: Board.boardContent
-        };
+        sessionUser.email = $("#inputMail").val();
+        sessionUser.username = "User";
+        sessionUser.password = $("#inputPassword").val();
+        sessionUser.board = Board.boardContent;
+        sessionUser.save(function(err) {
+            if (err) {
+                console.log("Error creating sessionUser: " + err.message);
+            }
+        });
 
         api_frontend.registerUser(sessionUser, function(err, user) {
             if (err) {
@@ -133,7 +143,11 @@ function update() {
                     sessionUser.username = user.username;
                 }
                 sessionUser.password = user.password;
-                sessionUser.save();
+                sessionUser.save(function(err) {
+                    if (err) {
+                        console.log("Error creating sessionUser: " + err.message);
+                    }
+                });
                 console.log("Successfully registered.");
             }
         });
@@ -146,7 +160,11 @@ function update() {
         $menu.find("#login-wrap").css("display", "block");
 
         sessionUser.board = Board.boardContent;
-        sessionUser.save();
+        sessionUser.save(function(err) {
+            if (err) {
+                console.log("Error creating sessionUser: " + err.message);
+            }
+        });
 
         Board.removeAll();
     });

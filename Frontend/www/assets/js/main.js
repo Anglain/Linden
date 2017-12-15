@@ -7,10 +7,12 @@ function backendGet(url, callback) {
         url: API_URL + url,
         type: 'GET',
         success: function(data){
+            console.log("Success, Ajax GET completed. " + data);
             if(callback)
                 callback(null, data);
         },
         error: function() {
+            console.log("Error." + data);
             if (callback)
                 callback(new Error("Ajax Failed"));
         }
@@ -35,11 +37,11 @@ function backendPost(url, data, callback) {
 }
 
 exports.loginUser = function(userData, callback) {
-    backendPost('/loginUser', userData, callback);
+    backendPost("/loginUser", userData, callback);
 };
 
 exports.registerUser = function(userData, callback) {
-    backendPost('/registerUser', userData, callback);
+    backendPost("/registerUser", userData, callback);
 };
 
 },{}],2:[function(require,module,exports){
@@ -192,12 +194,15 @@ function update() {
             logged = true;
 
             console.log(sessionUser);
-            sessionUser = {
-                email: $("#inputMail").val(),
-                username: "User",
-                password: $("#inputPassword").val(),
-                board: Board.boardContent
-            };
+            sessionUser.email = $("#inputMail").val();
+            sessionUser.username = "User";
+            sessionUser.password = $("#inputPassword").val();
+            sessionUser.board = Board.boardContent;
+            sessionUser.save(function(err) {
+                if (err) {
+                    console.log("Error creating sessionUser: " + err.message);
+                }
+            });
 
             api_frontend.loginUser(sessionUser, function(err, user) {
                 if (err) {
@@ -209,7 +214,11 @@ function update() {
                         sessionUser.username = user.username;
                     }
                     sessionUser.password = user.password;
-                    sessionUser.save();
+                    sessionUser.save(function(err) {
+                        if (err) {
+                            console.log("Error creating sessionUser: " + err.message);
+                        }
+                    });
                     console.log("Successfully logged in.");
                 }
             });
@@ -222,12 +231,15 @@ function update() {
     });
 
     $menu.find("#register").click(function() {
-        sessionUser = {
-            email: $("#inputMail").val(),
-            username: "User",
-            password: $("#inputPassword").val(),
-            board: Board.boardContent
-        };
+        sessionUser.email = $("#inputMail").val();
+        sessionUser.username = "User";
+        sessionUser.password = $("#inputPassword").val();
+        sessionUser.board = Board.boardContent;
+        sessionUser.save(function(err) {
+            if (err) {
+                console.log("Error creating sessionUser: " + err.message);
+            }
+        });
 
         api_frontend.registerUser(sessionUser, function(err, user) {
             if (err) {
@@ -239,7 +251,11 @@ function update() {
                     sessionUser.username = user.username;
                 }
                 sessionUser.password = user.password;
-                sessionUser.save();
+                sessionUser.save(function(err) {
+                    if (err) {
+                        console.log("Error creating sessionUser: " + err.message);
+                    }
+                });
                 console.log("Successfully registered.");
             }
         });
@@ -252,7 +268,11 @@ function update() {
         $menu.find("#login-wrap").css("display", "block");
 
         sessionUser.board = Board.boardContent;
-        sessionUser.save();
+        sessionUser.save(function(err) {
+            if (err) {
+                console.log("Error creating sessionUser: " + err.message);
+            }
+        });
 
         Board.removeAll();
     });
@@ -304,13 +324,10 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-<<<<<<< HEAD
                 sessionUser.save();
                 update();
-=======
 
->>>>>>> 1a8f3d5d3070ce681ebc15402bda246473642eed
-            }else{
+            } else {
                 $('#setModal').addClass("has-error");
                 $('#setModal').removeClass("has-success");
             }

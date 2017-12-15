@@ -6,10 +6,12 @@ function backendGet(url, callback) {
         url: API_URL + url,
         type: 'GET',
         success: function(data){
+            console.log("Success, Ajax GET completed. " + data);
             if(callback)
                 callback(null, data);
         },
         error: function() {
+            console.log("Error." + data);
             if (callback)
                 callback(new Error("Ajax Failed"));
         }
@@ -34,9 +36,9 @@ function backendPost(url, data, callback) {
 }
 
 exports.loginUser = function(userData, callback) {
-    backendPost('/loginUser', userData, callback);
+    backendPost("/loginUser", userData, callback);
 };
 
 exports.registerUser = function(userData, callback) {
-    backendPost('/registerUser', userData, callback);
+    backendPost("/registerUser", userData, callback);
 };

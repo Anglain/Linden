@@ -54,7 +54,7 @@ UserSchema.statics.register = function (email, password, callback) {
         if (err) {
             return callback(err);
         } else if (!user) {
-            var newUser = UserSchema.create({
+            var newUser = new User ({
                 email: email,
                 username: 'User',
                 password: password,
