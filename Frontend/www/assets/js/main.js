@@ -295,7 +295,7 @@ function update() {
             return re.test(email);
         }
 
-        $('#setModal').find(".saveUser").click(function () {
+        $('#placeForSetModal').find(".saveUser").click(function () {
             if ($password.val().trim() && validateEmail($mail.val())){
                 sessionUser.username = $username.val();
                 sessionUser.email = $mail.val();
@@ -304,8 +304,12 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+<<<<<<< HEAD
                 sessionUser.save();
                 update();
+=======
+
+>>>>>>> 1a8f3d5d3070ce681ebc15402bda246473642eed
             }else{
                 $('#setModal').addClass("has-error");
                 $('#setModal').removeClass("has-success");
