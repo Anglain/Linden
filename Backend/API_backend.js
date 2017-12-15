@@ -5,7 +5,7 @@
 
 //var express = require('express');
 //var router = express.Router();
-var User = require('./mongodb');
+var User = require('../models/mongoUser');
 
 exports.loginUser = function(req, res) {
 
@@ -15,7 +15,7 @@ exports.loginUser = function(req, res) {
 
     User.authenticate(userData.email, userData.password, function(err, data) {
         if (err) {
-            res.status(500).send({success: false});
+            res.status(500).send();
             console.log("Authentication failed. " + err.message);
         } else {
             res.status(200).send({
@@ -51,7 +51,7 @@ exports.registerUser = function(req, res) {
         User.create(userData, function(err, user) {
             if (err) {
                 console.log(err.message);
-                res.status(500).send({ success: false });
+                res.status(500).send();
             } else {
                 req.session.userId = user._id;
             }

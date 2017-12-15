@@ -90,7 +90,7 @@
 
 var express = require('express');
 var router = express.Router();
-var User = require('./mongodb');
+var User = require('../models/mongoUser');
 
 
 // GET route for reading data

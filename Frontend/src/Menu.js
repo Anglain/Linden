@@ -4,14 +4,21 @@ const swal = require('sweetalert2');
 
 var Board = require('./board/Board');
 var api_frontend = require('./API_frontend');
-var User = require('mongodb');
+
+
+//var User = require('../models/mongoUser');
 
 //var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
 
-var sessionUser = new User();
+var sessionUser = {
+    email: "",
+    username: "",
+    password: "",
+    board: []
+};
 
 function allOk() {
     if (logged)
@@ -63,6 +70,14 @@ function checkPassword() {
 }
 
 function initialize() {
+
+    sessionUser = {
+        email: "",
+        username: "",
+        password: "",
+        board: []
+    };
+
     if (logged) {
         $("#no-login-wrap").css("display", "block");
         $("#login-wrap").css("display", "none");
@@ -95,11 +110,11 @@ function update() {
             sessionUser.username = "User";
             sessionUser.password = $("#inputPassword").val();
             sessionUser.board = Board.boardContent;
-            sessionUser.save(function(err) {
-                if (err) {
-                    console.log("Error creating sessionUser: " + err.message);
-                }
-            });
+            // sessionUser.save(function(err) {
+            //     if (err) {
+            //         console.log("Error creating sessionUser: " + err.message);
+            //     }
+            // });
 
             api_frontend.loginUser(sessionUser, function(err, user) {
                 if (err) {
@@ -111,11 +126,11 @@ function update() {
                         sessionUser.username = user.username;
                     }
                     sessionUser.password = user.password;
-                    sessionUser.save(function(err) {
-                        if (err) {
-                            console.log("Error creating sessionUser: " + err.message);
-                        }
-                    });
+                    // sessionUser.save(function(err) {
+                    //     if (err) {
+                    //         console.log("Error creating sessionUser: " + err.message);
+                    //     }
+                    // });
                     console.log("Successfully logged in.");
                 }
             });
@@ -132,11 +147,11 @@ function update() {
         sessionUser.username = "User";
         sessionUser.password = $("#inputPassword").val();
         sessionUser.board = Board.boardContent;
-        sessionUser.save(function(err) {
-            if (err) {
-                console.log("Error creating sessionUser: " + err.message);
-            }
-        });
+        // sessionUser.save(function(err) {
+        //     if (err) {
+        //         console.log("Error creating sessionUser: " + err.message);
+        //     }
+        // });
 
         api_frontend.registerUser(sessionUser, function(err, user) {
             if (err) {
@@ -148,11 +163,11 @@ function update() {
                     sessionUser.username = user.username;
                 }
                 sessionUser.password = user.password;
-                sessionUser.save(function(err) {
-                    if (err) {
-                        console.log("Error creating sessionUser: " + err.message);
-                    }
-                });
+                // sessionUser.save(function(err) {
+                //     if (err) {
+                //         console.log("Error creating sessionUser: " + err.message);
+                //     }
+                // });
                 console.log("Successfully registered.");
             }
         });
@@ -165,11 +180,15 @@ function update() {
         $menu.find("#login-wrap").css("display", "block");
 
         sessionUser.board = Board.boardContent;
-        sessionUser.save(function(err) {
-            if (err) {
-                console.log("Error creating sessionUser: " + err.message);
-            }
-        });
+        console.log("sessionUser.board" + sessionUser.board);
+        console.log("Board.boardContent" + Board.boardContent);
+
+        console.log(sessionUser);
+        // sessionUser.save(function(err) {
+        //     if (err) {
+        //         console.log("Error creating sessionUser: " + err.message);
+        //     }
+        // });
 
         Board.removeAll();
     });
@@ -257,6 +276,9 @@ function update() {
     $("#inputPassword").focusout(function () {
         checkPassword();
     });
+
+    sessionUser.board = Board.boardContent;
+    console.log(sessionUser);
 }
 
 exports.initialize = initialize;
