@@ -387,6 +387,7 @@ function update() {
                     card.name = card.day + "." + card.month + "." + card.year;
 
                     if (card.year < today.yyyy){
+                        alert($card_node.find(".deadline").text());
                         $card_node.find(".deadline").css("background-color", "red");
                     }else if (card.year > yyyy){
                         $($card_node.find(".deadline")).css("background-color", "green");
