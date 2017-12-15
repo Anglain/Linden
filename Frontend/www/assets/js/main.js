@@ -1,65 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var dragSrcEl = null;
-
-
-function handleDragStart(e) {
-    this.style.opacity = '0.6';  // this / e.target is the source node.
-
-     dragSrcEl = this;
-
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.innerHTML);
-}
-
-function handleDragOver(e) {
-    if (e.preventDefault) {
-        e.preventDefault(); // Necessary. Allows us to drop.
-    }
-
-    e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
-    return false;
-}
-
-function handleDrop(e) {
-    // this/e.target is current target element.
-    this.style.opacity = '1.0';
-    if (e.stopPropagation) {
-        e.stopPropagation(); // Stops some browsers from redirecting.
-    }
-
-    // Don't do anything if dropping the same column we're dragging.
-    if (dragSrcEl != this) {
-        // Set the source column's HTML to the HTML of the columnwe dropped on.
-        dragSrcEl.innerHTML = this.innerHTML;
-        this.innerHTML = e.dataTransfer.getData('text/html');
-    }
-
-    return false;
-}
-
-function handleDragEnd(e) {
-    // this/e.target is the source node.
-    var cols = document.querySelectorAll('#central .one-column-wrap');
-    [].forEach.call(cols, function (col) {
-        col.classList.remove('over');
-        col.style.opacity = '1.0';
-    });
-}
-function initialize() {
-    var cols = document.querySelectorAll('#central .one-column-wrap');
-    [].forEach.call(cols, function(col) {
-        col.addEventListener('dragstart', handleDragStart, false);
-        //col.addEventListener('dragenter', handleDragEnter, false);
-        col.addEventListener('dragover', handleDragOver, false);
-        //col.addEventListener('dragleave', handleDragLeave, false);
-        col.addEventListener('drop', handleDrop, false);
-        col.addEventListener('dragend', handleDragEnd, false);
-    });
-}
-
-exports.initialize = initialize;
-},{}],2:[function(require,module,exports){
 // ES6 Modules or TypeScript
 // CommonJS
 const swal = require('sweetalert2');
@@ -256,7 +195,7 @@ function update() {
 
 exports.initialize = initialize;
 exports.sessionUser = sessionUser;
-},{"./board/Board":4,"sweetalert2":14}],3:[function(require,module,exports){
+},{"./board/Board":3,"sweetalert2":13}],2:[function(require,module,exports){
 
 var ejs = require('ejs');
 
@@ -270,9 +209,8 @@ exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"o
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login %></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail %></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <div class=\"calendar-panel\"></div>\r\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn \">Log out</a>\r\n    </div>\r\n</div>");
 
 // exports.Modal = ejs.compile(fs.readFileSync('./Frontend/templates/Modal.ejs', "utf8"));
-},{"ejs":9}],4:[function(require,module,exports){
+},{"ejs":8}],3:[function(require,module,exports){
 var Templates = require('../Templates');
-var DragnDrop = require('../DragnDrop');
 
 const swal = require('sweetalert2');
 
@@ -490,8 +428,6 @@ function update() {
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
-
-    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;
@@ -499,20 +435,18 @@ exports.addColumn = addColumn;
 
 exports.initialize = initialize;
 exports.boardContent = boardContent;
-},{"../DragnDrop":1,"../Templates":3,"sweetalert2":14}],5:[function(require,module,exports){
+},{"../Templates":2,"sweetalert2":13}],4:[function(require,module,exports){
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
     var Preview = require('./modal/preview');
     var Settings = require('./modal/settings');
-    var DragnDrop = require('./DragnDrop');
 
     Board.initialize();
     Menu.initialize();
-    DragnDrop.initialize();
 
 });
-},{"./DragnDrop":1,"./Menu":2,"./board/Board":4,"./modal/preview":6,"./modal/settings":7}],6:[function(require,module,exports){
+},{"./Menu":1,"./board/Board":3,"./modal/preview":5,"./modal/settings":6}],5:[function(require,module,exports){
 $(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -573,7 +507,7 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 Menu = require('../Menu');
 
 $(document).on('click', '#close-preview', function(){
@@ -635,9 +569,9 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
-},{"../Menu":2}],8:[function(require,module,exports){
+},{"../Menu":1}],7:[function(require,module,exports){
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1505,7 +1439,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":11,"./utils":10,"fs":8,"path":12}],10:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1671,7 +1605,7 @@ exports.cache = {
   }
 };
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
   "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
@@ -1752,7 +1686,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1980,7 +1914,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":13}],13:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2166,7 +2100,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
  * sweetalert2 v7.1.0
  * Released under the MIT License.
@@ -4038,4 +3972,4 @@ return sweetAlert$1;
 })));
 if (typeof window !== 'undefined' && window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
 
-},{}]},{},[5]);
+},{}]},{},[4]);
