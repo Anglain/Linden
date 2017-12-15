@@ -365,6 +365,30 @@ function update() {
                 update();
             });
 
+
+            $card_node.find(".edit-card-button").click(function () {
+                var $modal = $("#myModal");
+                var $placeForDialog = $("#placeForModal");
+                $placeForDialog.html("");
+                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find(".card-text").val(card.text);
+                $modal.find(".image-preview-filename").val(card.picture);
+                $modal.find(".set-deadline-text").click(function () {
+                    var date = new Date($('#datepicker').val());
+                    card.day = date.getDate();
+                    card.month = date.getMonth() + 1;
+                    card.year = date.getFullYear();
+                    card.name = card.day +"." + card.month + "." + card.year;
+                    update();
+                });
+                $modal.find(".save").click(function () {
+                    card.text = $modal.find(".card-text").val();
+                    card.picture = $modal.find(".image-preview-filename").val();
+                    update();
+                });
+                $placeForDialog.append($modal);
+            });
+
             // $card_node.find(".edit-card-button").click(function () {
             //     var $placeForDialog = $("#placeForModal");
             //     $placeForDialog.html("");
