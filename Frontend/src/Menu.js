@@ -1,11 +1,12 @@
 var Board = require('./board/Board');
 var api_frontend = require('./API_frontend');
+var User = require('mongodb');
 //var Templates = require('./Templates');
 
 var $menu = $("#menu");
 var logged = false;
 
-var sessionUser = {};
+var sessionUser = UserSchema.create();
 
 function allOk() {
     if (logged)
@@ -89,16 +90,21 @@ function update() {
                 email: $("#inputMail").val(),
                 username: "User",
                 password: $("#inputPassword").val(),
-                board: []
+                board: Board.boardContent
             };
 
             api_frontend.loginUser(sessionUser, function(err, user) {
                 if (err) {
-                    alert("[MENU] Failed to login. An error occured: " + err.message);
+                    console.log("[MENU] Failed to login. An error occured: " + err.message);
                 } else {
                     console.log(user);
-                    sessionUser = user;
-                    alert("Successfully logged in.");
+                    sessionUser.email = user.email;
+                    if (user.username) {
+                        sessionUser.username = user.username;
+                    }
+                    sessionUser.password = user.password;
+                    sessionUser.save();
+                    console.log("Successfully logged in.");
                 }
             });
 
@@ -114,16 +120,21 @@ function update() {
             email: $("#inputMail").val(),
             username: "User",
             password: $("#inputPassword").val(),
-            board: []
+            board: Board.boardContent
         };
 
         api_frontend.registerUser(sessionUser, function(err, user) {
             if (err) {
-                alert("[MENU] Error while registering user. " + err.message);
+                console.log("[MENU] Error while registering user. " + err.message);
             } else {
                 console.log(user);
-                sessionUser = user;
-                alert("Successfully registered.");
+                sessionUser.email = user.email;
+                if (user.username) {
+                    sessionUser.username = user.username;
+                }
+                sessionUser.password = user.password;
+                sessionUser.save();
+                console.log("Successfully registered.");
             }
         });
     });
@@ -133,6 +144,9 @@ function update() {
 
         $menu.find("#no-login-wrap").css("display", "none");
         $menu.find("#login-wrap").css("display", "block");
+
+        sessionUser.board = Board.boardContent;
+        sessionUser.save();
 
         Board.removeAll();
     });
@@ -154,6 +168,7 @@ function update() {
     });
 
     $menu.find(".clear-board-button").click(function () {
+
         Board.removeAll();
     });
 
@@ -183,6 +198,7 @@ function update() {
                 $('#setModal').addClass("has-success");
                 $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
                 $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+                sessionUser.save();
                 update();
             }else{
                 $('#setModal').addClass("has-error");
