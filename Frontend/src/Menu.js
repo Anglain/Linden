@@ -1,3 +1,7 @@
+// ES6 Modules or TypeScript
+// CommonJS
+const swal = require('sweetalert2');
+
 Board = require('./board/Board');
 
 //var Templates = require('./Templates');
@@ -27,13 +31,13 @@ function checkMail() {
 
     if (validateEmail(input)) {
         helpText.hide();
-        mail.addClass("has-success");
+      //  mail.addClass("has-success");
         mail.removeClass("has-error");
         return true;
     } else {
         helpText.show();
         mail.addClass("has-error");
-        mail.removeClass("has-success");
+       // mail.removeClass("has-success");
         return false;
     }
 }
@@ -124,7 +128,25 @@ function update() {
     });
 
     $menu.find(".clear-board-button").click(function () {
-        Board.removeAll();
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                Board.removeAll();
+                swal(
+                    'Deleted!',
+                    'Your cards have been deleted.',
+                    'success'
+                )
+            }
+        });
+
     });
 
     $menu.find(".add-column-button").click(function () {

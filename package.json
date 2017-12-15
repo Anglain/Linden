@@ -24,6 +24,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "mongod": "^2.0.0",
     "mongoose": "^4.13.7",
-    "morgan": "^1.6.1"
+    "morgan": "^1.6.1",
+    "sweetalert2": "^7.0.10"
   }
 }
