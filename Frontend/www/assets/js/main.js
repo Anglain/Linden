@@ -207,7 +207,7 @@ function update() {
                     'success'
                 )
             }
-        });
+        })
 
     });
 
@@ -229,7 +229,7 @@ function update() {
         }
 
         $('#placeForSetModal').find(".saveUser").click(function () {
-            if ($password.val().trim() && validateEmail($mail.val())){
+            if ($password.val().trim() && validateEmail($mail.val()) && $username.val().length <= 14){
                 sessionUser.username = $username.val();
                 sessionUser.email = $mail.val();
                 sessionUser.password = $password.val();
@@ -365,7 +365,7 @@ function update() {
                 year: 2017,
                 name: "date",
                 text: "",
-                picture: ""
+                picture: ''
             };
             column.cards.push(card);
             update();
@@ -420,15 +420,17 @@ function update() {
             });
 
             $card_node.find(".image-card-button").click(function () {
-                swal({
-                    title: 'Pinned image',
-                    text: '',
-                    imageUrl: 'https://unsplash.it/400/200',
-                    imageWidth: 450,
-                    imageHeight: 300,
-                    imageAlt: 'Custom image',
-                    animation: false
-                });
+                if (card.picture) {
+                    swal({
+                        title: 'Pinned image',
+                        text: '',
+                        imageUrl: card.picture,
+                        imageWidth: 450,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                        animation: false
+                    });
+                }
             });
 
 
@@ -436,49 +438,28 @@ function update() {
                 var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
-                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find("#datepicker").val(card.year + "-" + card.month + "-" + card.day);
                 $modal.find(".card-text").val(card.text);
-                $modal.find(".image-preview-filename").val(card.picture);
+                $modal.find("#picturepicker").val(card.picture);
                 $modal.find(".set-deadline-text").click(function () {
                     var date = new Date($('#datepicker').val());
                     card.day = date.getDate();
                     card.month = date.getMonth() + 1;
                     card.year = date.getFullYear();
-                    card.name = card.day +"." + card.month + "." + card.year;
+                    card.name = card.day + "." + card.month + "." + card.year;
+                    update();
+                });
+                $modal.find(".attach-image-button").click(function () {
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.picture = $modal.find(".image-preview-filename").val();
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $placeForDialog.append($modal);
             });
-
-            // $card_node.find(".edit-card-button").click(function () {
-            //     var $placeForDialog = $("#placeForModal");
-            //     $placeForDialog.html("");
-            //     var $modal = $(Templates.Modal(card));
-            //
-            //     $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
-            //     $modal.find(".set-deadline-text").click(function () {
-            //         var date = new Date($('#datepicker').val());
-            //         card.day = date.getDate();
-            //         card.month = date.getMonth() + 1;
-            //         card.year = date.getFullYear();
-            //         card.name = card.day +"." + card.month + "." + card.year;
-            //         update();
-            //     });
-            //
-            //     $modal.find(".save").click(function () {
-            //         card.text = $modal.find(".card-text").val();
-            //         card.picture = $modal.find(".image-preview-filename").val();
-            //         update();
-            //     });
-            //
-            //     $placeForDialog.append($modal);
-            // });
-
 
             $placeForCards.append($card_node);
         }
@@ -1675,34 +1656,29 @@ exports.cache = {
 
 },{}],11:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "ejs@2.5.7",
-      "D:\\GitHub_repositories\\Linden"
-    ]
-  ],
-  "_from": "ejs@2.5.7",
+  "_from": "ejs@^2.4.1",
   "_id": "ejs@2.5.7",
   "_inBundle": false,
   "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
   "_location": "/ejs",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "ejs@2.5.7",
+    "raw": "ejs@^2.4.1",
     "name": "ejs",
     "escapedName": "ejs",
-    "rawSpec": "2.5.7",
+    "rawSpec": "^2.4.1",
     "saveSpec": null,
-    "fetchSpec": "2.5.7"
+    "fetchSpec": "^2.4.1"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_spec": "2.5.7",
-  "_where": "D:\\GitHub_repositories\\Linden",
+  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+  "_spec": "ejs@^2.4.1",
+  "_where": "O:\\KMA\\НІТ\\Linden",
   "author": {
     "name": "Matthew Eernisse",
     "email": "mde@fleegix.org",
@@ -1711,6 +1687,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/mde/ejs/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Timothy Gu",
@@ -1719,6 +1696,7 @@ module.exports={
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "Embedded JavaScript templates",
   "devDependencies": {
     "browserify": "^13.0.1",
@@ -2173,7 +2151,7 @@ process.umask = function() { return 0; };
 
 },{}],14:[function(require,module,exports){
 /*!
- * sweetalert2 v7.0.10
+ * sweetalert2 v7.1.0
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -3714,9 +3692,16 @@ sweetAlert$1.adaptInputValidator = function (legacyValidator) {
 
 sweetAlert$1.noop = function () {};
 
-sweetAlert$1.version = '7.0.10';
+sweetAlert$1.version = '7.1.0';
 
 sweetAlert$1.default = sweetAlert$1;
+
+/**
+ * Set default params if `window._swalDefaults` is an object
+ */
+if (_typeof(window._swalDefaults) === 'object') {
+  sweetAlert$1.setDefaults(window._swalDefaults);
+}
 
 // Remember state in cases where opening and handling a modal will fiddle with it.
 var states = {
