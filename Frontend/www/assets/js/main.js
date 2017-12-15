@@ -298,13 +298,13 @@ exports.sessionUser = sessionUser;
 var ejs = require('ejs');
 
 
-exports.Column = ejs.compile("\n<div class=\"one-column-wrap\"  draggable=\"true\">\n    <div class=\"one-column\">\n        <div class=\"column-title-panel\">\n            <span class=\"column-title\"><%= title%></span>\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\n                <i class=\"glyphicon glyphicon-trash\"></i>\n            </button>\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\n            </button>\n        </div>\n        <div class=\"place-for-cards scrollbar\" id=\"style-15\">\n        </div>\n        <a class=\"add-card\">Add card...</a>\n    </div>\n</div>\n\n");
+exports.Column = ejs.compile("\r\n<div class=\"one-column-wrap\"  draggable=\"true\">\r\n    <div class=\"one-column\">\r\n        <div class=\"column-title-panel\">\r\n            <span class=\"column-title\"><%= title%></span>\r\n            <input type=\"text\" class=\"input-text-column\" style=\"display: none\">\r\n            <button class=\"delete-column-button btn btn-sm btn-basic\">\r\n                <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"sort-cards-button btn btn-sm btn-basic\">\r\n                <i class=\"\tglyphicon glyphicon-resize-vertical\"></i>\r\n            </button>\r\n        </div>\r\n        <div class=\"place-for-cards scrollbar\" id=\"style-15\">\r\n        </div>\r\n        <a class=\"add-card\">Add card...</a>\r\n    </div>\r\n</div>\r\n\r\n");
 
-exports.Card = ejs.compile("\n<div class=\"notes-field\">\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-remove\"></i>\n    </button>\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\n        <i class=\"glyphicon glyphicon-pencil\"></i>\n    </button>\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\n        <i class=\"glyphicon glyphicon-camera\"></i>\n    </button>\n    <span class=\"deadline\"><%= name%></span>\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\n</div>");
+exports.Card = ejs.compile("\r\n<div class=\"notes-field\">\r\n    <button class=\"delete-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-remove\"></i>\r\n    </button>\r\n    <button class=\"edit-card-button card-button btn btn-xs btn-basic\" data-toggle=\"modal\" data-target=\"#myModal\">\r\n        <i class=\"glyphicon glyphicon-pencil\"></i>\r\n    </button>\r\n    <button class=\"image-card-button card-button btn btn-xs btn-basic\">\r\n        <i class=\"glyphicon glyphicon-camera\"></i>\r\n    </button>\r\n    <span class=\"deadline\"><%= name%></span>\r\n    <textarea class=\"form-control\" rows=\"5\"><%= text%></textarea>\r\n</div>");
 
-exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"photo-div\">\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\n    </div>\n    <form class=\"form-horizontal\">\n        <div class=\"form-group mail-group\">\n            <label class=\"col-sm-4 control-label\">e-mail</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\n            </div>\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\n        </div>\n        <div class=\"form-group password-group\">\n            <label class=\"col-sm-4 control-label\">Password</label>\n            <div class=\"col-sm-8\">\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\n            </div>\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\n        </div>\n    </form>\n    <div class=\"btn-group sign-buttons\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\n            Sign in\n        </button>\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\n            Sign up\n        </button>\n    </div>\n</div>");
+exports.Login = ejs.compile("<div class=\"login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"photo-div\">\r\n        <img class=\"login-photo\" src=\"../www/assets/images/linden.png\">\r\n    </div>\r\n    <form class=\"form-horizontal\">\r\n        <div class=\"form-group mail-group\">\r\n            <label class=\"col-sm-4 control-label\">e-mail</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputMail\" placeholder=\"linden@gmail.com\">\r\n            </div>\r\n            <span class=\"mail-help-block\" style=\"display:none\">Wrong e-mail</span>\r\n        </div>\r\n        <div class=\"form-group password-group\">\r\n            <label class=\"col-sm-4 control-label\">Password</label>\r\n            <div class=\"col-sm-8\">\r\n                <input class=\"form-control\" type=\"text\" id=\"inputPassword\" placeholder=\"password\">\r\n            </div>\r\n            <span class=\"password-help-block\" style=\"display:none\">Wrong password</span>\r\n        </div>\r\n    </form>\r\n    <div class=\"btn-group sign-buttons\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"login\">\r\n            Sign in\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-warning change-state-btn\" id=\"register\">\r\n            Sign up\r\n        </button>\r\n    </div>\r\n</div>");
 
-exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login %></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail %></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <div class=\"calendar-panel\"></div>\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn \">Log out</a>\n    </div>\n</div>");
+exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\r\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\r\n        <i class=\"glyphicon glyphicon-th-list\"></i>\r\n    </button>\r\n    <div class=\"user-info-panel\">\r\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\r\n        <div class=\"user-text\">\r\n            <!--<div class=\"user-name\">Tychyna</div>-->\r\n            <div class=\"user-name\"><%= login %></div>\r\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\r\n            <div class=\"user-mail\"><%= mail %></div>\r\n        </div>\r\n    </div>\r\n    <div class=\"calendar-panel\">\r\n\r\n    </div>\r\n    <div class=\"menu-functions\">\r\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\r\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\r\n        <div class=\"calendar-panel\"></div>\r\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\r\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn \">Log out</a>\r\n    </div>\r\n</div>");
 
 // exports.Modal = ejs.compile(fs.readFileSync('./Frontend/templates/Modal.ejs', "utf8"));
 },{"ejs":9}],4:[function(require,module,exports){
@@ -1697,36 +1697,17 @@ exports.cache = {
 module.exports={
   "_args": [
     [
-<<<<<<< HEAD
       "ejs@2.5.7",
       "D:\\GitHub_repositories\\Linden"
     ]
   ],
   "_from": "ejs@2.5.7",
-=======
-      "ejs@^2.4.1",
-      "/home/anglain/Storage/Coding/GitHub/Linden"
-    ]
-  ],
-  "_from": "ejs@>=2.4.1 <3.0.0",
->>>>>>> master
   "_id": "ejs@2.5.7",
-  "_inCache": true,
-  "_installable": true,
+  "_inBundle": false,
+  "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
   "_location": "/ejs",
-  "_nodeVersion": "6.9.1",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/ejs-2.5.7.tgz_1501385411193_0.3807816591579467"
-  },
-  "_npmUser": {
-    "email": "mde@fleegix.org",
-    "name": "mde"
-  },
-  "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
-<<<<<<< HEAD
     "type": "version",
     "registry": true,
     "raw": "ejs@2.5.7",
@@ -1735,31 +1716,16 @@ module.exports={
     "rawSpec": "2.5.7",
     "saveSpec": null,
     "fetchSpec": "2.5.7"
-=======
-    "name": "ejs",
-    "raw": "ejs@^2.4.1",
-    "rawSpec": "^2.4.1",
-    "scope": null,
-    "spec": ">=2.4.1 <3.0.0",
-    "type": "range"
->>>>>>> master
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-<<<<<<< HEAD
   "_spec": "2.5.7",
   "_where": "D:\\GitHub_repositories\\Linden",
-=======
-  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-  "_shrinkwrap": null,
-  "_spec": "ejs@^2.4.1",
-  "_where": "/home/anglain/Storage/Coding/GitHub/Linden",
->>>>>>> master
   "author": {
-    "email": "mde@fleegix.org",
     "name": "Matthew Eernisse",
+    "email": "mde@fleegix.org",
     "url": "http://fleegix.org"
   },
   "bugs": {
@@ -1785,31 +1751,18 @@ module.exports={
     "mocha": "^3.0.2",
     "uglify-js": "^2.6.2"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-    "tarball": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz"
-  },
   "engines": {
     "node": ">=0.10.0"
   },
   "homepage": "https://github.com/mde/ejs",
   "keywords": [
-    "ejs",
+    "template",
     "engine",
-    "template"
+    "ejs"
   ],
   "license": "Apache-2.0",
   "main": "./lib/ejs.js",
-  "maintainers": [
-    {
-      "name": "mde",
-      "email": "mde@fleegix.org"
-    }
-  ],
   "name": "ejs",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git://github.com/mde/ejs.git"
