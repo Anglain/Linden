@@ -5,8 +5,6 @@ const swal = require('sweetalert2');
 var Board = require('./board/Board');
 var api_frontend = require('./API_frontend');
 
-var Storage = require('./Storage');
-
 //var User = require('../models/mongoUser');
 
 //var Templates = require('./Templates');
@@ -71,8 +69,7 @@ function checkPassword() {
 }
 
 function initialize() {
-
-    Storage.write('sessionUser', sessionUser);
+    logged = localStorage.getItem('loggedIn');
 
     if (logged) {
         $("#no-login-wrap").css("display", "block");
@@ -95,7 +92,9 @@ function initialize() {
 }
 
 function update() {
-    sessionUser = Storage.read('sessionUser');
+    if (localStorage.getItem('sessionUser')) {
+        sessionUser = localStorage.getItem('sessionUser');
+    }
 
     $menu.find("#login").click(function () {
         var check = allOk();
@@ -112,7 +111,7 @@ function update() {
             //         console.log("Error creating sessionUser: " + err.message);
             //     }
             // });
-            Storage.write('sessionUser', sessionUser);
+            localStorage.setItem('sessionUser', JSON.stringify(sessionUser));
             console.log(sessionUser);
 
             $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
@@ -240,7 +239,8 @@ function update() {
     });
 
     sessionUser.board = Board.boardContent;
-    Storage.write('sessionUser', sessionUser);
+    localStorage.setItem('loggedIn', logged);
+    localStorage.setItem('sessionUser', JSON.stringify(sessionUser));
     console.log(sessionUser);
 }
 
