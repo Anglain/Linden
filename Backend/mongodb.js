@@ -22,7 +22,7 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-//authenticate input against database
+// ============== Authenticate input against database ================
 UserSchema.statics.authenticate = function (email, password, callback) {
 
     User.findOne({ email: email }).exec(function (err, user) {
@@ -45,6 +45,8 @@ UserSchema.statics.authenticate = function (email, password, callback) {
         });
 };
 
+
+// ============== Register input against database ================
 UserSchema.statics.register = function (email, password, callback) {
 
     User.findOne({ email: email }).exec(function (err, user) {
@@ -52,6 +54,15 @@ UserSchema.statics.register = function (email, password, callback) {
         if (err) {
             return callback(err);
         } else if (!user) {
+            var newUser = UserSchema.create({
+                email: email,
+                username: 'User',
+                password: password,
+                board: []
+            });
+
+            newUser.save();
+
             return callback(null, {success : true});
         } else {
             return callback(null, {success : false, message : 'User with this email is already registered.'});
@@ -59,7 +70,8 @@ UserSchema.statics.register = function (email, password, callback) {
     });
 };
 
-//hashing a password before saving it to the database
+
+// ============ Hashing a password before saving it to the database ==================
 UserSchema.pre('save', function (next) {
     var user = this;
 

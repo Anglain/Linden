@@ -1,5 +1,5 @@
-Board = require('./board/Board');
-
+var Board = require('./board/Board');
+var api_frontend = require('./API_frontend');
 //var Templates = require('./Templates');
 
 var $menu = $("#menu");
@@ -61,6 +61,7 @@ function update() {
         if (check) {
             logged = true;
 
+            console.log(sessionUser);
             sessionUser = {
                 email: $("#inputMail").val(),
                 username: "User",
@@ -68,11 +69,40 @@ function update() {
                 board: []
             };
 
+            api_frontend.loginUser(sessionUser, function(err, user) {
+                if (err) {
+                    alert("[MENU] Failed to login. An error occured: " + err.message);
+                } else {
+                    console.log(user);
+                    sessionUser = user;
+                    alert("Successfully logged in.");
+                }
+            });
+
             $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
             $menu.find("#no-login-wrap").css("display", "block");
             $menu.find("#login-wrap").css("display", "none");
         }
+    });
+
+    $menu.find("#register").click(function() {
+        sessionUser = {
+            email: $("#inputMail").val(),
+            username: "User",
+            password: $("#inputPassword").val(),
+            board: []
+        };
+
+        api_frontend.registerUser(sessionUser, function(err, user) {
+            if (err) {
+                alert("[MENU] Error while registering user. " + err.message);
+            } else {
+                console.log(user);
+                sessionUser = user;
+                alert("Successfully registered.");
+            }
+        });
     });
 
     $menu.find(".exit-button").click(function () {

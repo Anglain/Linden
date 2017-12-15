@@ -10,10 +10,12 @@ var User = require('./mongodb');
 exports.loginUser = function(req, res) {
 
     console.log(req);
+    console.log(req.body);
     var userData = req.body;
 
     User.authenticate(userData.email, userData.password, function(err, data) {
         if (err) {
+            res.status(500).send({success: false});
             alert("Authentication failed. " + err.message);
         } else {
             res.send({
@@ -24,9 +26,14 @@ exports.loginUser = function(req, res) {
             })
         }
     });
+
+    res.status(500).send({success: false});
 };
 
 exports.registerUser = function(req, res) {
+    console.log(req);
+    console.log(req.body);
+
     var userData = req.body;
     var foundUser;
 
