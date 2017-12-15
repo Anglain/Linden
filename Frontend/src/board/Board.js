@@ -168,6 +168,7 @@ function update() {
             //     $placeForDialog.append($modal);
             // });
 
+
             $placeForCards.append($card_node);
         }
 
