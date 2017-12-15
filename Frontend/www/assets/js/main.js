@@ -447,6 +447,23 @@ function update() {
                     card.month = date.getMonth() + 1;
                     card.year = date.getFullYear();
                     card.name = card.day + "." + card.month + "." + card.year;
+
+                    if (card.year < today.yyyy){
+                        $card_node.find(".deadline").css("background-color", "red");
+                    }else if (card.year > yyyy){
+                        $($card_node.find(".deadline")).css("background-color", "green");
+                    }else if (card.month < mm){
+                        $card_node.find(".deadline").css("background-color", "red");
+                    }else if (card.month > mm){
+                        $($card_node.find(".deadline")).css("background-color", "green");
+                    }else if (card.day <= dd){
+                        $card_node.find(".deadline").style.backgroundColor = 'red';
+                    }else if (card.day - 7 <= dd){
+                        $card_node.find(".deadline").css("background-color", "yellow");
+                    }else if (card.day - 7 > dd){
+                        $card_node.find(".deadline").css("background-color", "green");
+                    }
+
                     update();
                 });
                 $modal.find(".attach-image-button").click(function () {
