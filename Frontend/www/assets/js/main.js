@@ -89,13 +89,13 @@ function checkMail() {
 
     if (validateEmail(input)) {
         helpText.hide();
-        mail.addClass("has-success");
+      //  mail.addClass("has-success");
         mail.removeClass("has-error");
         return true;
     } else {
         helpText.show();
         mail.addClass("has-error");
-        mail.removeClass("has-success");
+       // mail.removeClass("has-success");
         return false;
     }
 }
