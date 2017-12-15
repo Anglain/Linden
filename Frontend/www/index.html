@@ -24,7 +24,7 @@
                 <h4 class="modal-title">Settings</h4>
             </div>
             <div class="col-sm-4">
-                <img class="user-photo" src="../www/assets/images/tuch.png">
+                <img class="user-photo" src="../www/assets/images/tuch.png"> <!--Set photo-->
             </div>
 
             <div class="col-sm-8">
@@ -47,14 +47,12 @@
                         </span>
                     </div><!-- /input-group image-preview [TO HERE]-->
                 </div>
-                <textarea class="form-control" rows="1"></textarea>
-                <textarea class="form-control" rows="1"></textarea>
-                <textarea class="form-control" rows="1"></textarea>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="f">E-mail notifications</label>
+                <input type="text" class="form-control" id="userNameChange" rows="1"></input>
+                <input type="text" class="form-control" id="userMailChange" rows="1"></input>
+                <input type="text" class="form-control" id="userPasswordChange" rows="1"></input>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary saveUser">Save changes</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -172,7 +170,7 @@
             <div class="form-group password-group">
                 <label class="col-sm-4 control-label">Password</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" id="inputPassword" placeholder="password">
+                    <input class="form-control" type="password" id="inputPassword" placeholder="password">
                 </div>
                 <span class="password-help-block" style="display:none">Wrong password</span>
             </div>

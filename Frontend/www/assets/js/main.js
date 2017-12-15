@@ -101,19 +101,19 @@ function checkMail() {
 }
 
 function checkPassword() {
-    var mail = $(".password-group");
+    var pass = $(".password-group");
     var input = $("#inputPassword").val();
     var helpText = $(".password-help-block");
 
     if (input.trim()) {
         helpText.hide();
-        mail.addClass("has-success");
-        mail.removeClass("has-error");
+        pass.addClass("has-success");
+        pass.removeClass("has-error");
         return true;
     } else {
         helpText.show();
-        mail.addClass("has-error");
-        mail.removeClass("has-success");
+        pass.addClass("has-error");
+        pass.removeClass("has-success");
         return false;
     }
 }
@@ -193,6 +193,37 @@ function update() {
         Board.addColumn("New column");
     });
 
+    $menu.find(".settings-button").click(function () {
+        var $username = $('#userNameChange');
+        var $mail = $('#userMailChange');
+        var $password = $('#userPasswordChange');
+        $username.val(sessionUser.username);
+        $mail.val(sessionUser.email);
+        $password.val(sessionUser.password);
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        $('#setModal').find(".saveUser").click(function () {
+            if ($password.val().trim() && validateEmail($mail.val())){
+                sessionUser.username = $username.val();
+                sessionUser.email = $mail.val();
+                sessionUser.password = $password.val();
+                $('#setModal').removeClass("has-error");
+                $('#setModal').addClass("has-success");
+                $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
+                $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
+                update();
+            }else{
+                $('#setModal').addClass("has-error");
+                $('#setModal').removeClass("has-success");
+            }
+        });
+
+    });
+
     $("#inputMail").focusout(function () {
         checkMail();
     });
@@ -203,7 +234,7 @@ function update() {
 }
 
 exports.initialize = initialize;
-exports.logged = logged;
+exports.sessionUser = sessionUser;
 },{"./board/Board":4}],3:[function(require,module,exports){
 
 var ejs = require('ejs');
@@ -508,8 +539,68 @@ $(function() {
     });
 });
 },{}],7:[function(require,module,exports){
-arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],8:[function(require,module,exports){
+Menu = require('../Menu');
+
+$(document).on('click', '#close-preview', function(){
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+            $('.image-preview').popover('show');
+        },
+        function () {
+            $('.image-preview').popover('hide');
+        }
+    );
+});
+
+$(function() {
+
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type:"button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;'
+    });
+    closebtn.attr("class","close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement:'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("Browse");
+    });
+    // Create the preview image
+    $(".image-preview-input input:file").change(function (){
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width:250,
+            height:150
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("Change");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+            img.attr('src', e.target.result);
+            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+        };
+        reader.readAsDataURL(file);
+    });
+});
+},{"../Menu":2}],8:[function(require,module,exports){
 
 },{}],9:[function(require,module,exports){
 /*
