@@ -1,4 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+<<<<<<< HEAD
 
 var API_URL = "http://localhost:4040";
 
@@ -106,6 +107,8 @@ function initialize() {
 
 exports.initialize = initialize;
 },{}],3:[function(require,module,exports){
+=======
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 // ES6 Modules or TypeScript
 // CommonJS
 const swal = require('sweetalert2');
@@ -354,6 +357,7 @@ function update() {
 
 exports.initialize = initialize;
 exports.sessionUser = sessionUser;
+<<<<<<< HEAD
 },{"./API_frontend":1,"./Storage":4,"./board/Board":6,"sweetalert2":17}],4:[function(require,module,exports){
 
 var basil = require('basil.js');
@@ -367,6 +371,9 @@ exports.write = function(key, value) {
     return basil.set(key, value);
 };
 },{"basil.js":10}],5:[function(require,module,exports){
+=======
+},{"./board/Board":3,"sweetalert2":13}],2:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 
 var ejs = require('ejs');
 
@@ -380,9 +387,12 @@ exports.Login = ejs.compile("<div class=\"login-wrap\">\n    <button class=\"ope
 exports.Menu = ejs.compile("<div class=\"no-login-wrap\">\n    <button class=\"open-close-menu-button btn btn-md btn-default\">\n        <i class=\"glyphicon glyphicon-th-list\"></i>\n    </button>\n    <div class=\"user-info-panel\">\n        <img class=\"user-photo\" src=\"../www/assets/images/tuch.png\">\n        <div class=\"user-text\">\n            <!--<div class=\"user-name\">Tychyna</div>-->\n            <div class=\"user-name\"><%= login %></div>\n            <!--<div class=\"user-mail\">tych@gmail.com</div>-->\n            <div class=\"user-mail\"><%= mail %></div>\n        </div>\n    </div>\n    <div class=\"calendar-panel\">\n\n    </div>\n    <div class=\"menu-functions\">\n        <a href=\"#\" class=\"add-column-button menu-button\">Add new column</a>\n        <a href=\"#\" class=\"clear-board-button menu-button\">Clear board</a>\n        <div class=\"calendar-panel\"></div>\n        <a href=\"#\" class=\"settings-button menu-button\" data-toggle=\"modal\" data-target=\"#setModal\">Settings</a>\n        <a href=\"#\" class=\"exit-button menu-button change-state-btn \">Log out</a>\n    </div>\n</div>");
 
 // exports.Modal = ejs.compile(fs.readFileSync('./Frontend/templates/Modal.ejs', "utf8"));
+<<<<<<< HEAD
 },{"ejs":12}],6:[function(require,module,exports){
+=======
+},{"ejs":8}],3:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 var Templates = require('../Templates');
-var DragnDrop = require('../DragnDrop');
 
 const swal = require('sweetalert2');
 
@@ -557,6 +567,23 @@ function update() {
                     card.month = date.getMonth() + 1;
                     card.year = date.getFullYear();
                     card.name = card.day + "." + card.month + "." + card.year;
+
+                    if (card.year < today.yyyy){
+                        $card_node.find(".deadline").css("background-color", "red");
+                    }else if (card.year > yyyy){
+                        $($card_node.find(".deadline")).css("background-color", "green");
+                    }else if (card.month < mm){
+                        $card_node.find(".deadline").css("background-color", "red");
+                    }else if (card.month > mm){
+                        $($card_node.find(".deadline")).css("background-color", "green");
+                    }else if (card.day <= dd){
+                        $card_node.find(".deadline").style.backgroundColor = 'red';
+                    }else if (card.day - 7 <= dd){
+                        $card_node.find(".deadline").css("background-color", "yellow");
+                    }else if (card.day - 7 > dd){
+                        $card_node.find(".deadline").css("background-color", "green");
+                    }
+
                     update();
                 });
                 $modal.find(".attach-image-button").click(function () {
@@ -583,8 +610,6 @@ function update() {
     localStorage.setItem('board', JSON.stringify(boardContent));
 
     boardContent.forEach(showOneColumn);
-
-    DragnDrop.initialize();
 }
 
 exports.removeAll = removeAll;
@@ -592,20 +617,26 @@ exports.addColumn = addColumn;
 
 exports.initialize = initialize;
 exports.boardContent = boardContent;
+<<<<<<< HEAD
 },{"../DragnDrop":2,"../Templates":5,"sweetalert2":17}],7:[function(require,module,exports){
+=======
+},{"../Templates":2,"sweetalert2":13}],4:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 $(function () {
     var Menu = require('./Menu');
     var Board = require('./board/Board');
     var Preview = require('./modal/preview');
     var Settings = require('./modal/settings');
-    var DragnDrop = require('./DragnDrop');
 
     Board.initialize();
     Menu.initialize();
-    DragnDrop.initialize();
 
 });
+<<<<<<< HEAD
 },{"./DragnDrop":2,"./Menu":3,"./board/Board":6,"./modal/preview":8,"./modal/settings":9}],8:[function(require,module,exports){
+=======
+},{"./Menu":1,"./board/Board":3,"./modal/preview":5,"./modal/settings":6}],5:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 $(document).on('click', '#close-preview', function(){
     $('.image-preview').popover('hide');
     // Hover befor close the preview
@@ -666,7 +697,11 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
+<<<<<<< HEAD
 },{}],9:[function(require,module,exports){
+=======
+},{}],6:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 Menu = require('../Menu');
 
 $(document).on('click', '#close-preview', function(){
@@ -728,6 +763,7 @@ $(function() {
         reader.readAsDataURL(file);
     });
 });
+<<<<<<< HEAD
 },{"../Menu":3}],10:[function(require,module,exports){
 (function () {
 	// Basil
@@ -1119,6 +1155,11 @@ $(function() {
 },{}],11:[function(require,module,exports){
 
 },{}],12:[function(require,module,exports){
+=======
+},{"../Menu":1}],7:[function(require,module,exports){
+
+},{}],8:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1986,7 +2027,11 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
+<<<<<<< HEAD
 },{"../package.json":14,"./utils":13,"fs":11,"path":15}],13:[function(require,module,exports){
+=======
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -2152,7 +2197,11 @@ exports.cache = {
   }
 };
 
+<<<<<<< HEAD
 },{}],14:[function(require,module,exports){
+=======
+},{}],10:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 module.exports={
   "_args": [
     [
@@ -2259,7 +2308,11 @@ module.exports={
   "version": "2.5.7"
 }
 
+<<<<<<< HEAD
 },{}],15:[function(require,module,exports){
+=======
+},{}],11:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2487,7 +2540,11 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
+<<<<<<< HEAD
 },{"_process":16}],16:[function(require,module,exports){
+=======
+},{"_process":12}],12:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2673,7 +2730,11 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+<<<<<<< HEAD
 },{}],17:[function(require,module,exports){
+=======
+},{}],13:[function(require,module,exports){
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
 /*!
  * sweetalert2 v7.1.0
  * Released under the MIT License.
@@ -4545,4 +4606,8 @@ return sweetAlert$1;
 })));
 if (typeof window !== 'undefined' && window.Sweetalert2) window.sweetAlert = window.swal = window.Sweetalert2;
 
+<<<<<<< HEAD
 },{}]},{},[7]);
+=======
+},{}]},{},[4]);
+>>>>>>> 86697f860539903bb0b4ea0eea5b66d6a1e36c9e
