@@ -107,7 +107,7 @@ function update() {
 
         if (check) {
             logged = true;
-
+            localStorage.setItem('loggedIn', JSON.stringify(logged));
             sessionUser.email = $("#inputMail").val();
             sessionUser.username = "User";
             sessionUser.password = $("#inputPassword").val();
@@ -124,6 +124,7 @@ function update() {
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
             $menu.find("#no-login-wrap").css("display", "block");
             $menu.find("#login-wrap").css("display", "none");
+            update();
         }
     });
 
