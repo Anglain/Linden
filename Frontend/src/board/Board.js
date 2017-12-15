@@ -41,9 +41,13 @@ function remove(column) {
 function initialize() {
     boardContent = [];
 
-    newContent = JSON.parse(localStorage.getItem('board'));
-    if (newContent)
-        boardContent = newContent;
+    var loggedIn = localStorage.getItem('loggedIn');
+
+    if (loggedIn) {
+        var newContent = JSON.parse(localStorage.getItem('board'));
+        if (newContent)
+            boardContent = newContent;
+    }
     update();
 }
 
