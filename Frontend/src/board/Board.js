@@ -92,7 +92,7 @@ function update() {
                 year: 2017,
                 name: "date",
                 text: "",
-                picture: ""
+                picture: ''
             };
             column.cards.push(card);
             update();
@@ -147,15 +147,17 @@ function update() {
             });
 
             $card_node.find(".image-card-button").click(function () {
-                swal({
-                    title: 'Pinned image',
-                    text: '',
-                    imageUrl: 'https://unsplash.it/400/200',
-                    imageWidth: 450,
-                    imageHeight: 300,
-                    imageAlt: 'Custom image',
-                    animation: false
-                });
+                if (card.picture) {
+                    swal({
+                        title: 'Pinned image',
+                        text: '',
+                        imageUrl: card.picture,
+                        imageWidth: 450,
+                        imageHeight: 300,
+                        imageAlt: 'Custom image',
+                        animation: false
+                    });
+                }
             });
 
 
@@ -163,49 +165,28 @@ function update() {
                 var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
-                $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
+                $modal.find("#datepicker").val(card.year + "-" + card.month + "-" + card.day);
                 $modal.find(".card-text").val(card.text);
-                $modal.find(".image-preview-filename").val(card.picture);
+                $modal.find("#picturepicker").val(card.picture);
                 $modal.find(".set-deadline-text").click(function () {
                     var date = new Date($('#datepicker').val());
                     card.day = date.getDate();
                     card.month = date.getMonth() + 1;
                     card.year = date.getFullYear();
-                    card.name = card.day +"." + card.month + "." + card.year;
+                    card.name = card.day + "." + card.month + "." + card.year;
+                    update();
+                });
+                $modal.find(".attach-image-button").click(function () {
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $modal.find(".save").click(function () {
                     card.text = $modal.find(".card-text").val();
-                    card.picture = $modal.find(".image-preview-filename").val();
+                    card.picture = $modal.find("#picturepicker").val();
                     update();
                 });
                 $placeForDialog.append($modal);
             });
-
-            // $card_node.find(".edit-card-button").click(function () {
-            //     var $placeForDialog = $("#placeForModal");
-            //     $placeForDialog.html("");
-            //     var $modal = $(Templates.Modal(card));
-            //
-            //     $modal.find("#datepicker").val(card.year+"-"+card.month+"-"+card.day);
-            //     $modal.find(".set-deadline-text").click(function () {
-            //         var date = new Date($('#datepicker').val());
-            //         card.day = date.getDate();
-            //         card.month = date.getMonth() + 1;
-            //         card.year = date.getFullYear();
-            //         card.name = card.day +"." + card.month + "." + card.year;
-            //         update();
-            //     });
-            //
-            //     $modal.find(".save").click(function () {
-            //         card.text = $modal.find(".card-text").val();
-            //         card.picture = $modal.find(".image-preview-filename").val();
-            //         update();
-            //     });
-            //
-            //     $placeForDialog.append($modal);
-            // });
-
 
             $placeForCards.append($card_node);
         }
