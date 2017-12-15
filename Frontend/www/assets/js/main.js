@@ -120,11 +120,11 @@ function initialize() {
     logged = JSON.parse(localStorage.getItem('loggedIn'));
 
     if (logged) {
-        if (JSON.parse(localStorage.getItem('sessionUser'))) {
+        //if (JSON.parse(localStorage.getItem('sessionUser'))) {
             sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
             $menu.find("#no-login-wrap").find(".user-name").text(sessionUser.username);
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
-        }
+        //}
         $("#no-login-wrap").css("display", "block");
         $("#login-wrap").css("display", "none");
     } else {
@@ -155,6 +155,7 @@ function update() {
         if (check) {
             logged = true;
 
+            localStorage.setItem('loggedIn', JSON.stringify(logged));
             sessionUser.email = $("#inputMail").val();
             sessionUser.username = "User";
             sessionUser.password = $("#inputPassword").val();
@@ -171,10 +172,11 @@ function update() {
             $menu.find("#no-login-wrap").find(".user-mail").text(sessionUser.email);
             $menu.find("#no-login-wrap").css("display", "block");
             $menu.find("#login-wrap").css("display", "none");
+            update();
         }
     });
 
-    $menu.find("#register").click(function() {
+    /*$menu.find("#register").click(function() {
         sessionUser.email = $("#inputMail").val();
         sessionUser.username = "User";
         sessionUser.password = $("#inputPassword").val();
@@ -184,11 +186,11 @@ function update() {
         //         console.log("Error creating sessionUser: " + err.message);
         //     }
         // });
-    });
+    });*/
 
     $menu.find(".exit-button").click(function () {
         logged = false;
-        localStorage.setItem('loggedIn', logged);
+        localStorage.setItem('loggedIn', JSON.stringify(logged));
 
         $menu.find("#no-login-wrap").css("display", "none");
         $menu.find("#login-wrap").css("display", "block");
@@ -294,7 +296,7 @@ function update() {
     });
 
     sessionUser.board = Board.boardContent;
-    localStorage.setItem('loggedIn', logged);
+    localStorage.setItem('loggedIn',  JSON.stringify(logged));
     localStorage.setItem('sessionUser', JSON.stringify(sessionUser));
     console.log(sessionUser);
 }
