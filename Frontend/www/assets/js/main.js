@@ -373,6 +373,7 @@ function update() {
 
 
             $card_node.find(".edit-card-button").click(function () {
+
                 var $modal = $("#myModal");
                 var $placeForDialog = $("#placeForModal");
                 $placeForDialog.html("");
@@ -386,24 +387,9 @@ function update() {
                     card.year = date.getFullYear();
                     card.name = card.day + "." + card.month + "." + card.year;
 
-                    if (card.year < today.yyyy){
-                        $card_node.find(".deadline").css("background-color", "red");
-                    }else if (card.year > yyyy){
-                        $($card_node.find(".deadline")).css("background-color", "green");
-                    }else if (card.month < mm){
-                        $card_node.find(".deadline").css("background-color", "red");
-                    }else if (card.month > mm){
-                        $($card_node.find(".deadline")).css("background-color", "green");
-                    }else if (card.day <= dd){
-                        $card_node.find(".deadline").style.backgroundColor = 'red';
-                    }else if (card.day - 7 <= dd){
-                        $card_node.find(".deadline").css("background-color", "yellow");
-                    }else if (card.day - 7 > dd){
-                        $card_node.find(".deadline").css("background-color", "green");
-                    }
-
                     update();
                 });
+
                 $modal.find(".attach-image-button").click(function () {
                     card.picture = $modal.find("#picturepicker").val();
                     update();
@@ -1607,29 +1593,34 @@ exports.cache = {
 
 },{}],10:[function(require,module,exports){
 module.exports={
-  "_from": "ejs@^2.4.1",
+  "_args": [
+    [
+      "ejs@2.5.7",
+      "D:\\GitHub_repositories\\Linden"
+    ]
+  ],
+  "_from": "ejs@2.5.7",
   "_id": "ejs@2.5.7",
   "_inBundle": false,
   "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
   "_location": "/ejs",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "ejs@^2.4.1",
+    "raw": "ejs@2.5.7",
     "name": "ejs",
     "escapedName": "ejs",
-    "rawSpec": "^2.4.1",
+    "rawSpec": "2.5.7",
     "saveSpec": null,
-    "fetchSpec": "^2.4.1"
+    "fetchSpec": "2.5.7"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-  "_spec": "ejs@^2.4.1",
-  "_where": "O:\\KMA\\НІТ\\Linden",
+  "_spec": "2.5.7",
+  "_where": "D:\\GitHub_repositories\\Linden",
   "author": {
     "name": "Matthew Eernisse",
     "email": "mde@fleegix.org",
@@ -1638,7 +1629,6 @@ module.exports={
   "bugs": {
     "url": "https://github.com/mde/ejs/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Timothy Gu",
@@ -1647,7 +1637,6 @@ module.exports={
     }
   ],
   "dependencies": {},
-  "deprecated": false,
   "description": "Embedded JavaScript templates",
   "devDependencies": {
     "browserify": "^13.0.1",
@@ -2102,7 +2091,7 @@ process.umask = function() { return 0; };
 
 },{}],13:[function(require,module,exports){
 /*!
- * sweetalert2 v7.1.0
+ * sweetalert2 v7.0.10
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -3643,16 +3632,9 @@ sweetAlert$1.adaptInputValidator = function (legacyValidator) {
 
 sweetAlert$1.noop = function () {};
 
-sweetAlert$1.version = '7.1.0';
+sweetAlert$1.version = '7.0.10';
 
 sweetAlert$1.default = sweetAlert$1;
-
-/**
- * Set default params if `window._swalDefaults` is an object
- */
-if (_typeof(window._swalDefaults) === 'object') {
-  sweetAlert$1.setDefaults(window._swalDefaults);
-}
 
 // Remember state in cases where opening and handling a modal will fiddle with it.
 var states = {
